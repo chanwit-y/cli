@@ -60,7 +60,7 @@ export class IconWatcher {
         }
 
         const iconTemplateTsx = await file(
-          "./lib/template/icon.template.txt"
+          new URL("../../../template/icon.template.txt", import.meta.url)
         ).text();
 
         const propsTypeString = Object.entries(svgPropsType)
