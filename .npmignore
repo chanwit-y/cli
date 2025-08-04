@@ -1,0 +1,29 @@
+# Example directory (for development/testing only)
+example/
+
+# Development files
+*.tsbuildinfo
+.eslintcache
+.cache
+
+# IDE files
+.idea
+.vscode
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs
+*.log
+
+# Coverage reports
+coverage
+*.lcov
+
+# Environment files
+.env*
+
+# Development config files
+tsconfig.json

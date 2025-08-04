@@ -1,0 +1,18 @@
+import React from 'react';
+
+interface IconProps extends React.SVGProps<SVGSVGElement> {
+{{props}}  
+}
+
+export const UserIcon: React.FC<IconProps> = ({ 
+{{props_extract}}
+  ...props }) => {
+  return (
+    <svg
+    {{props_set}}
+      {...props}
+    >
+      {{child}}
+    </svg>
+  );
+};

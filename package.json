@@ -1,0 +1,36 @@
+{
+  "name": "svg-to-tsx-cli",
+  "version": "1.0.0",
+  "description": "A CLI tool to convert SVG icons to TypeScript React components",
+  "main": "index.ts",
+  "module": "index.ts",
+  "type": "module",
+  "bin": {
+    "svg-to-tsx": "./index.ts"
+  },
+  "keywords": ["svg", "tsx", "react", "icons", "cli", "typescript", "components"],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/dom-parser": "^0.1.4",
+    "@types/js-yaml": "^4.0.9",
+    "@types/lodash": "^4.17.20",
+    "@types/xmldom": "^0.1.34"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^7.8.0",
+    "chalk": "^5.4.1",
+    "js-yaml": "^4.1.0",
+    "lodash": "^4.17.21",
+    "ora": "^8.2.0",
+    "xmldom": "^0.6.0"
+  }
+}
