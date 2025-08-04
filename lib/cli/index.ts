@@ -1,10 +1,11 @@
 import type { Config } from "../@types";
 import { y2j } from "../util";
-import { IconWatcher } from "./cmd/icon";
+import { Icon } from "./cmd/icon";
 import { select, confirm, input, checkbox } from "@inquirer/prompts";
 
 enum MainMenu {
   WatchIcons = "watch icons",
+  Studio = "studio",
   Exit = "exit",
 }
 
@@ -54,7 +55,7 @@ export class CLI {
 
   private async _watchIcons() {
     const config = await y2j<Config>("config.yaml");
-    const iconWatcher = new IconWatcher(
+    const iconWatcher = new Icon(
       config.icon.watchPath,
       config.icon.outPath
     );

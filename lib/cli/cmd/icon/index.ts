@@ -10,21 +10,21 @@ import { sleep } from "../../../util";
 const svgElementType: Record<string, string> = {
   strokeLinecap: `"butt" | "round" | "square" | "inherit" | undefined`,
   strokeLinejoin: `"miter" | "round" | "bevel" | "inherit" | undefined`,
-  width: `"number" | "string" | undefined`,
-  height: `"number" | "string" | undefined`,
-  viewBox: `"string" | undefined`,
-  fill: `"string" | undefined`,
-  stroke: `"string" | undefined`,
-  strokeWidth: `"number" | "string" | undefined`,
-  strokeOpacity: `"number" | "string" | undefined`,
+  width: `number | string | undefined`,
+  height: `number | string | undefined`,
+  viewBox: `string | undefined`,
+  fill: `string | undefined`,
+  stroke: `string | undefined`,
+  strokeWidth: `number | string | undefined`,
+  strokeOpacity: `number | string | undefined`,
 };
 
 const excludeProps = ["data-name"];
 
-export class IconWatcher {
+export class Icon {
   constructor(private _watchPath: string, private _outPath: string) {}
 
-  private async _watch() {
+  private async _createIcons() {
     const icons = await readdir(this._watchPath);
     for (const icon of icons) {
       const spinner = ora("Watching icons...").start();
@@ -108,7 +108,9 @@ export class IconWatcher {
     }
   }
 
+  private async _createIndex() {}
+
   async run() {
-    this._watch();
+    this._createIcons();
   }
 }
