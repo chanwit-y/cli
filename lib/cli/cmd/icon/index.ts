@@ -91,7 +91,7 @@ export class IconWatcher {
         await sleep(1000);
         spinner.succeed(`Create icon ${chalk.green(fileName)}`);
       } catch (err) {
-        spinner.fail(`Failed to create icon ${chalk.red(icon)}`);
+        spinner.fail(`Failed to create icon ${chalk.red(icon)} \n ${err}`);
       }
     }
   }
