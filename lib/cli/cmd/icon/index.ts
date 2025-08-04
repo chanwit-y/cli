@@ -10,7 +10,16 @@ import { sleep } from "../../../util";
 const svgElementType: Record<string, string> = {
   strokeLinecap: `"butt" | "round" | "square" | "inherit" | undefined`,
   strokeLinejoin: `"miter" | "round" | "bevel" | "inherit" | undefined`,
+  width: `"number" | "string" | undefined`,
+  height: `"number" | "string" | undefined`,
+  viewBox: `"string" | undefined`,
+  fill: `"string" | undefined`,
+  stroke: `"string" | undefined`,
+  strokeWidth: `"number" | "string" | undefined`,
+  strokeOpacity: `"number" | "string" | undefined`,
 };
+
+const excludeProps = ["data-name"];
 
 export class IconWatcher {
   constructor(private _watchPath: string, private _outPath: string) {}
@@ -37,7 +46,7 @@ export class IconWatcher {
           if (svgElements.attributes && svgElements.attributes.length > 0) {
             for (let i = 0; i < svgElements.attributes.length; i++) {
               const attr = get(svgElements.attributes, `[${i}]`);
-              if (attr?.name) {
+              if (attr?.name && !excludeProps.includes(attr?.name)) {
                 const attrName = attr.name.toCamelCase().toJSXAttribute();
                 svgProps[attrName] = attr?.value;
                 svgPropsType[attrName] =
