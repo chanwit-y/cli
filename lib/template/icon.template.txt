@@ -4,7 +4,7 @@ interface IconProps extends React.SVGProps<SVGSVGElement> {
 {{props}}  
 }
 
-export const UserIcon: React.FC<IconProps> = ({ 
+export const {{name}}Icon: React.FC<IconProps> = ({ 
 {{props_extract}}
   ...props }) => {
   return (

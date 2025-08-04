@@ -36,7 +36,7 @@ export class IconWatcher {
         if (svgElements) {
           if (svgElements.attributes && svgElements.attributes.length > 0) {
             for (let i = 0; i < svgElements.attributes.length; i++) {
-              const attr = get(svgElements.attributes, "[0]");
+              const attr = get(svgElements.attributes, `[${i}]`);
               if (attr?.name) {
                 const attrName = attr.name.toCamelCase().toJSXAttribute();
                 svgProps[attrName] = attr?.value;
@@ -59,12 +59,14 @@ export class IconWatcher {
           }
         }
 
+        // console.log(svgProps)
+
         const iconTemplateTsx = await file(
           new URL("../../../template/icon.template.txt", import.meta.url)
         ).text();
 
         const propsTypeString = Object.entries(svgPropsType)
-          .map(([k, v]) => `  ${k}: ${v};`)
+          .map(([k, v]) => `  ${k}?: ${v};`)
           .join("\n");
 
         const propsExtractString = Object.entries(svgProps)
@@ -77,15 +79,16 @@ export class IconWatcher {
 
         const childrenString = children.join("\n\t\t\t");
 
+        const fileName = icon.toCamelCase().capitalize().replace(/.svg/, "");
         const templateContent = iconTemplateTsx
+          .replace("{{name}}", fileName)
           .replace("{{props}}", propsTypeString)
           .replace("{{props_extract}}", propsExtractString)
           .replace("{{props_set}}", propsSetString)
           .replace("{{child}}", childrenString);
 
-        const fileName = icon.toCamelCase().capitalize().replace(/svg/, "tsx");
 
-        const outputPath = `${this._outPath}${fileName}`;
+        const outputPath = `${this._outPath}${fileName}.tsx`;
         await write(outputPath, templateContent);
 
         await sleep(1000);
