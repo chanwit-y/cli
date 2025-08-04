@@ -85,7 +85,7 @@ export class IconWatcher {
 
         const fileName = icon.toCamelCase().capitalize().replace(/svg/, "tsx");
 
-        const outputPath = `./example/output/${fileName}`;
+        const outputPath = `${this._outPath}${fileName}`;
         await write(outputPath, templateContent);
 
         await sleep(1000);
