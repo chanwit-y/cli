@@ -122,7 +122,7 @@ export class Icon {
 
       // create set_icon
       const setIconString = this._iconFiles
-        .map((file) => `\tIcon.${file} = ${file}Icon;`)
+        .map((file) => `Icon.${file} = ${file}Icon;`)
         .join("\n");
 
       const indexTemplateTsx = await this._getTemplate(

@@ -5,7 +5,7 @@ type BaseIconComponent = React.FC<React.SVGProps<SVGSVGElement>>;
 
 // Icon component with dot notation access
 type IconComponent = BaseIconComponent & {
-	{{icon_type}}
+{{icon_type}}
 };
 
 // Create the Icon component with attached sub-components
