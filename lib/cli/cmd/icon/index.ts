@@ -22,6 +22,8 @@ const svgElementType: Record<string, string> = {
 const excludeProps = ["data-name"];
 
 export class Icon {
+  private _iconFiles: string[] = [];
+
   constructor(private _watchPath: string, private _outPath: string) {}
 
   private async _createIcons() {
@@ -68,11 +70,7 @@ export class Icon {
           }
         }
 
-        // console.log(svgProps)
-
-        const iconTemplateTsx = await file(
-          new URL("../../../template/icon.template.txt", import.meta.url)
-        ).text();
+        const iconTemplateTsx = await this._getTemplate("icon") 
 
         const propsTypeString = Object.entries(svgPropsType)
           .map(([k, v]) => `  ${k}?: ${v};`)
@@ -100,6 +98,8 @@ export class Icon {
         const outputPath = `${this._outPath}${fileName}.tsx`;
         await write(outputPath, templateContent);
 
+        this._iconFiles.push(fileName);
+
         await sleep(1000);
         spinner.succeed(`Create icon ${chalk.green(fileName)}`);
       } catch (err) {
@@ -108,9 +108,37 @@ export class Icon {
     }
   }
 
-  private async _createIndex() {}
+  private async _createIndex() {
+    console.log(this._iconFiles)
+
+    // create import
+    const importString = this._iconFiles.map((file) => `import { ${file}Icon } from "./${file}";`).join("\n");
+
+    // create icon_type
+    const iconTypeString = this._iconFiles.map((file) => `  ${file}: typeof ${file}Icon,`).join("\n");
+
+    // create set_icon
+    const setIconString = this._iconFiles.map((file) => `  ${file} = ${file}Icon;`).join("\n");
+
+    const indexTemplateTsx = await this._getTemplate("index.icon.template.txt") 
+
+    const templateContent = indexTemplateTsx
+      .replace("{{import}}", importString)
+      .replace("{{icon_type}}", iconTypeString)
+      .replace("{{set_icon}}", setIconString);
+
+    const outputPath = `${this._outPath}index.ts`;
+    await write(outputPath, templateContent);
+  }
+
+  private async _getTemplate(name: string) {
+    return await file(
+      new URL(`../../../template/${name}.template.txt`, import.meta.url)
+    ).text();
+  }
 
   async run() {
-    this._createIcons();
+    await this._createIcons();
+    await this._createIndex();
   }
 }
