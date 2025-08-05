@@ -1,19 +1,19 @@
 {
-  "name": "@cy/vega",
+  "name": "@chanwity/vega",
   "version": "0.0.1",
   "description": "A CLI tool to convert SVG icons to TypeScript React components",
   "main": "index.ts",
   "module": "index.ts",
   "type": "module",
   "bin": {
-    "svg-to-tsx": "./index.ts"
+    "vega": "./index.ts"
   },
   "keywords": ["svg", "tsx", "react", "icons", "cli", "typescript", "components"],
-  "author": "",
+  "author": "Your Name <your.email@example.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/yourusername/vega.git"
   },
   "files": [
     "index.ts",

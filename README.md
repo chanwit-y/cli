@@ -1,4 +1,4 @@
-# svg-to-tsx-cli
+# @chanwity/vega
 
 A CLI tool to convert SVG icons to TypeScript React components with proper TypeScript types.
 
@@ -14,20 +14,20 @@ A CLI tool to convert SVG icons to TypeScript React components with proper TypeS
 Install globally via npm:
 
 ```bash
-npm install -g svg-to-tsx-cli
+npm install -g @chanwity/vega
 ```
 
 Or use with npx:
 
 ```bash
-npx svg-to-tsx-cli
+npx @chanwity/vega
 ```
 
 ## Usage
 
 1. Run the CLI:
 ```bash
-svg-to-tsx
+vega
 ```
 
 2. Select "Create icons tsx" from the menu
@@ -53,7 +53,7 @@ To develop locally:
 
 ```bash
 git clone <repository-url>
-cd svg-to-tsx-cli
+cd vega
 bun install
 bun run index.ts
 ```
