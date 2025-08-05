@@ -70,7 +70,7 @@ export class Icon {
           }
         }
 
-        const iconTemplateTsx = await this._getTemplate("icon") 
+        const iconTemplateTsx = await this._getTemplate("icon");
 
         const propsTypeString = Object.entries(svgPropsType)
           .map(([k, v]) => `  ${k}?: ${v};`)
@@ -94,7 +94,6 @@ export class Icon {
           .replace("{{props_set}}", propsSetString)
           .replace("{{child}}", childrenString);
 
-
         const outputPath = `${this._outPath}${fileName}.tsx`;
         await write(outputPath, templateContent);
 
@@ -109,26 +108,40 @@ export class Icon {
   }
 
   private async _createIndex() {
-    console.log(this._iconFiles)
+    const spinner = ora("Creating index...").start();
+    try {
+      // create import
+      const importString = this._iconFiles
+        .map((file) => `import { ${file}Icon } from "./${file}";`)
+        .join("\n");
 
-    // create import
-    const importString = this._iconFiles.map((file) => `import { ${file}Icon } from "./${file}";`).join("\n");
+      // create icon_type
+      const iconTypeString = this._iconFiles
+        .map((file) => `  ${file}: typeof ${file}Icon,`)
+        .join("\n");
 
-    // create icon_type
-    const iconTypeString = this._iconFiles.map((file) => `  ${file}: typeof ${file}Icon,`).join("\n");
+      // create set_icon
+      const setIconString = this._iconFiles
+        .map((file) => `  ${file} = ${file}Icon;`)
+        .join("\n");
 
-    // create set_icon
-    const setIconString = this._iconFiles.map((file) => `  ${file} = ${file}Icon;`).join("\n");
+      const indexTemplateTsx = await this._getTemplate(
+        "index.icon.template.txt"
+      );
 
-    const indexTemplateTsx = await this._getTemplate("index.icon.template.txt") 
+      const templateContent = indexTemplateTsx
+        .replace("{{import}}", importString)
+        .replace("{{icon_type}}", iconTypeString)
+        .replace("{{set_icon}}", setIconString);
 
-    const templateContent = indexTemplateTsx
-      .replace("{{import}}", importString)
-      .replace("{{icon_type}}", iconTypeString)
-      .replace("{{set_icon}}", setIconString);
+      const outputPath = `${this._outPath}index.ts`;
+      await write(outputPath, templateContent);
 
-    const outputPath = `${this._outPath}index.ts`;
-    await write(outputPath, templateContent);
+      await sleep(1000);
+      spinner.succeed("Index created");
+    } catch (err) {
+      spinner.fail(`Failed to create index ${err}`);
+    }
   }
 
   private async _getTemplate(name: string) {
