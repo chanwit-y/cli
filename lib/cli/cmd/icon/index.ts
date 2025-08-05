@@ -126,7 +126,7 @@ export class Icon {
         .join("\n");
 
       const indexTemplateTsx = await this._getTemplate(
-        "index.icon.template.txt"
+        "index.icon"
       );
 
       const templateContent = indexTemplateTsx
