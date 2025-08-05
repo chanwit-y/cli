@@ -54,7 +54,7 @@ export class CLI {
   }
 
   private async _watchIcons() {
-    const config = await y2j<Config>("config.yaml");
+    const config = await y2j<Config>("vega.config.yaml");
     const iconWatcher = new Icon(
       config.icon.watchPath,
       config.icon.outPath
