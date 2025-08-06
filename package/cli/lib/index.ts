@@ -4,6 +4,7 @@ import { Icon } from "./cmd/icon";
 import { select } from "@inquirer/prompts";
 import { Studio } from "./cmd/studio";
 import chalk from "chalk";
+import { join } from "path";
 
 enum MainMenu {
   WatchIcons = "watch icons",
@@ -64,13 +65,15 @@ export class CLI {
   }
 
   private async _icons() {
-    const config = await y2j<Config>("vega.config.yaml");
+    //get root path
+    // const rootPath = join(process.cwd(), "..", "..");
+    const config = await y2j<Config>(`vega.config.yaml`);
     const iconWatcher = new Icon(config.icon.watchPath, config.icon.outPath);
     await iconWatcher.run();
   }
 
   private async _studio() {
-    const studio = new Studio(3000, "app/web");
+    const studio = new Studio(3000, "../app/web");
     await studio.run();
   }
 }
