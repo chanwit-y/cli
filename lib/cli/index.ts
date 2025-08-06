@@ -1,10 +1,9 @@
 import type { Config } from "../@types";
 import { y2j } from "../util";
 import { Icon } from "./cmd/icon";
-import { select, confirm, input, checkbox } from "@inquirer/prompts";
-import { existsSync } from "fs";
-import { join } from "path";
-import { spawn } from "child_process";
+import { select } from "@inquirer/prompts";
+import { Studio } from "./cmd/studio";
+import chalk from "chalk";
 
 enum MainMenu {
   WatchIcons = "watch icons",
@@ -40,7 +39,7 @@ export class CLI {
   }
 
   public async run() {
-    console.log("🎯 Welcome to the Interactive CLI Application!\n");
+    console.log(chalk.cyan.bold("🎯 Welcome to the Interactive CLI Application!\n"));
 
     while (true) {
       try {
@@ -53,12 +52,12 @@ export class CLI {
             await this._studio();
             break;
           case MainMenu.Exit:
-            console.log("👋 Goodbye!");
+            console.log(chalk.yellow("👋 Goodbye!"));
             process.exit(0);
             break;
         }
       } catch (err) {
-        console.error(err);
+        console.error(chalk.red("❌ Error:"), err);
       } finally {
       }
     }
@@ -66,69 +65,12 @@ export class CLI {
 
   private async _icons() {
     const config = await y2j<Config>("vega.config.yaml");
-    const iconWatcher = new Icon(
-      config.icon.watchPath,
-      config.icon.outPath
-    );
+    const iconWatcher = new Icon(config.icon.watchPath, config.icon.outPath);
     await iconWatcher.run();
   }
 
   private async _studio() {
-    const uiDir = join(process.cwd(), "ui");
-    const distDir = join(uiDir, "dist");
-   
-    // Start the server
-    console.log("🚀 Starting studio server...");
-    
-    const server = Bun.serve({
-      port: 3000,
-      fetch(req) {
-        const url = new URL(req.url);
-        let filePath = url.pathname;
-        
-        // Default to index.html for root path
-        if (filePath === "/") {
-          filePath = "/index.html";
-        }
-        
-        const fullPath = join(distDir, filePath);
-        
-        // Check if file exists
-        if (existsSync(fullPath)) {
-          return new Response(Bun.file(fullPath));
-        }
-        
-        // For SPA routing, serve index.html for non-API routes
-        if (!filePath.startsWith("/api") && !filePath.includes(".")) {
-          return new Response(Bun.file(join(distDir, "index.html")));
-        }
-        
-        return new Response("Not Found", { status: 404 });
-      },
-    });
-    
-    console.log(`✨ Studio is running at http://localhost:${server.port}`);
-    console.log("💡 Press Ctrl+C to stop the server");
-    
-    // Try to open browser (optional)
-    try {
-      const openCommand = process.platform === "darwin" ? "open" : 
-                         process.platform === "win32" ? "start" : "xdg-open";
-      spawn(openCommand, [`http://localhost:${server.port}`], { 
-        detached: true, 
-        stdio: "ignore" 
-      });
-    } catch (error) {
-      // Ignore browser opening errors
-    }
-    
-    // Keep the server running until interrupted
-    await new Promise<void>((resolve) => {
-      process.on("SIGINT", () => {
-        console.log("\n🛑 Stopping studio server...");
-        server.stop();
-        resolve();
-      });
-    });
+    const studio = new Studio(3000, "app/web");
+    await studio.run();
   }
 }
