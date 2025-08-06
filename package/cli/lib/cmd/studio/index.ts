@@ -7,8 +7,12 @@ export class Studio {
   constructor(private _port: number, private _dir: string) {}
 
   async run() {
-    const uiDir = join(process.cwd(), this._dir);
-    const distDir = join(uiDir, "dist");
+    // console.log(process.cwd())
+    // const root = __dirname.replace("/cli/lib/cmd/studio", "");
+    const root = __dirname;
+    const uiDir = join(root, "../../../", this._dir);
+    console.log(uiDir)
+    const distDir = join(uiDir, "out");
 
     // Check dist exists if not build it
     if (!existsSync(distDir)) {
