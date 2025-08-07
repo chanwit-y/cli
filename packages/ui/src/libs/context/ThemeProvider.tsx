@@ -36,11 +36,14 @@ export const useTheme = () => {
 export const withTheam = (Component: ComponentType<BaseComponentProps>) => {
 
   return (props: any) => {
-    const { textField } = useTheme()
+    const { textField, button } = useTheme()
 
     switch (Component.displayName) {
       case "TextField":
         return <Component {...props} {...textField} />
+      case "Button":
+        return <Component {...props} {...button} />
+      case "Select":
       default:
         return <Component {...props} />
     }

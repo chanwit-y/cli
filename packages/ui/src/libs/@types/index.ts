@@ -1,9 +1,10 @@
 import type { ComponentPropsWithoutRef, ElementType } from "react";
-import { TextField as RadixTextField } from "@radix-ui/themes";
+import { TextField as RadixTextField, Button as RadixButton } from "@radix-ui/themes";
 import { type ThemeProps } from "@radix-ui/themes";
 
 export type ThemeContextType = {
   textField?: TextFieldProps;
+  button?: ButtonProps;
 };
 
 export interface ThemeProviderProps {
@@ -17,9 +18,16 @@ export type BaseComponentProps<
   U extends ElementType = ElementType,
   T extends Record<string, any> = {},
 > = {
-  define?: "TextField";
+  define?: "TextField" | "Button" | "Select";
 } & T &
   ComponentPropsWithoutRef<U>;
+
+export type ButtonProps = BaseComponentProps<
+  typeof RadixButton,
+  {
+    variant?: "solid" | "outline" | "ghost" | "link";
+  }
+>;
 
 export type TextFieldProps = BaseComponentProps<
   typeof RadixTextField.Root,
