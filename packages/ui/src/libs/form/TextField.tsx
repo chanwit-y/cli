@@ -20,7 +20,6 @@ const TextField = forwardRef<
 	variant = "surface",
 	size = "2",
 	radius = "medium",
-	define = "TextField",
 	...props
 }, ref) => {
 	const hasError = error || !!errorMessage
