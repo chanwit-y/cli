@@ -2,7 +2,11 @@ import { ThemeProvider } from "vegaui"
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
-		<ThemeProvider className="min-h-screen flex flex-col w-full">
+		<ThemeProvider
+			textField={{
+				size: '1'
+			}}
+			className="min-h-screen flex flex-col w-full">
 			{/* NavBar */}
 			<div className="flex flex-1 overflow-hidden">
 				{/* SideBar */}

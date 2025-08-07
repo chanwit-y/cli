@@ -5,6 +5,7 @@ import { forwardRef } from "react"
 import { TextField as RadixTextField, Text, Box } from '@radix-ui/themes'
 import { withForm } from "../hoc/withForm"
 import { cn } from "../util/utils"
+import { withTheam } from "../context"
 
 const TextField = forwardRef<
 	ElementRef<typeof RadixTextField.Root>,
@@ -19,6 +20,7 @@ const TextField = forwardRef<
 	variant = "surface",
 	size = "2",
 	radius = "medium",
+	define = "TextField",
 	...props
 }, ref) => {
 	const hasError = error || !!errorMessage
@@ -38,7 +40,7 @@ const TextField = forwardRef<
 				size={size}
 				radius={radius}
 				placeholder={placeholder}
-				
+
 				className={cn(
 					// Base Tailwind classes that work with Radix
 					// "w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow",
@@ -66,8 +68,10 @@ const TextField = forwardRef<
 
 TextField.displayName = "TextField"
 
-const TextFieldWithForm = withForm<TextFieldProps>(TextField)
+const TextFieldWithTheme = withTheam(TextField)
 
-export { TextField, TextFieldWithForm }
+const TextFieldWithForm = withForm<TextFieldProps>(TextFieldWithTheme)
+
+export { TextField, TextFieldWithTheme, TextFieldWithForm }
 
 

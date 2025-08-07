@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { TextField } from 'vegaui'
+import { TextField, TextFieldWithTheme } from 'vegaui'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({
@@ -11,6 +11,7 @@ function Index() {
     <div className="p-2">
       <h3>Welcome Home!</h3>
       <TextField />
+      <TextFieldWithTheme />
     </div>
   )
 }

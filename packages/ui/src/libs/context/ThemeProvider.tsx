@@ -1,6 +1,6 @@
 
-import { createContext } from 'react'
-import type { ThemeContextType, ThemeProviderProps } from '../@types'
+import { createContext, use, type ComponentType } from 'react'
+import type { BaseComponentProps, ThemeContextType, ThemeProviderProps } from '../@types'
 import { Theme } from '@radix-ui/themes'
 
 
@@ -23,4 +23,29 @@ export function ThemeProvider({
       </Theme>
     </ThemeContext>
   )
+}
+
+export const useTheme = () => {
+  const context = use(ThemeContext)
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider')
+  }
+  return context
+}
+
+export const withTheam = (Component: ComponentType<BaseComponentProps>) => {
+
+  return (props: any) => {
+    const { textField } = useTheme()
+
+    switch (Component.displayName) {
+      case "TextField":
+        return <Component {...props} {...textField} />
+      default:
+        return <Component {...props} />
+    }
+
+
+
+  }
 }
