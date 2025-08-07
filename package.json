@@ -6,14 +6,14 @@
   "module": "index.ts",
   "type": "module",
   "bin": {
-    "vega": "./package/cli/index.ts"
+    "vega": "./packages/cli/index.ts"
   },
   "scripts": {
-    "cli": "cd package/cli && bun run index.ts",
-    "app:serve": "cd package/app/web && bun run dev"
+    "cli": "cd packages/cli && bun run index.ts",
+    "serve": "cd packages/app/web && bun run dev"
   },
   "keywords": ["svg", "tsx", "react", "icons", "cli", "typescript", "components"],
-  "author": "Your Name <your.email@example.com>",
+  "author": "zenith",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -21,14 +21,14 @@
   },
   "workspaces": {
     "packages": [
-      "package/*"
+      "packages/*"
     ]
   },
   "files": [
-    "package/cli/",
-    "package/cli/template/*",
-    "package/app/web/out/",
-    "package/app/web/dist/",
+    "packages/cli/",
+    "packages/cli/template/*",
+    "packages/app/web/out/",
+    "packages/app/web/dist/",
     "README.md"
   ],
   "devDependencies": {
@@ -36,17 +36,22 @@
     "@types/dom-parser": "^0.1.4",
     "@types/js-yaml": "^4.0.9",
     "@types/lodash": "^4.17.20",
-    "@types/xmldom": "^0.1.34"
+    "@types/xmldom": "^0.1.34",
+    "tailwindcss": "^4.1.11"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.8.0",
+    "@radix-ui/themes": "^3.2.1",
     "chalk": "^5.4.1",
+    "clsx": "^2.1.1",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "ora": "^8.2.0",
+    "react-hook-form": "^7.62.0",
+    "tailwind-merge": "^3.3.1",
     "xmldom": "^0.6.0"
   }
 }

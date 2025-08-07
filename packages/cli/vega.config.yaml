@@ -1,0 +1,3 @@
+icon:
+  watchPath: "../../assets/icons/"
+  outPath: "../app/web/src/components/icons/"
