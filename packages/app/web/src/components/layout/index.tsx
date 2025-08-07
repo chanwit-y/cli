@@ -1,4 +1,4 @@
-import { ThemeProvider } from "../context"
+import { ThemeProvider } from "vegaui"
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (

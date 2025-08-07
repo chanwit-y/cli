@@ -1,19 +1,10 @@
+import type { TextFieldProps } from "../@types"
+import type { ElementRef } from "react"
+
 import { forwardRef } from "react"
-import type { ComponentPropsWithoutRef, ElementRef } from "react"
 import { TextField as RadixTextField, Text, Box } from '@radix-ui/themes'
 import { withForm } from "../hoc/withForm"
 import { cn } from "../util/utils"
-
-export interface TextFieldProps extends ComponentPropsWithoutRef<typeof RadixTextField.Root> {
-	label?: string
-	placeholder?: string
-	helperText?: string
-	error?: boolean
-	errorMessage?: string
-	variant?: "classic" | "surface" | "soft"
-	size?: "1" | "2" | "3"
-	radius?: "none" | "small" | "medium" | "large" | "full"
-}
 
 const TextField = forwardRef<
 	ElementRef<typeof RadixTextField.Root>,
@@ -44,7 +35,7 @@ const TextField = forwardRef<
 			<RadixTextField.Root
 				ref={ref}
 				variant={variant}
-				size={"3"}
+				size={size}
 				radius={radius}
 				placeholder={placeholder}
 				
