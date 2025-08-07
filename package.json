@@ -9,7 +9,8 @@
     "vega": "./package/cli/index.ts"
   },
   "scripts": {
-    "cli": "cd package/cli && bun run index.ts"
+    "cli": "cd package/cli && bun run index.ts",
+    "app:serve": "cd package/app/web && bun run dev"
   },
   "keywords": ["svg", "tsx", "react", "icons", "cli", "typescript", "components"],
   "author": "Your Name <your.email@example.com>",
