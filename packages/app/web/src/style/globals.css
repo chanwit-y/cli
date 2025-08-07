@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import '@radix-ui/themes/styles.css';
+
+/* Custom CSS variables and overrides */
+:root {
+  --my-custom-spacing: 1rem;
+}
+
+/* Ensure Tailwind utilities work with Radix components */
+@layer utilities {
+  /* Override Radix styles when needed */
+  .radix-override {
+  }
+}
+
+/* Custom component styles that work with Radix Themes */
+@layer components {
+  .custom-gradient {
+    @apply bg-gradient-to-r from-blue-500 to-purple-600;
+  }
+  
+  /* Utility class to make Tailwind work with Radix TextField */
+  .rt-TextField-root {
+    /* Allow Tailwind width utilities to work */
+    width: inherit !important;
+  }
+  
+  /* Error state styling for TextField */
+  .rt-TextField-root[data-error="true"] {
+    --accent-9: rgb(239 68 68) !important;
+    --accent-a9: rgb(239 68 68) !important;
+  }
+}

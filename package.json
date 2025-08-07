@@ -32,6 +32,7 @@
     "README.md"
   ],
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.130.15",
     "@types/bun": "latest",
     "@types/dom-parser": "^0.1.4",
     "@types/js-yaml": "^4.0.9",
@@ -45,6 +46,8 @@
   "dependencies": {
     "@inquirer/prompts": "^7.8.0",
     "@radix-ui/themes": "^3.2.1",
+    "@tanstack/react-router": "^1.130.12",
+    "@tanstack/react-router-devtools": "^1.130.13",
     "chalk": "^5.4.1",
     "clsx": "^2.1.1",
     "js-yaml": "^4.1.0",
