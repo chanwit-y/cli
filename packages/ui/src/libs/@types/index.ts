@@ -2,12 +2,14 @@ import type { ComponentPropsWithoutRef, ElementType } from "react";
 import {
   TextField as RadixTextField,
   Button as RadixButton,
+  Select as RadixSelect,
 } from "@radix-ui/themes";
 import { type ThemeProps } from "@radix-ui/themes";
 
 export type Components = {
   TextField?: TextFieldProps;
   Button?: ButtonProps;
+  SelectField?: SelectFieldProps;
 };
 
 export type ThemeContextType = {
@@ -43,5 +45,22 @@ export type TextFieldProps = BaseComponentProps<
     variant?: "classic" | "surface" | "soft";
     size?: "1" | "2" | "3";
     radius?: "none" | "small" | "medium" | "large" | "full";
+  }
+>;
+
+export type SelectFieldProps = BaseComponentProps<
+  typeof RadixSelect.Trigger,
+  {
+    label?: string;
+    placeholder?: string;
+    helperText?: string;
+    error?: boolean;
+    errorMessage?: string;
+    variant?: "classic" | "surface" | "soft";
+    size?: "1" | "2" | "3";
+    radius?: "none" | "small" | "medium" | "large" | "full";
+    options: Array<{ value: string; label: string; disabled?: boolean }>;
+    value?: string;
+    onValueChange?: (value: string) => void;
   }
 >;
