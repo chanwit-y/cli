@@ -3,8 +3,10 @@ import { ThemeProvider } from "vegaui"
 export const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<ThemeProvider
-			textField={{
-				size: '1'
+			components={{
+				TextField: {
+					size: "2",
+				}
 			}}
 			className="min-h-screen flex flex-col w-full">
 			{/* NavBar */}

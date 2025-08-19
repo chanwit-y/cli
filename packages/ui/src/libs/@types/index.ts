@@ -5,17 +5,20 @@ import {
 } from "@radix-ui/themes";
 import { type ThemeProps } from "@radix-ui/themes";
 
-export type ThemeContextType = {
-  textField?: TextFieldProps;
-  button?: ButtonProps;
+export type Components = {
+  TextField?: TextFieldProps;
+  Button?: ButtonProps;
 };
 
-export interface ThemeProviderProps {
+export type ThemeContextType = {
+  components: Components;
+};
+
+export type ThemeProviderProps = {
   children: React.ReactNode;
   theme?: ThemeProps;
   className?: string;
-  textField?: TextFieldProps;
-}
+} & ThemeContextType;
 
 export type BaseComponentProps<
   U extends ElementType = ElementType,

@@ -44,6 +44,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.1",
     "@inquirer/prompts": "^7.8.0",
     "@radix-ui/themes": "^3.2.1",
     "@tanstack/react-router": "^1.130.12",
@@ -55,6 +56,7 @@
     "ora": "^8.2.0",
     "react-hook-form": "^7.62.0",
     "tailwind-merge": "^3.3.1",
-    "xmldom": "^0.6.0"
+    "xmldom": "^0.6.0",
+    "zod": "^4.0.15"
   }
 }

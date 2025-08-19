@@ -1,10 +1,15 @@
 
 import { createContext, use, type ComponentType } from 'react'
-import type { BaseComponentProps, ThemeContextType, ThemeProviderProps } from '../@types'
+import type { BaseComponentProps, Components, ThemeContextType, ThemeProviderProps } from '../@types'
 import { Theme } from '@radix-ui/themes'
 
 
-const ThemeContext = createContext<ThemeContextType>({})
+const ThemeContext = createContext<ThemeContextType>({
+  components: {
+    TextField: {},
+    Button: {},
+  }
+})
 
 export function ThemeProvider({
   children,
@@ -14,10 +19,10 @@ export function ThemeProvider({
     radius: 'small',
   },
   className,
-  textField
+  components
 }: ThemeProviderProps) {
   return (
-    <ThemeContext value={{ textField }}>
+    <ThemeContext value={{ components: { ...components } }}>
       <Theme panelBackground="translucent" {...theme} className={className}>
         {children}
       </Theme>
@@ -33,22 +38,11 @@ export const useTheme = () => {
   return context
 }
 
-export const withTheam = (Component: ComponentType<BaseComponentProps>) => {
+
+export const withTheam = <T extends any>(Component: ComponentType<BaseComponentProps & T>) => {
 
   return (props: any) => {
-    const { textField, button } = useTheme()
-
-    switch (Component.displayName) {
-      case "TextField":
-        return <Component {...props} {...textField} />
-      case "Button":
-        return <Component {...props} {...button} />
-      case "Select":
-      default:
-        return <Component {...props} />
-    }
-
-
-
+    const { components } = useTheme()
+    return <Component {...props} {...(components[Component.displayName as keyof Components] || {})} />
   }
 }
