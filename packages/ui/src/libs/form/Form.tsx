@@ -27,6 +27,10 @@ export class Form<T extends FieldValues = FieldValues> {
     return this._form?.formState.errors;
   }
 
+  public container(El: () => React.ReactNode) {
+    return <El />
+  }
+
 
   public create<
     C extends FieldValues = FieldValues,
@@ -34,6 +38,22 @@ export class Form<T extends FieldValues = FieldValues> {
     const Context = createContext<C>({} as C)
 
     return {
+      // Pv: <T extends any>(
+      //   El: () => React.ReactNode
+      // ) => { 
+      //   this._form = useForm({
+      //     mode: "all",
+      //     resolver: zodResolver(this._schema),
+      //     defaultValues: this._defaultValues,
+      //   })
+
+        
+      //   return (<FormProvider {...this._form}>
+      //     <Context value={{} as C}>
+      //       <El />
+      //     </Context>
+      //   </FormProvider>)
+      // },
       Fn: (props: P & { children: (f: Form<T>) => React.ReactNode }) => {
         const { children } = props
         this._form = useForm({

@@ -10,7 +10,8 @@
   },
   "scripts": {
     "cli": "cd packages/cli && bun run index.ts",
-    "serve": "cd packages/app/web && bun run dev"
+    "serve": "cd packages/app/web && bun run dev",
+    "build:ui": "cd packages/ui && bun run build"
   },
   "keywords": ["svg", "tsx", "react", "icons", "cli", "typescript", "components"],
   "author": "zenith",
@@ -32,6 +33,7 @@
     "README.md"
   ],
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.12",
     "@tanstack/router-plugin": "^1.130.15",
     "@types/bun": "latest",
     "@types/dom-parser": "^0.1.4",

@@ -1,1 +1,2 @@
-export * from "./libs"
+import "./styles.css";
+export * from "./libs";

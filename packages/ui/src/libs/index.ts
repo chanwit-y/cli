@@ -1,4 +1,3 @@
 export * from "./context"
-export * from "./components"
-export { TextField as FormTextField } from "./form/TextField"
+export { TextField, SelectField } from "./form"
 export { Form } from "./form/Form"

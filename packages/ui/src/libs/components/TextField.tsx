@@ -1,7 +1,7 @@
 import type { TextFieldProps } from "../@types"
 import type { ElementRef } from "react"
 
-import { forwardRef } from "react"
+import { forwardRef, useMemo } from "react"
 import { TextField as RadixTextField, Text, Box } from '@radix-ui/themes'
 import { cn } from "../util/utils"
 import { withTheam } from "../context"
@@ -21,7 +21,8 @@ const TextFieldBase = forwardRef<
 	radius = "medium",
 	...props
 }, ref) => {
-	const hasError = error || !!errorMessage
+	// const hasError = error || !!errorMessage
+	const hasError = useMemo(() => error || !!errorMessage, [error, errorMessage])
 	const displayHelperText = hasError ? errorMessage : helperText
 
 	return (
@@ -31,6 +32,7 @@ const TextFieldBase = forwardRef<
 					{label}
 				</Text>
 			)}
+			{String(hasError)}
 
 			<RadixTextField.Root
 				ref={ref}
@@ -39,15 +41,23 @@ const TextFieldBase = forwardRef<
 				radius={radius}
 				placeholder={placeholder}
 
-				className={cn(
-					// Base Tailwind classes that work with Radix
-					// "w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow",
-					"w-full",
-					hasError && "!border-red-500 focus-within:!border-red-500",
-					className
-				)}
+
+				// className={cn(
+				// 	 "border-red-500 focus-within:border-red-500",
+				// 	className
+				// )}
+				className={cn(hasError ? "border border-red-500 focus:border-red-500" : "")}
+				// className="border border-amber-600"
+				// className={cn(
+				// // 	// Base Tailwind classes that work with Radix
+				// // 	// "w-full bg-transparent placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-3 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow",
+				// // 	// "w-full border-red-400",
+				// 	hasError && "border-red-500 focus-within:border-red-500",
+				// 	className
+				// )}
 				{...props}
 			/>
+			{/* {String(hasError)} */}
 
 			{displayHelperText && (
 				<Text
