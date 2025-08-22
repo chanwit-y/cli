@@ -45,7 +45,17 @@ const TextFieldBase = forwardRef<
 				// 	className
 				// )}
 				className={cn(
-					hasError ? "border border-red-500 focus:outline-none focus:border-red-500" : "")}
+					// Base styles for consistent appearance
+					"transition duration-200 ease-in-out",
+					"",
+					// "focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent",
+					// "hover:border-gray-300",
+					// "disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed",
+					// Error styles
+					// hasError && "border-red-500 focus-within:ring-red-500 focus-within:border-red-500",
+					//focus:outline-none
+					hasError ? "border border-red-500 focus:outline-none  focus:border-red-500" : "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+					className)}
 				// className="border border-amber-600"
 				// className={cn(
 				// // 	// Base Tailwind classes that work with Radix

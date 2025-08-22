@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Form, SelectField, TextField, Textarea } from 'vegaui'
 import { string, object } from 'zod'
+import { useFormContext } from 'react-hook-form'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({
@@ -13,10 +14,9 @@ function Index() {
 
 	const F = useMemo(() => (new Form(object({
 		title: string(),
-		name: string().min(1),
-		description: string().min(1),
+		name: string("name is required").min(1),
+		description: string("description is required").min(1),
 	}), {
-		name: "John Doe"
 	})).setup().create(), [])
 
 
@@ -26,9 +26,25 @@ function Index() {
 			{/* <F.Pv>
 
 			</F.Pv> */}
-			<F.Fn>
+			{/* <F.Fn>
 				{(f) => (
-					<>
+					
+				)}
+			</F.Fn> */}
+			<F.El>
+				<FormDemo />
+			</F.El>
+		</div>
+	)
+}
+
+const FormDemo = ()=> {
+	const f = useFormContext()
+	useEffect(() => {
+		f.trigger();
+	}, [])
+	return (
+		<>
 						{/* {f.container(() => {
 							const { watch, formState: {errors}} = useFormContext()
 							return (
@@ -38,6 +54,7 @@ function Index() {
 										name="title"
 										form={f}
 										options={[
+											// { value: "", label: "None" },
 											{ value: "mr", label: "Mr" },
 											{ value: "mrs", label: "Mrs" },
 											{ value: "ms", label: "Ms" },
@@ -47,17 +64,17 @@ function Index() {
 										className="w-400"
 										size="2"
 										variant="surface"
-										helperText="Select your title"
+										// helperText="Select your title"
 									/>
-									{f._form?.watch("name")}
-									<Textarea name="description" form={f} />
+									{/* {f.watch("name")} */}
+									<Textarea name="description" label="Description" form={f} />
 									{/* {watch("name")} */}
 									<hr />
 									<button onClick={() => {
-										console.log(f.getError())
+										// console.log(f.getError())
 										// console.log()
 
-										f._form?.handleSubmit((data) => {
+										f.handleSubmit((data) => {
 											console.log(data)
 										})
 									}}>Submit</button>
@@ -65,12 +82,5 @@ function Index() {
 							)
 						})} */}
 					</>
-				)}
-			</F.Fn>
-			<F.El>
-				<TextField name="name" />
-				<button type='submit'>Submit</button>
-			</F.El>
-		</div>
 	)
 }

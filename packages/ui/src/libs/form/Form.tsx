@@ -47,7 +47,7 @@ export class Form<T extends FieldValues = FieldValues> {
       //     defaultValues: this._defaultValues,
       //   })
 
-        
+
       //   return (<FormProvider {...this._form}>
       //     <Context value={{} as C}>
       //       <El />
@@ -61,6 +61,12 @@ export class Form<T extends FieldValues = FieldValues> {
           resolver: zodResolver(this._schema),
           defaultValues: this._defaultValues,
         })
+
+        // useEffect(() => {
+        //   this._form?.trigger();
+        //   console.log('Hi')
+        // }, [])
+
         return (<FormProvider {...this._form}>
           <Context value={{} as C}>
             {children(this)}

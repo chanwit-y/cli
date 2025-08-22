@@ -1,7 +1,7 @@
 import type { SelectFieldProps } from "../@types"
 import type { ElementRef } from "react"
 
-import { forwardRef } from "react"
+import { forwardRef, useMemo } from "react"
 import { Select as RadixSelect, Text, Box } from '@radix-ui/themes'
 import { cn } from "../util/utils"
 import { withTheam } from "../context"
@@ -24,7 +24,7 @@ const SelectFieldBase = forwardRef<
 	className,
 	...props
 }, ref) => {
-	const hasError = error || !!errorMessage
+	const hasError = useMemo(() => error || !!errorMessage, [error, errorMessage])
 	const displayHelperText = hasError ? errorMessage : helperText
 
 	return (
@@ -34,6 +34,7 @@ const SelectFieldBase = forwardRef<
 					{label}
 				</Text>
 			)}
+
 
 			<RadixSelect.Root
 				value={value}
@@ -46,10 +47,12 @@ const SelectFieldBase = forwardRef<
 					placeholder={placeholder}
 					className={cn(
 						"w-full",
-						hasError && "!border-red-500 focus-within:!border-red-500",
+						"transition duration-200 ease-in-out",
+						hasError ? "!border !border-red-500 focus:outline-none focus:!border-red-500" : "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
 						className
 					)}
 					{...props}
+					{...(hasError && { 'data-error': 'true' })}
 				/>
 				<RadixSelect.Content>
 					{options.map((option) => (
