@@ -32,7 +32,6 @@ const TextFieldBase = forwardRef<
 					{label}
 				</Text>
 			)}
-			{String(hasError)}
 
 			<RadixTextField.Root
 				ref={ref}
@@ -41,12 +40,12 @@ const TextFieldBase = forwardRef<
 				radius={radius}
 				placeholder={placeholder}
 
-
 				// className={cn(
 				// 	 "border-red-500 focus-within:border-red-500",
 				// 	className
 				// )}
-				className={cn(hasError ? "border border-red-500 focus:border-red-500" : "")}
+				className={cn(
+					hasError ? "border border-red-500 focus:outline-none focus:border-red-500" : "")}
 				// className="border border-amber-600"
 				// className={cn(
 				// // 	// Base Tailwind classes that work with Radix
@@ -55,7 +54,9 @@ const TextFieldBase = forwardRef<
 				// 	hasError && "border-red-500 focus-within:border-red-500",
 				// 	className
 				// )}
+				
 				{...props}
+				{...(hasError && { 'data-error': 'true' })}
 			/>
 			{/* {String(hasError)} */}
 

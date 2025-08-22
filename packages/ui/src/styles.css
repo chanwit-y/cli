@@ -1,1 +1,29 @@
 @import "tailwindcss";
+
+.rt-TextFieldRoot:where(.rt-variant-surface):has([data-error="true"]) {
+  --text-field-focus-color: transparent;
+}
+
+/* Textarea component styles */
+textarea[data-error="true"] {
+  --textarea-focus-color: transparent;
+}
+
+/* Custom scrollbar for textarea */
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+
+textarea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+textarea::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

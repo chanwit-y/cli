@@ -1,8 +1,7 @@
 import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { Form, SelectField, TextField } from 'vegaui'
+import { Form, SelectField, TextField, Textarea } from 'vegaui'
 import { string, object } from 'zod'
-import "../style/vegaui.css"
 
 // @ts-ignore
 export const Route = createFileRoute('/')({
@@ -15,6 +14,7 @@ function Index() {
 	const F = useMemo(() => (new Form(object({
 		title: string(),
 		name: string().min(1),
+		description: string().min(1),
 	}), {
 		name: "John Doe"
 	})).setup().create(), [])
@@ -49,8 +49,8 @@ function Index() {
 										variant="surface"
 										helperText="Select your title"
 									/>
-									<input type="text" className=' border border-amber-600' />
 									{f._form?.watch("name")}
+									<Textarea name="description" form={f} />
 									{/* {watch("name")} */}
 									<hr />
 									<button onClick={() => {

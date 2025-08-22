@@ -10,6 +10,7 @@ export type Components = {
   TextField?: TextFieldProps;
   Button?: ButtonProps;
   SelectField?: SelectFieldProps;
+  Textarea?: TextareaProps;
 };
 
 export type ThemeContextType = {
@@ -62,5 +63,22 @@ export type SelectFieldProps = BaseComponentProps<
     options: Array<{ value: string; label: string; disabled?: boolean }>;
     value?: string;
     onValueChange?: (value: string) => void;
+  }
+>;
+
+export type TextareaProps = BaseComponentProps<
+  "textarea",
+  {
+    label?: string;
+    placeholder?: string;
+    helperText?: string;
+    error?: boolean;
+    errorMessage?: string;
+    rows?: number;
+    cols?: number;
+    resize?: "none" | "both" | "horizontal" | "vertical";
+    autoResize?: boolean;
+    maxLength?: number;
+    showCharCount?: boolean;
   }
 >;

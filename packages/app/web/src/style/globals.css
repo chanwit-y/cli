@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import '@radix-ui/themes/styles.css';
 /* @import './vegaui.css'; */
+@import 'vegaui/styles.css';
 
 /* Custom CSS variables and overrides */
 :root {
@@ -32,3 +33,4 @@
     --accent-a9: rgb(239 68 68) !important;
   }
 }
+
