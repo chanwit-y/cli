@@ -67,7 +67,7 @@ const FormDemo = ()=> {
 										// helperText="Select your title"
 									/>
 									{/* {f.watch("name")} */}
-									<Textarea name="description" label="Description" form={f} />
+									<Textarea name="description" label="Description" form={f} showCharCount={true} />
 									{/* {watch("name")} */}
 									<hr />
 									<button onClick={() => {

@@ -65,7 +65,7 @@ const TextareaBase = forwardRef<
 					"w-full bg-white border border-gray-200 rounded-md px-3 py-2",
 					"text-sm text-gray-900 placeholder:text-gray-400",
 					"transition duration-200 ease-in-out",
-					 "",
+					"",
 					// "hover:border-gray-300",
 					"disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed",
 					// Resize styles
@@ -84,8 +84,37 @@ const TextareaBase = forwardRef<
 				{...(hasError && { 'data-error': 'true' })}
 			/>
 
-			<Box className="flex justify-between items-start mt-1">
-				<Box className="flex-1">
+			<div className="flex justify-between ">
+				<div>
+					{displayHelperText && (
+						<Text
+							size="1"
+							className={cn(
+								"block",
+								hasError ? "text-red-500" : "text-gray-600"
+							)}
+						>
+							{displayHelperText}
+						</Text>
+					)}
+				</div>
+				<div>
+
+					{showCount && (
+						<Text
+							size="1"
+							className={cn(
+								"text-right ml-2",
+								maxLength && currentLength > maxLength ? "text-red-500" : "text-gray-500"
+							)}
+						>
+							{maxLength ? `${currentLength}/${maxLength}` : currentLength}
+						</Text>
+					)}
+				</div>
+				
+			</div>
+{/* <Box className="flex justify-between ">
 					{displayHelperText && (
 						<Text
 							size="1"
@@ -98,19 +127,19 @@ const TextareaBase = forwardRef<
 						</Text>
 					)}
 				</Box>
-
-				{showCount && (
-					<Text
-						size="1"
-						className={cn(
-							"text-right ml-2",
-							maxLength && currentLength > maxLength ? "text-red-500" : "text-gray-500"
-						)}
-					>
-						{maxLength ? `${currentLength}/${maxLength}` : currentLength}
-					</Text>
-				)}
-			</Box>
+				<Box>
+					{showCount && (
+						<Text
+							size="1"
+							className={cn(
+								"text-right ml-2",
+								maxLength && currentLength > maxLength ? "text-red-500" : "text-gray-500"
+							)}
+						>
+							{maxLength ? `${currentLength}/${maxLength}` : currentLength}
+						</Text>
+					)}
+				</Box> */}
 		</Box>
 	)
 })
