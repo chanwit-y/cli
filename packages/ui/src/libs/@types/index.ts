@@ -12,6 +12,7 @@ export type Components = {
   TextField?: TextFieldProps;
   Button?: ButtonProps;
   SelectField?: SelectFieldProps;
+  Autocomplete?: AutocompleteProps;
   Textarea?: TextareaProps;
   Checkbox?: CheckboxProps;
   RadioButton?: RadioButtonProps;
@@ -120,5 +121,31 @@ export type RadioButtonProps = BaseComponentProps<
       helperText?: string;
     }>;
     orientation?: "horizontal" | "vertical";
+  }
+>;
+
+export type AutocompleteItem = {
+  id: string;
+  label: string;
+  category: string;
+  disabled?: boolean;
+};
+
+export type AutocompleteProps = BaseComponentProps<
+  "button",
+  {
+    label?: string;
+    placeholder?: string;
+    helperText?: string;
+    error?: boolean;
+    errorMessage?: string;
+    variant?: "classic" | "surface" | "soft";
+    size?: "1" | "2" | "3";
+    radius?: "none" | "small" | "medium" | "large" | "full";
+    items: AutocompleteItem[];
+    value?: string;
+    onValueChange?: (value: string) => void;
+    onBlur?: () => void;
+    maxResults?: number;
   }
 >;

@@ -54,7 +54,12 @@ const CheckboxBase = forwardRef<
 						{...(indeterminate && { 'data-state': 'indeterminate' })}
 					/>
 					{label && (
-						<Text as="label" size="2" weight="medium" className="cursor-pointer">
+						<Text 
+						as="label" 
+						size="2" 
+						weight="medium" 
+						className={cn("cursor-pointer", hasError ? "text-red-500" : "text-gray-600")}
+						>
 							{label}
 						</Text>
 					)}
