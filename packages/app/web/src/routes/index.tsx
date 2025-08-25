@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { Form, SelectField, TextField, Textarea } from 'vegaui'
-import { string, object } from 'zod'
+import { Form, SelectField, TextField, Textarea, Checkbox, RadioButton } from 'vegaui'
+import { string, object, boolean } from 'zod'
 import { useFormContext } from 'react-hook-form'
 
 // @ts-ignore
@@ -16,6 +16,8 @@ function Index() {
 		title: string(),
 		name: string("name is required").min(1),
 		description: string("description is required").min(1),
+		isAgree: boolean("isAgree is required"),
+		preference: string("preference is required"),
 	}), {
 	})).setup().create(), [])
 
@@ -68,6 +70,19 @@ const FormDemo = ()=> {
 									/>
 									{/* {f.watch("name")} */}
 									<Textarea name="description" label="Description" form={f} showCharCount={true} />
+									<RadioButton 
+										name="preference" 
+										label="Communication Preference" 
+										form={f}
+										options={[
+											{ value: "email", label: "Email", helperText: "Receive updates via email" },
+											{ value: "sms", label: "SMS", helperText: "Receive updates via text message" },
+											{ value: "phone", label: "Phone Call", helperText: "Receive updates via phone call" },
+											{ value: "none", label: "No Communication", helperText: "Do not contact me" }
+										]}
+										helperText="Choose how you'd like to receive updates"
+									/>
+									<Checkbox name="isAgree" label="I agree to the terms and conditions" form={f} />
 									{/* {watch("name")} */}
 									<hr />
 									<button onClick={() => {

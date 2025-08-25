@@ -3,6 +3,8 @@ import {
   TextField as RadixTextField,
   Button as RadixButton,
   Select as RadixSelect,
+  Checkbox as RadixCheckbox,
+  RadioGroup as RadixRadioGroup,
 } from "@radix-ui/themes";
 import { type ThemeProps } from "@radix-ui/themes";
 
@@ -11,6 +13,8 @@ export type Components = {
   Button?: ButtonProps;
   SelectField?: SelectFieldProps;
   Textarea?: TextareaProps;
+  Checkbox?: CheckboxProps;
+  RadioButton?: RadioButtonProps;
 };
 
 export type ThemeContextType = {
@@ -80,5 +84,41 @@ export type TextareaProps = BaseComponentProps<
     autoResize?: boolean;
     maxLength?: number;
     showCharCount?: boolean;
+  }
+>;
+
+export type CheckboxProps = BaseComponentProps<
+  typeof RadixCheckbox,
+  {
+    label?: string;
+    helperText?: string;
+    error?: boolean;
+    errorMessage?: string;
+    size?: "1" | "2" | "3";
+    variant?: "classic" | "surface" | "soft";
+    checked?: boolean;
+    onCheckedChange?: (checked: boolean) => void;
+    indeterminate?: boolean;
+  }
+>;
+
+export type RadioButtonProps = BaseComponentProps<
+  typeof RadixRadioGroup.Root,
+  {
+    label?: string;
+    helperText?: string;
+    error?: boolean;
+    errorMessage?: string;
+    size?: "1" | "2" | "3";
+    variant?: "classic" | "surface" | "soft";
+    value?: string;
+    onValueChange?: (value: string) => void;
+    options: Array<{ 
+      value: string; 
+      label: string; 
+      disabled?: boolean;
+      helperText?: string;
+    }>;
+    orientation?: "horizontal" | "vertical";
   }
 >;

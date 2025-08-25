@@ -1,3 +1,5 @@
 export { TextField, TextFieldBase } from './TextField'
 export { SelectField, SelectFieldBase } from './SelectField'
 export { Textarea, TextareaBase } from './Textarea'
+export { Checkbox, CheckboxBase } from './Checkbox'
+export { RadioButton, RadioButtonBase } from './RadioButton'
