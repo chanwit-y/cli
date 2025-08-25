@@ -8,7 +8,7 @@ import { withTheam } from "../context"
 
 const SelectFieldBase = forwardRef<
 	ElementRef<typeof RadixSelect.Trigger>,
-	SelectFieldProps
+	SelectFieldProps & { onChange?: (value: string) => void }
 >(({
 	label,
 	placeholder,
@@ -21,11 +21,18 @@ const SelectFieldBase = forwardRef<
 	options,
 	value,
 	onValueChange,
+	onChange,
 	className,
 	...props
 }, ref) => {
 	const hasError = useMemo(() => error || !!errorMessage, [error, errorMessage])
 	const displayHelperText = hasError ? errorMessage : helperText
+	
+	// Handle both onChange (from form) and onValueChange (direct usage)
+	const handleValueChange = (newValue: string) => {
+		onValueChange?.(newValue)
+		onChange?.(newValue)
+	}
 
 	return (
 		<Box className="w-full">
@@ -38,7 +45,7 @@ const SelectFieldBase = forwardRef<
 
 			<RadixSelect.Root
 				value={value}
-				onValueChange={onValueChange}
+				onValueChange={handleValueChange}
 			>
 				<RadixSelect.Trigger
 					ref={ref}
@@ -48,7 +55,9 @@ const SelectFieldBase = forwardRef<
 					className={cn(
 						"w-full",
 						"transition duration-200 ease-in-out",
-						hasError ? "!border !border-red-500 focus:outline-none focus:!border-red-500" : "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+						hasError
+							? "!border !border-red-500 focus:outline-none focus:!border-red-500"
+							: "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
 						className
 					)}
 					{...props}
