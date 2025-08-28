@@ -1,13 +1,13 @@
 import { HttpClientBase, unwrap } from './HttpClientBase';
 import {
-  IgnoreService,
-  LogFunction,
-  ErrorFunction,
+  type IgnoreService,
+  type LogFunction,
+  type ErrorFunction,
   HttpMethod,
-  Request,
+  type Request,
 } from './@types';
-import { IHttpClientFactory } from './@types/HttpClientType';
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { type IHttpClientFactory } from './@types/HttpClientType';
+import { type AxiosRequestConfig, type AxiosResponse } from 'axios';
 
 // interface ITest {
 //   run: () => void;

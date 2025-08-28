@@ -1,16 +1,16 @@
 import axios, {
   AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosResponse,
+  type AxiosInstance,
+  type AxiosRequestConfig,
+  type AxiosResponse,
 } from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import {
-  IgnoreService,
-  IResponse,
+  type IgnoreService,
+  type IResponse,
   Load,
-  ErrorFunction,
-  LogFunction,
+  type ErrorFunction,
+  type LogFunction,
 } from './@types';
 import { error$, loader$ } from './observable';
 
@@ -51,7 +51,7 @@ export class HttpClientBase {
   ) {
     this._api = axios.create();
     this._api.interceptors.request.use(
-      async (config: AxiosRequestConfig) => {
+      async (config) => {
         const loaderId = uuidv4();
         const jwtToken = await getAccessToken();
 
