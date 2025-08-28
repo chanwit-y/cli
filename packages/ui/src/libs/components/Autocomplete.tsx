@@ -1,7 +1,7 @@
-import type { AutocompleteProps } from "../@types";
+import type { AutocompleteProps, AutocompleteItem } from "../@types";
 import type { ElementRef } from "react";
 
-import { useState, useRef, useEffect, useMemo, forwardRef } from 'react';
+import { useState, useRef, useEffect, useMemo, forwardRef, useCallback } from 'react';
 import { Search, X, Check, ChevronDown, AlertCircle } from 'lucide-react';
 import { Text, Box } from '@radix-ui/themes';
 import { cn } from "../util/utils";
@@ -35,26 +35,30 @@ const AutocompleteBase = forwardRef<
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [focusedGroup, setFocusedGroup] = useState('');
+  const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);
+  const [dropdownStyles, setDropdownStyles] = useState<React.CSSProperties>({});
   
   const triggerRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Handle both onChange (from form) and onValueChange (direct usage)
-  const handleValueChange = (newValue: string) => {
+  const handleValueChange = useCallback((newValue: string) => {
     onValueChange?.(newValue);
     onChange?.(newValue);
-  };
+  }, [onValueChange, onChange]);
 
   const selectedItem = items.find(item => item.id === value);
 
   const filteredItems = useMemo(() => {
-    if (!query.trim()) return items.slice(0, maxResults);
+    if (!query.trim()) return items.filter(item => !item.disabled).slice(0, maxResults);
     
     return items
       .filter(item => 
-        item.label.toLowerCase().includes(query.toLowerCase()) ||
-        item.category.toLowerCase().includes(query.toLowerCase())
+        !item.disabled && (
+          item.label.toLowerCase().includes(query.toLowerCase()) ||
+          item.category.toLowerCase().includes(query.toLowerCase())
+        )
       )
       .slice(0, maxResults);
   }, [query, items, maxResults]);
@@ -74,15 +78,15 @@ const AutocompleteBase = forwardRef<
     return Object.values(groupedItems).flat();
   }, [groupedItems]);
 
-  const handleSelect = (item: typeof items[0]) => {
+  const handleSelect = useCallback((item: AutocompleteItem) => {
     handleValueChange(item.id);
     setQuery('');
     setIsOpen(false);
     setSelectedIndex(-1);
     if (onBlur) onBlur();
-  };
+  }, [handleValueChange, onBlur]);
 
-  const clearSelection = (e?: React.MouseEvent) => {
+  const clearSelection = useCallback((e?: React.MouseEvent) => {
     if (e) {
       e.stopPropagation();
     }
@@ -90,16 +94,41 @@ const AutocompleteBase = forwardRef<
     setQuery('');
     setIsOpen(false);
     setSelectedIndex(-1);
-  };
+  }, [handleValueChange]);
 
-  const openDropdown = () => {
+  const openDropdown = useCallback(() => {
+    if (triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+      const dropdownHeight = 280; // max-h-64 + padding
+      
+      const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+      
+      // Calculate positioning for fixed dropdown
+      const styles: React.CSSProperties = {
+        position: 'fixed',
+        left: rect.left,
+        width: rect.width,
+        zIndex: 50,
+      };
+      
+      if (shouldShowAbove) {
+        styles.bottom = window.innerHeight - rect.top + 4; // 4px gap
+      } else {
+        styles.top = rect.bottom + 4; // 4px gap
+      }
+      
+      setDropdownStyles(styles);
+    }
+    
     setIsOpen(true);
     setTimeout(() => {
       searchInputRef.current?.focus();
     }, 0);
-  };
+  }, []);
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
     if (!isOpen) {
       if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowDown') {
         e.preventDefault();
@@ -123,7 +152,7 @@ const AutocompleteBase = forwardRef<
         break;
       case 'Enter':
         e.preventDefault();
-        if (selectedIndex >= 0 && flatItems[selectedIndex]) {
+        if (selectedIndex >= 0 && flatItems[selectedIndex] && !flatItems[selectedIndex].disabled) {
           handleSelect(flatItems[selectedIndex]);
         }
         break;
@@ -136,10 +165,12 @@ const AutocompleteBase = forwardRef<
         setIsOpen(false);
         break;
     }
-  };
+  }, [isOpen, selectedIndex, flatItems, handleSelect, openDropdown]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
+    if (!isOpen) return;
+    
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
       if (dropdownRef.current && !dropdownRef.current.contains(target) &&
@@ -152,7 +183,7 @@ const AutocompleteBase = forwardRef<
 
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [onBlur]);
+  }, [isOpen, onBlur]);
 
   useEffect(() => {
     setSelectedIndex(-1);
@@ -163,6 +194,48 @@ const AutocompleteBase = forwardRef<
       setFocusedGroup(flatItems[selectedIndex].category);
     }
   }, [selectedIndex, flatItems]);
+
+  // Update dropdown position on scroll/resize
+  useEffect(() => {
+    if (!isOpen || !triggerRef.current) return;
+
+    const updatePosition = () => {
+      if (triggerRef.current) {
+        const rect = triggerRef.current.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - rect.bottom;
+        const spaceAbove = rect.top;
+        const dropdownHeight = 280;
+        
+        const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > spaceBelow;
+        
+        const styles: React.CSSProperties = {
+          position: 'fixed',
+          left: rect.left,
+          width: rect.width,
+          zIndex: 50,
+        };
+        
+        if (shouldShowAbove) {
+          styles.bottom = window.innerHeight - rect.top + 4;
+        } else {
+          styles.top = rect.bottom + 4;
+        }
+        
+        setDropdownStyles(styles);
+      }
+    };
+
+    const handleScroll = () => updatePosition();
+    const handleResize = () => updatePosition();
+
+    window.addEventListener('scroll', handleScroll, true);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isOpen]);
 
   return (
     <Box className="w-full">
@@ -188,7 +261,10 @@ const AutocompleteBase = forwardRef<
           )}
           aria-expanded={isOpen}
           aria-haspopup="listbox"
+          aria-controls={isOpen ? listboxId : undefined}
+          aria-describedby={displayHelperText ? 'autocomplete-helper' : undefined}
           aria-invalid={hasError ? 'true' : 'false'}
+          aria-activedescendant={selectedIndex >= 0 ? `${listboxId}-${flatItems[selectedIndex]?.id}` : undefined}
           {...props}
           {...(hasError && { 'data-error': 'true' })}
         >
@@ -220,6 +296,7 @@ const AutocompleteBase = forwardRef<
         {displayHelperText && (
           <Text
             size="1"
+            id="autocomplete-helper"
             className={cn(
               "block mt-1",
               hasError ? "text-red-500" : "text-gray-600"
@@ -232,8 +309,10 @@ const AutocompleteBase = forwardRef<
       </div>
 
       {isOpen && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 
-                       rounded-lg shadow-lg overflow-hidden animate-in slide-in-from-top-2 duration-200">
+        <div 
+          style={dropdownStyles}
+          className="bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden animate-in duration-200"
+        >
           <div className="flex items-center border-b border-gray-100 px-3">
             <Search className="h-4 w-4 text-gray-400 mr-2" />
             <input
@@ -256,7 +335,12 @@ const AutocompleteBase = forwardRef<
             )}
           </div>
 
-          <div className="max-h-64 overflow-auto py-1" role="listbox">
+          <div 
+            id={listboxId}
+            className="max-h-64 overflow-auto py-1" 
+            role="listbox" 
+            aria-label="Autocomplete options"
+          >
             {filteredItems.length === 0 ? (
               <div className="px-3 py-4 text-center text-sm text-gray-500">
                 No results found{query && ` for "${query}"`}
@@ -277,15 +361,20 @@ const AutocompleteBase = forwardRef<
                     return (
                       <button
                         key={item.id}
+                        id={`${listboxId}-${item.id}`}
                         onClick={() => handleSelect(item)}
                         className={`w-full flex items-center justify-between px-3 py-2 text-sm
                                    text-left transition-colors ${
-                          isSelected
+                          item.disabled
+                            ? 'text-gray-400 cursor-not-allowed'
+                            : isSelected
                             ? 'bg-blue-50 text-blue-700'
                             : 'text-gray-700 hover:bg-gray-50'
                         }`}
                         role="option"
-                        aria-selected={isSelected}
+                        aria-selected={isCurrent}
+                        data-focused={isSelected}
+                        disabled={item.disabled}
                       >
                         <span className="font-medium truncate">{item.label}</span>
                         {isCurrent && (
