@@ -135,28 +135,31 @@ type Func<R, Q, P, B, M> = Q extends Map
       ? FuncIsGet<M, (body: B) => R, FuncReturn<R>> // G
       : FuncReturn<R>; // 0
 
-type Test0 = Func<number, undefined, undefined, undefined, 0>;
-type TestA = Func<number, { email: string }, undefined, undefined, 0>;
-type TestB = Func<number, { email: string }, { id: number }, undefined, 0>;
-type TestC = Func<number, { email: string }, undefined, { name: string }, 0>;
-type TestD = Func<number, undefined, { id: number }, { name: string }, 0>;
-type TestE = Func<
-  number,
-  { email: string },
-  { id: number },
-  { name: string },
-  0
->;
-type TestF = Func<number, undefined, { id: number }, undefined, 0>;
-type TestG = Func<number, undefined, undefined, { name: string }, 0>;
+// type Test0 = Func<number, undefined, undefined, undefined, 0>;
+// type TestA = Func<number, { email: string }, undefined, undefined, 0>;
+// type TestB = Func<number, { email: string }, { id: number }, undefined, 0>;
+// type TestC = Func<number, { email: string }, undefined, { name: string }, 0>;
+// type TestD = Func<number, undefined, { id: number }, { name: string }, 0>;
+// type TestE = Func<
+//   number,
+//   { email: string },
+//   { id: number },
+//   { name: string },
+//   0
+// >;
+// type TestF = Func<number, undefined, { id: number }, undefined, 0>;
+// type TestG = Func<number, undefined, undefined, { name: string }, 0>;
 
+// export class ApiFactory<A extends Config, MapFunc extends Map> {
 export class ApiFactory<A extends Config, MapFunc extends Map> {
   //   private _fn: MapFunc = {} as MapFunc;
+  private _a: A = {} as A;
 
   constructor(
     private _http: IHttpClientFactory,
     private _fn: MapFunc
   ) {
+
     //     if (fn) {
     //       this._fn = fn;
     //     }
@@ -259,11 +262,11 @@ export class ApiFactory<A extends Config, MapFunc extends Map> {
     }
   > {
     Object.entries(c).forEach(([key, ctx]) => {
-      type Response = Static<typeof ctx.response>;
+//       type Response = Static<typeof ctx.response>;
       type Query = Static<typeof ctx.query>;
       type Parameter = Static<typeof ctx.parameter>;
       type Body = Static<typeof ctx.body>;
-      type Method = Static<typeof ctx.method>;
+//       type Method = Static<typeof ctx.method>;
 
       this._fn = {
         ...this._fn,
@@ -353,7 +356,7 @@ export class ApiFactory<A extends Config, MapFunc extends Map> {
       type Query = Static<typeof ctx.query>;
       type Parameter = Static<typeof ctx.parameter>;
       type Body = Static<typeof ctx.body>;
-      type Method = Static<typeof ctx.method>;
+//       type Method = Static<typeof ctx.method>;
 
       const action = <R, Q, P, B>(req: Req<Q, P, B>) => {
         // console.log('action', req);

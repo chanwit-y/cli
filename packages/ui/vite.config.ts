@@ -5,7 +5,20 @@ import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react({
+      babel: {
+        parserOpts: {
+          plugins: ['decorators-legacy']
+        }
+      }
+    }), 
+    tailwindcss()
+  ],
+  esbuild: {
+    // Disable type checking in esbuild for faster builds
+    logLevel: 'error'
+  },
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"), // Your library's entry point
