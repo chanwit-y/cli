@@ -24,6 +24,24 @@ textarea[data-error="true"] {
   border-color: rgb(239 68 68) !important; /* red-500 */
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.fade-out {
+  animation: fadeOut 0.5s ease-in-out;
+}
+
 /* Custom scrollbar for textarea */
 /* textarea::-webkit-scrollbar {
   width: 8px;

@@ -1,0 +1,114 @@
+import { Type, type TSchema, type TObject, type TArray, type TString, type TNumber, type TBoolean } from '@sinclair/typebox';
+
+// Define the TModel interface
+interface TModel {
+  [key: string]: string | TModelObject | TModelArray;
+}
+
+interface TModelObject {
+  type: 'object';
+  collection: TModel;
+}
+
+interface TModelArray {
+  type: 'array';
+  collection: TModel;
+}
+
+type TModelValue = string | TModelObject | TModelArray;
+
+// Dynamic converter function
+function convertTModelToTypeBox(model: TModel): TObject {
+  const properties: Record<string, TSchema> = {};
+
+  for (const [key, value] of Object.entries(model)) {
+    properties[key] = convertValue(value);
+  }
+
+  return Type.Object(properties);
+}
+
+function convertValue(value: TModelValue): TSchema {
+  // Handle simple string types
+  if (typeof value === 'string') {
+    switch (value.toLowerCase()) {
+      case 'string':
+        return Type.String();
+      case 'number':
+        return Type.Number();
+      case 'boolean':
+        return Type.Boolean();
+      case 'integer':
+        return Type.Integer();
+      default:
+        throw new Error(`Unknown primitive type: ${value}`);
+    }
+  }
+
+  // Handle object type
+  if (value.type === 'object') {
+    return convertTModelToTypeBox(value.collection);
+  }
+
+  // Handle array type
+  if (value.type === 'array') {
+    const itemSchema = convertTModelToTypeBox(value.collection);
+    return Type.Array(itemSchema);
+  }
+
+  throw new Error(`Unknown value type: ${JSON.stringify(value)}`);
+}
+
+// Usage example with your configuration
+const collection: TModel = {
+  name: "string",
+  age: "number",
+  address: {
+    type: "object",
+    collection: {
+      address1: "string",
+      building: {
+        type: "array",
+        collection: {
+          name: "string",
+          age: "number",
+        },
+      },
+    },
+  },
+};
+
+// Convert to TypeBox schema
+// const schema = convertTModelToTypeBox(collection);
+
+// // console.log('Generated TypeBox Schema:', schema);
+
+// // Example validation
+// import { Value } from '@sinclair/typebox/value';
+
+// const testData = {
+//   name: "John Doe",
+//   age: 30,
+//   address: {
+//     address1: "123 Main St",
+//     building: [
+//       {
+//         name: "Building A",
+//         age: 10,
+//       },
+//       {
+//         name: "Building B",
+//         age: 5,
+//       },
+//     ],
+//   },
+// };
+
+// const isValid = Value.Check(schema, testData);
+// console.log('Is valid:', isValid);
+
+// const errors = [...Value.Errors(schema, testData)];
+// console.log('Validation errors:', errors);
+
+// Export the converter for reuse
+export { convertTModelToTypeBox, type TModel, type TModelObject, type TModelArray };

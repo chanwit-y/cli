@@ -13,7 +13,7 @@
     "serve": "cd packages/app/web && bun run dev",
     "build:ui": "cd packages/ui && bun run build",
     "serve:all": "bun run build:ui && bun run serve",
-    "build": "cd packages/app/web && bun run serve"
+    "build": "cd packages/app/web && bun run build"
   },
   "keywords": ["svg", "tsx", "react", "icons", "cli", "typescript", "components"],
   "author": "zenith",

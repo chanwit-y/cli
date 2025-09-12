@@ -131,7 +131,13 @@ export type AutocompleteItem = {
   disabled?: boolean;
 };
 
-export type AutocompleteProps = BaseComponentProps<
+
+export type AutocompleteItem2 = {
+  id: string;
+  label: string;
+};
+
+export type AutocompleteProps= BaseComponentProps<
   "button",
   {
     label?: string;
@@ -143,6 +149,29 @@ export type AutocompleteProps = BaseComponentProps<
     size?: "1" | "2" | "3";
     radius?: "none" | "small" | "medium" | "large" | "full";
     items: AutocompleteItem[];
+    value?: string;
+    onValueChange?: (value: string) => void;
+    onBlur?: () => void;
+    maxResults?: number;
+  }
+>;
+
+
+export type AutocompleteProps2<T extends Record<string, any> = {}> = BaseComponentProps<
+  "button",
+  {
+    label?: string;
+    placeholder?: string;
+    helperText?: string;
+    error?: boolean;
+    errorMessage?: string;
+    variant?: "classic" | "surface" | "soft";
+    size?: "1" | "2" | "3";
+    radius?: "none" | "small" | "medium" | "large" | "full";
+    items: T[];
+    searchKey: keyof T;
+    idKey: keyof T;
+    displayKey: keyof T;
     value?: string;
     onValueChange?: (value: string) => void;
     onBlur?: () => void;

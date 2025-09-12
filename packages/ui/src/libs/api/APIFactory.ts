@@ -152,24 +152,11 @@ type Func<R, Q, P, B, M> = Q extends Map
 
 // export class ApiFactory<A extends Config, MapFunc extends Map> {
 export class ApiFactory<A extends Config, MapFunc extends Map> {
-  //   private _fn: MapFunc = {} as MapFunc;
-  private _a: A = {} as A;
-
   constructor(
     private _http: IHttpClientFactory,
     private _fn: MapFunc
   ) {
-
-    //     if (fn) {
-    //       this._fn = fn;
-    //     }
   }
-
-  //   private _getHttpMethod(method: number) {
-  // 	switch(method) {
-  // 		case Method.GET: return 'GET';
-  // 		case Method.POST: return 'POST';
-  //   }
 
   private async _call<R, Q, P, B>(ctx: Context, req: Req<Q, P, B>): Promise<R> {
     const res = await this._http.handler<R, Q, P, B>(
@@ -179,17 +166,10 @@ export class ApiFactory<A extends Config, MapFunc extends Map> {
       ctx.config,
       ctx.isNotUnwrap
     );
-    // console.log('call res', res);
     return res;
   }
 
   private _action<R, Q, P, B>(ctx: Context, req: Req<Q, P, B>) {
-    //     type R = Static<typeof ctx.response>;
-    //     type Q = Static<typeof ctx.query>;
-    //     type P = Static<typeof ctx.parameter>;
-    //     type B = Static<typeof ctx.body>;
-    //     type M = Static<typeof ctx.method>;
-
     if (ctx.method.const === 0) {
       if (ctx.withOptions.const) {
         console.info(ctx);
@@ -219,30 +199,6 @@ export class ApiFactory<A extends Config, MapFunc extends Map> {
         },
       });
     }
-
-    // if(ctx.query !== undefined && ctx.parameter !== undefined && ctx.body !== undefined) {
-    // 	return (query: Q, param: P, body: B): R => {
-    // 		return {} as R;
-    // 	}
-    // } else if(ctx.query !== undefined && ctx.parameter !== undefined) {
-    // 	return (query: Q, param: P): R => {
-    // 		return {} as R;
-    // 	}
-    // } else if(ctx.query !== undefined && ctx.body !== undefined) {
-    // 	return (query: Q, body: B): R => {
-    // 		return {} as R;
-    // 	}
-    // } else if(ctx.query !== undefined) {
-    // 	return (query: Q): R => {
-    // 		return {} as R;
-    // 	}
-    // } else {
-    // 	return useQuery<R, unknown>({
-    // 		queryKey: [ctx.url, { ...request }],
-    // 		queryFn: () => api.query<R, Q, P, B>(key, request),
-    // 		...options
-    // 	});
-    // }
 
     return () => {};
   }
@@ -318,7 +274,7 @@ export class ApiFactory<A extends Config, MapFunc extends Map> {
     );
   }
 
-  public create<C extends Config>(
+  public createHook<C extends Config>(
     c: C
   ): ApiFactory<
     C,
@@ -349,26 +305,15 @@ export class ApiFactory<A extends Config, MapFunc extends Map> {
       >;
     }
   > {
-    // console.log('config', c);
-    //TODO
     Object.entries(c).forEach(([key, ctx]) => {
       type Response = Static<typeof ctx.response>;
       type Query = Static<typeof ctx.query>;
       type Parameter = Static<typeof ctx.parameter>;
       type Body = Static<typeof ctx.body>;
-//       type Method = Static<typeof ctx.method>;
 
       const action = <R, Q, P, B>(req: Req<Q, P, B>) => {
-        // console.log('action', req);
-        // console.log('ctx', ctx);
-
         return this._action<R, Q, P, B>(ctx, req);
       };
-
-      // console.log('context', ctx);
-      // console.log("ctx.query.type", ctx.query.type !== 'undefined')
-      // console.log("ctx.parameter.type", ctx.parameter.type !== 'undefined')
-      // console.log("ctx.body.type", ctx.body.type !== 'undefined')
 
       this._fn = {
         ...this._fn,
@@ -423,73 +368,8 @@ export class ApiFactory<A extends Config, MapFunc extends Map> {
     );
   }
 
-  // public createOne<C extends Config>() {}
 
   public get api() {
     return this._fn;
   }
 }
-
-// const http = new HttpClientFactory('', () => Promise.resolve(''));
-// const a = new ApiFactory(http, {});
-// const api = a.create({
-//   getProfileByEmail: {
-//     url: '/profile',
-//     method: Type.Literal(Method.GET),
-//     response: Type.Object({ email: Type.String() }),
-//     //     query: Type.Object({ email: Type.String() }),
-//     query: Type.Undefined(),
-//     parameter: Type.Undefined(),
-//     body: Type.Undefined(),
-//   },
-//   getProfile: {
-//     url: '/profile/:id',
-//     method: Type.Literal(Method.GET),
-//     response: Type.Object({ email: Type.String(), id: Type.Number() }),
-//     query: Type.Object({ email: Type.String() }),
-//     parameter: Type.Object({ id: Type.Number() }),
-//     body: Type.Undefined(),
-//   },
-//   updateData: {
-//     url: '/profile',
-//     method: Type.Literal(Method.PATCH),
-//     response: Type.Object({
-//       email: Type.String(),
-//       id: Type.Number(),
-//       name: Type.String(),
-//     }),
-//     query: Type.Object({ email: Type.String() }),
-//     //     parameter: Type.Object({ id: Type.Number() }),
-//     parameter: Type.Undefined(),
-//     body: Type.Object({ name: Type.String() }),
-//   },
-// }).api;
-
-// const {data, refetch, error } = api.getProfile({ email: 'test' }, { id: 1 });
-// const x = api.getProfileByEmail();
-// const y = api.updateData();
-
-// y.mutate({query: { email: 'test' }, body: { name: 'test' }}, {
-//   onSuccess: (data) => {
-//     console.log(data);
-//   },
-// });
-
-// const updateData = api.updateData();
-// const s2 = api.getProfileByEmail();
-
-// const { data, isError, refetch } = s;
-
-// updateData.mutate(
-//   {
-//     query: { email: '' },
-//     body: { name: '' },
-//   },
-//   {
-//     onSuccess: (data) => {
-//       console.log(data);
-//     },
-//   }
-// );
-
-// // s1.mutate({ email: 'test' }, { id: 1 }, { name: 'test' });

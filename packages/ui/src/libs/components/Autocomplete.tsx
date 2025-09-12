@@ -253,7 +253,8 @@ const AutocompleteBase = forwardRef<
           className={cn(
             "w-full flex items-center justify-between px-4 text-sm h-[40px]",
             "bg-white border rounded-lg shadow-sm transition-all duration-200",
-            "text-left group focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            // "text-left group focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+            "text-left focus:ring-2 focus:ring-blue-500 focus:border-transparent",
             hasError
               ? "border-red-300 hover:border-red-400"
               : "border-gray-300 hover:border-gray-400",
