@@ -9,6 +9,7 @@
     "vega": "./packages/cli/index.ts"
   },
   "scripts": {
+    "api": "cd packages/app/api && bun run dev",
     "cli": "cd packages/cli && bun run index.ts",
     "serve": "cd packages/app/web && bun run dev",
     "build:ui": "cd packages/ui && bun run build",
@@ -48,6 +49,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@elysiajs/cors": "^0.8.0",
     "@hookform/resolvers": "^5.2.1",
     "@inquirer/prompts": "^7.8.0",
     "@radix-ui/themes": "^3.2.1",
@@ -58,6 +60,7 @@
     "axios": "^1.11.0",
     "chalk": "^5.4.1",
     "clsx": "^2.1.1",
+    "elysia": "^0.8.17",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21",
     "ora": "^8.2.0",

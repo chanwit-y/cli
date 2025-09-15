@@ -1,93 +1,147 @@
-import {
-  Literal,
-  type Static,
-  type TLiteral,
-  type TObject,
-  type TSchema,
-} from "@sinclair/typebox";
-import { Value } from "@sinclair/typebox/value";
-import { ApiFactory, Method, t } from "./APIFactory";
+import { Literal } from "@sinclair/typebox";
+import { ApiFactory, Method, t, type Config, type Func } from "./APIFactory";
 import { HttpClientFactory } from "./HttpClientFactory";
-import { convertTModelToTypeBox, type TModel } from "../model";
+import { ModelFactory, type TModelMaster } from "../model/master";
+import { convertTModelToTArray, convertTModelToTypeBox } from "../model";
 
-export const http = new HttpClientFactory(
-  `https://jsonplaceholder.typicode.com/`,
+const http = new HttpClientFactory(
+  `http://localhost:3001`,
   async () => "",
   "1.0.0",
   120000,
   [],
   []
 );
+const apiFactory = new ApiFactory(http, {});
 
 const methods = (method: "GET" | "POST" | "PUT" | "DELETE") =>
   Literal(Method[method]);
 
-const apiFactory = new ApiFactory(http, {});
+type TApiMaster<T extends TModelMaster> = {
+  [K: string]: {
+    description: string;
+    url: string;
+    methods: "GET" | "POST" | "PUT" | "DELETE";
+    response: keyof T | undefined;
+    query?: keyof T;
+    parameter?: keyof T;
+    body?: keyof T;
+    withOptions: boolean;
+  };
+};
 
+class ApiMaster<M extends TModelMaster, A extends TApiMaster<M>> {
+  private _models: ModelFactory<M, { [K in keyof M]: M[K] }>;
 
-const collection: TModel = {
-  name: "string",
-  age: "number",
-  address: {
+  constructor(
+    private _modelConfig: M,
+    private _apis: A,
+    private _apiFactory: ApiFactory<Config, {}>
+  ) {
+    this._models = new ModelFactory(this._modelConfig);
+  }
+  public get apiNames(): {[K in keyof A]: Extract<keyof A, string>} {
+    return Object.keys(this._apis).reduce((acc, key) => {
+      return { ...acc, [key]: key };
+    }, {} as {[K in keyof A]: Extract<keyof A, string>});
+  }
+
+  public get api(): {
+    [K in keyof A]: Func<
+      Record<string, any>,
+      A[K]["query"] extends string ? Record<string, any> : undefined,
+      A[K]["parameter"] extends string ? Record<string, any> : undefined,
+      A[K]["body"] extends string ? Record<string, any> : undefined,
+      0
+    >;
+  } {
+    const apis = Object.entries(this._apis).reduce((acc, [key, value]) => {
+      return {
+        ...acc,
+        [key]: {
+          url: value.url,
+          method: methods(value.methods),
+          response:
+            this._modelConfig[value.response as keyof M].type === "array"
+              ? convertTModelToTArray(
+                  this._modelConfig[value.response as keyof M]
+                )
+              : convertTModelToTypeBox(
+                  this._modelConfig[value.response as keyof M]
+                ),
+          query: value.query
+            ? convertTModelToTypeBox(this._modelConfig[value.query as keyof M])
+            : t.Undefined(),
+          parameter: value.parameter
+            ? convertTModelToTypeBox(
+                this._modelConfig[value.parameter as keyof M]
+              )
+            : t.Undefined(),
+          body: value.body
+            ? convertTModelToTypeBox(this._modelConfig[value.body as keyof M])
+            : t.Undefined(),
+          withOptions: t.Literal(value.withOptions),
+        },
+      };
+    }, {} as Config);
+    console.log(apis);
+    return this._apiFactory.createService(apis as Config).api as any;
+  }
+}
+
+const base = ModelFactory.base({
+  pagination: {
     type: "object",
     collection: {
-      address1: "string",
-      building: {
-        type: "array",
-        collection: {
-          name: "string",
-          age: "number",
-        },
-      },
+      page: "number",
+      limit: "number",
+      total: "number",
+      totalPages: "number",
     },
   },
-};
+});
 
-const schema = convertTModelToTypeBox(collection);
-
-const validData = {
-  name: "John Doe",
-  age: 30,
-  address: {
-    address1: "123 Main St",
-    building: [
-      { name: "Building A", age: 10 },
-      { name: "Building B", age: 15 },
-    ],
+const apiMaster = new ApiMaster(
+  {
+    todoRes: {
+      data: {
+        type: "array",
+        collection: {
+          id: "number",
+          name: "string",
+          email: "string",
+          age: "number",
+          role: "string",
+        },
+      },
+      pagination: base.pagination,
+    },
+    todoPram: {
+      id: "number",
+    },
   },
-};
+  {
+    todos: {
+      url: "/todos",
+      description: "Get all todos",
+      methods: "GET",
+      response: "todoRes",
+      withOptions: false,
+    },
+    todoByID: {
+      url: "/todos/:id",
+      description: "Get todo by id",
+      methods: "GET",
+      response: "todoRes",
+      parameter: "todoPram",
+      withOptions: false,
+    },
+  },
+  apiFactory
+);
 
-const isValid = Value.Check(schema, validData);
-console.log("isValid: ", isValid);
 
-// const api = apiFactory.createService({
-//   post: {
-//     url: "/posts",
-//     method: methods("GET"),
-//     response: X,
-//     query: t.Object({}),
-//     parameter: t.Object({}),
-//     body: t.Object({}),
-//     withOptions: t.Literal(false),
-//   },
-// });
-
-// class ApiConfig {
-//   private _url: string;
-//   private _method: TLiteral;
-//   private _response: TObject;
-//   private _query: TObject;
-//   private _parameter: TObject;
-//   private _body: TObject;
-//   private _withOptions: TLiteral;
-
-//   constructor() {}
-// }
-
-// const a = Literal('GET')
-// const b = {
-// 	const: 'GET',
-// 	type: 'string'
-// }
-
-// const c = a === b;
+const key = apiMaster.apiNames.todos
+const res = await apiMaster.api.todoByID({ id: 1 });
+console.log(res);
+console.log(key)

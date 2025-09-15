@@ -5,7 +5,7 @@ import { useState, useRef, useEffect, useMemo, forwardRef, useCallback } from 'r
 import { Search, X, Check, ChevronDown, AlertCircle } from 'lucide-react';
 import { Text, Box } from '@radix-ui/themes';
 import { cn } from "../util/utils";
-import { withTheam } from "../context";
+import { withTheam } from "./context";
 
 const AutocompleteBase = forwardRef<
   ElementRef<"button">,

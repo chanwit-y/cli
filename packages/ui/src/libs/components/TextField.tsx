@@ -4,7 +4,7 @@ import type { ElementRef } from "react"
 import { forwardRef, useMemo } from "react"
 import { TextField as RadixTextField, Text, Box } from '@radix-ui/themes'
 import { cn } from "../util/utils"
-import { withTheam } from "../context"
+import { withTheam } from "./context"
 
 const TextFieldBase = forwardRef<
 	ElementRef<typeof RadixTextField.Root>,

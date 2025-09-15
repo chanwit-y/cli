@@ -119,7 +119,7 @@ type FuncIsGet<M, F1 extends Function, F2 extends Function> = M extends 0
   : F2;
 type FuncReturn<R> = () => R;
 
-type Func<R, Q, P, B, M> = Q extends Map
+export type Func<R, Q, P, B, M> = Q extends Map
   ? P extends Map
     ? B extends Map
       ? FuncIsGet<M, (query: Q, param: P, body: B) => R, FuncReturn<R>> // E

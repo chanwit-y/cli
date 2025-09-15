@@ -10,6 +10,7 @@ interface TModelObject {
   collection: TModel;
 }
 
+
 interface TModelArray {
   type: 'array';
   collection: TModel;
@@ -27,6 +28,14 @@ function convertTModelToTypeBox(model: TModel): TObject {
 
   return Type.Object(properties);
 }
+
+// Convert TModel to TArray - creates an array of objects with the TModel structure
+function convertTModelToTArray(model: TModel): TArray {
+  const objectSchema = convertTModelToTypeBox(model);
+  return Type.Array(objectSchema);
+}
+
+
 
 function convertValue(value: TModelValue): TSchema {
   // Handle simple string types
@@ -111,4 +120,4 @@ const collection: TModel = {
 // console.log('Validation errors:', errors);
 
 // Export the converter for reuse
-export { convertTModelToTypeBox, type TModel, type TModelObject, type TModelArray };
+export { convertTModelToTypeBox, convertTModelToTArray, type TModel, type TModelObject, type TModelArray };

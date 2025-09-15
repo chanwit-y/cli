@@ -1,13 +1,19 @@
 import type { TObject } from "@sinclair/typebox";
 import { convertTModelToTypeBox, type TModel } from "./converter";
 
-type TModelMaster = { [K: string]: TModel };
-
-export class ModelFactory<T extends TModelMaster, R extends { [K in keyof T]: T[K] }> {
+export type TModelMaster = { [K: string]: TModel };
+export class ModelFactory<
+  T extends TModelMaster,
+  R extends { [K in keyof T]: T[K] },
+> {
   private _models: R = {} as R;
 
   constructor(model: T) {
     this._models = model as unknown as R;
+  }
+
+  public static base<B extends TModel>(b: B): {[K in keyof B]: B[K]} {
+	return b
   }
 
   add<M extends TModelMaster>(
@@ -31,4 +37,5 @@ export class ModelFactory<T extends TModelMaster, R extends { [K in keyof T]: T[
       {} as { [K in keyof R]: TObject }
     );
   }
+
 }

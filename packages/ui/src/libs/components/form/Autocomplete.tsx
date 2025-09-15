@@ -1,5 +1,5 @@
-import { Autocomplete as AutocompleteWithTheme } from "../components/Autocomplete"
-import { Autocomplete2 } from "../components/Autocomplete2"
+import { Autocomplete as AutocompleteWithTheme } from "../Autocomplete"
+import { Autocomplete2 } from "../Autocomplete2"
 import { withForm } from "../hoc/withForm"
 
 export const Autocomplete = withForm(AutocompleteWithTheme)
