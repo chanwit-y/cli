@@ -1,6 +1,6 @@
-import { Autocomplete as AutocompleteWithTheme } from "../Autocomplete"
-import { Autocomplete2 } from "../Autocomplete2"
+import type { AutocompleteProps2 } from "../../@types"
+import { AutocompleteBase } from "../Autocomplete"
+import { AutocompleteBase2 } from "../Autocomplete2"
 import { withForm } from "../hoc/withForm"
-
-export const Autocomplete = withForm(AutocompleteWithTheme)
-export const AutocompleteF2 = withForm(Autocomplete2)
+export const Autocomplete = withForm(AutocompleteBase as any)
+export const AutocompleteF2 = withForm(AutocompleteBase2)

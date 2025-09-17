@@ -17,7 +17,7 @@ const apiFactory = new ApiFactory(http, {});
 const methods = (method: "GET" | "POST" | "PUT" | "DELETE") =>
   Literal(Method[method]);
 
-type TApiMaster<T extends TModelMaster> = {
+ export type TApiMaster<T extends TModelMaster> = {
   [K: string]: {
     description: string;
     url: string;
@@ -30,7 +30,7 @@ type TApiMaster<T extends TModelMaster> = {
   };
 };
 
-class ApiMaster<M extends TModelMaster, A extends TApiMaster<M>> {
+export class ApiMaster<M extends TModelMaster, A extends TApiMaster<M>> {
   private _models: ModelFactory<M, { [K in keyof M]: M[K] }>;
 
   constructor(
@@ -101,7 +101,7 @@ const base = ModelFactory.base({
   },
 });
 
-const apiMaster = new ApiMaster(
+export const apiMaster = new ApiMaster(
   {
     todoRes: {
       data: {
@@ -141,7 +141,7 @@ const apiMaster = new ApiMaster(
 );
 
 
-const key = apiMaster.apiNames.todos
-const res = await apiMaster.api.todoByID({ id: 1 });
-console.log(res);
-console.log(key)
+// const key = apiMaster.apiNames.todos
+// const res = await apiMaster.api.todoByID({ id: 1 });
+// console.log(res);
+// console.log(key)

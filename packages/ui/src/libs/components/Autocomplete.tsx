@@ -396,6 +396,6 @@ const AutocompleteBase = forwardRef<
 
 AutocompleteBase.displayName = "Autocomplete";
 
-const Autocomplete = withTheam(AutocompleteBase);
+// const Autocomplete = withTheam(AutocompleteBase);
 
-export { AutocompleteBase, Autocomplete };
+export { AutocompleteBase  };

@@ -13,6 +13,7 @@ import { Box, Text } from "@radix-ui/themes";
 import { cn } from "../util/utils";
 import { AlertCircle, Check, ChevronDown, Search, X } from "lucide-react";
 import { withTheam } from "./context";
+import { useCore } from "./core/context";
 
 const createAutocomplete = <T extends Record<string, any>>() => {
 	return forwardRef<
@@ -20,8 +21,9 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		AutocompleteProps2<T> & { onChange?: (value: string) => void }
 	>(({
 		label,
+		name,
 		placeholder,
-		items,
+		options,
 		searchKey,
 		idKey,
 		displayKey,
@@ -31,12 +33,18 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		errorMessage,
 		maxResults,
 		className,
+		canObserve,
+		observeAt,
+		api,
 		onValueChange,
 		onChange,
 		onBlur,
 		...props
 	}, ref) => {
 
+		const { updataObserveTable, observeTable } = useCore()
+
+		const [items, setItems] = useState(options ?? [])
 		const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);
 		const [isOpen, setIsOpen] = useState(false)
 		const [dropdownStyles, setDropdownStyles] = useState<CSSProperties>({});
@@ -51,11 +59,19 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		const filteredItems = useMemo(() => {
 			if (!query.trim()) return items;
 
-			return items.filter(item => item.label.toLowerCase().includes(query.toLowerCase()))
+			return items.filter(item => item[searchKey].toLowerCase().includes(query.toLowerCase()))
 		}, [query, items, maxResults])
 		const hasError = useMemo(() => error || !!errorMessage, [error, errorMessage]);
 		const displayHelperText = useMemo(() => hasError ? errorMessage : helperText, [hasError, errorMessage, helperText]);
-		const selectedItem = useMemo(() => items.find(item => item.id === value), [items, value]);
+		const selectedItem = useMemo(() => items.find(item => {
+			console.log(item, value)
+			return item[idKey] === value
+		}), [items, value, searchKey]);
+
+
+		useEffect(() => {
+			console.log(value)
+		}, [value])
 
 		const handValueChange = useCallback((newValue: string) => {
 			onValueChange?.(newValue);
@@ -63,7 +79,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		}, [onValueChange, onChange])
 
 		const handleSelect = useCallback((item: T) => {
-			handValueChange(item[idKey]);
+			handValueChange(String(item[idKey]));
 			setQuery('');
 			setIsOpen(false);
 			setSelectedIndex(-1);
@@ -163,6 +179,26 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 
 		useEffect(() => setSelectedIndex(-1), [query])
 
+		useEffect(() => {
+			console.log(`observeTable ${observeAt}:`, observeTable?.[observeAt as keyof typeof observeTable])
+		}, [observeTable, observeAt])
+
+		useEffect(() => {
+			console.log('canObserve', canObserve, name, selectedItem, selectedItem?.[idKey])
+			if (canObserve && name && selectedItem && selectedItem[idKey]) {
+				updataObserveTable(name, selectedItem[idKey] as string);
+			}
+		}, [canObserve, selectedItem, name, updataObserveTable, idKey]);
+
+		useEffect(() => {
+			if (api) {
+				console.log('demo')
+				api().then((res) => {
+					console.log(res)
+					setItems(res ?? [])
+				});
+			}
+		}, [api]);
 
 		return <Box className="w-full" >
 			{
@@ -274,6 +310,6 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 const AutocompleteBase2 = createAutocomplete<AutocompleteItem2>()
 AutocompleteBase2.displayName = "Autocomplete2";
 
-const Autocomplete2 = withTheam(AutocompleteBase2);
+// const Autocomplete2 = withTheam(AutocompleteBase2);
 
-export { Autocomplete2 };
+export { AutocompleteBase2 };

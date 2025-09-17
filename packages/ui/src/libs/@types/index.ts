@@ -160,6 +160,7 @@ export type AutocompleteProps= BaseComponentProps<
 export type AutocompleteProps2<T extends Record<string, any> = {}> = BaseComponentProps<
   "button",
   {
+    // name?: string;
     label?: string;
     placeholder?: string;
     helperText?: string;
@@ -168,7 +169,7 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> = BaseCompone
     variant?: "classic" | "surface" | "soft";
     size?: "1" | "2" | "3";
     radius?: "none" | "small" | "medium" | "large" | "full";
-    items: T[];
+    options: T[];
     searchKey: keyof T;
     idKey: keyof T;
     displayKey: keyof T;
@@ -176,5 +177,8 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> = BaseCompone
     onValueChange?: (value: string) => void;
     onBlur?: () => void;
     maxResults?: number;
+    canObserve?: boolean;
+    observeAt?: string;
+    api?: (params?: {query: Record<string, any>, params: Record<string, any>}) => Promise<T[]>;
   }
 >;

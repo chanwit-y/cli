@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { Form, SelectField, TextField, Textarea, Checkbox, RadioButton, Autocomplete, AutocompleteF2 } from 'vegaui'
+import { Form, SelectField, TextField, Textarea, Checkbox, RadioButton, Autocomplete, AutocompleteF2, CoreProvider, apiMaster, core } from 'vegaui'
 import { string, object, boolean } from 'zod'
 import { useFormContext } from 'react-hook-form'
 
@@ -13,6 +13,7 @@ function Index() {
 
 
 	const F = useMemo(() => (new Form(object({
+		test: string("test is required").min(1),
 		title: string(),
 		name: string("name is required").min(1),
 		description: string("description is required").min(1),
@@ -47,15 +48,17 @@ const FormDemo = () => {
 		f.trigger();
 	}, [])
 	return (
-		<>
+		<CoreProvider>
 			{/* {f.container(() => {
 							const { watch, formState: {errors}} = useFormContext()
 							return (
 								<> */}
-			<TextField name="name" form={f} />
+			{core.draw(f)}
+			<TextField name="name" {...f} />
+
 			<SelectField
 				name="title"
-				form={f}
+				{...f}
 				options={[
 					// { value: "", label: "None" },
 					{ value: "mr", label: "Mr" },
@@ -70,17 +73,18 @@ const FormDemo = () => {
 			// helperText="Select your title"
 			/>
 			{/* {f.watch("name")} */}
-			<Textarea name="description" label="Description" form={f} showCharCount={true} />
+			<Textarea name="description" label="Description" {...f} showCharCount={true} />
 			<AutocompleteF2
 				name="country"
-				form={f}
+				{...f}
 				label="Country"
 				placeholder="Search for a country..."
 				helperText="Select your country of residence"
 				searchKey="label"
 				idKey='id'
 				displayKey="label"
-				items={[
+				canObserve={true}
+				options={[
 					{ id: "us", label: "United States" },
 					{ id: "ca", label: "Canada" },
 					{ id: "mx", label: "Mexico" },
@@ -97,7 +101,7 @@ const FormDemo = () => {
 					{ id: "th", label: "Thailand" },
 					{ id: "sg", label: "Singapore" },
 					{ id: "au", label: "Australia" },
-					{ id: "nz", label: "New Zealand"},
+					{ id: "nz", label: "New Zealand" },
 					{ id: "br", label: "Brazil" },
 					{ id: "ar", label: "Argentina" },
 					{ id: "cl", label: "Chile" },
@@ -109,6 +113,23 @@ const FormDemo = () => {
 				variant="surface"
 				size="2"
 			/>
+			{/* <AutocompleteF2
+				name="country2"
+				{...f}
+				label="B"
+				placeholder="Search for a b..."
+				helperText="Select your b of residence"
+				searchKey="label"
+				idKey='id'
+				displayKey="label"
+				observeAt="country"
+				items={[
+					{ id: "us", label: "United States" },
+					{ id: "ca", label: "Canada" },
+					{ id: "mx", label: "Mexico" },
+				]}
+			/> */}
+
 			{/* <Autocomplete
 				name="country"
 				form={f}
@@ -157,7 +178,7 @@ const FormDemo = () => {
 				]}
 				helperText="Choose how you'd like to receive updates"
 			/>
-			<Checkbox name="isAgree" label="I agree to the terms and conditions" form={f} />
+			<Checkbox name="isAgree" label="I agree to the terms and conditions" {...f} />
 			{/* {watch("name")} */}
 			<hr />
 			<button onClick={() => {
@@ -171,6 +192,6 @@ const FormDemo = () => {
 			{/* </>
 							)
 						})} */}
-		</>
+		</CoreProvider>
 	)
 }

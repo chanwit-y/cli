@@ -1,6 +1,6 @@
 
 import { createContext, use, type ComponentType } from 'react'
-import type { BaseComponentProps, Components, ThemeContextType, ThemeProviderProps } from '../@types'
+import type { BaseComponentProps, Components, ThemeContextType, ThemeProviderProps } from '../../@types'
 import { Theme } from '@radix-ui/themes'
 
 
@@ -39,7 +39,7 @@ export const useTheme = () => {
 }
 
 
-export const withTheam = <T extends any>(Component: ComponentType<BaseComponentProps & T>) => {
+export const withTheam = <T extends any>(Component: ComponentType<BaseComponentProps & T>): ComponentType<BaseComponentProps & T> => {
 
   return (props: any) => {
     const { components } = useTheme()
