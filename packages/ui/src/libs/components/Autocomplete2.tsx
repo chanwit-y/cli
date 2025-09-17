@@ -12,7 +12,6 @@ import type { AutocompleteItem2, AutocompleteProps2 } from "../@types";
 import { Box, Text } from "@radix-ui/themes";
 import { cn } from "../util/utils";
 import { AlertCircle, Check, ChevronDown, Search, X } from "lucide-react";
-import { withTheam } from "./context";
 import { useCore } from "./core/context";
 
 const createAutocomplete = <T extends Record<string, any>>() => {
