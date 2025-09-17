@@ -74,7 +74,6 @@ class Core {
 				{ ...f }
 				name="test"
 				api={apiForAutocomplete}
-				options={[]}
 				searchKey="title"
 				idKey="id"
 				displayKey="title"

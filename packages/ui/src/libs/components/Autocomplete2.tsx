@@ -41,9 +41,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		onBlur,
 		...props
 	}, ref) => {
-
 		const { updataObserveTable, observeTable } = useCore()
-
 		const [items, setItems] = useState(options ?? [])
 		const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);
 		const [isOpen, setIsOpen] = useState(false)
@@ -63,10 +61,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		}, [query, items, maxResults])
 		const hasError = useMemo(() => error || !!errorMessage, [error, errorMessage]);
 		const displayHelperText = useMemo(() => hasError ? errorMessage : helperText, [hasError, errorMessage, helperText]);
-		const selectedItem = useMemo(() => items.find(item => {
-			console.log(item, value)
-			return item[idKey] === value
-		}), [items, value, searchKey]);
+		const selectedItem = useMemo(() => items.find(item => String(item[idKey]) === String(value)), [items, value, searchKey]);
 
 
 		useEffect(() => {
