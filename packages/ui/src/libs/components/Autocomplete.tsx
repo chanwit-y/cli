@@ -1,4 +1,4 @@
-import type { AutocompleteProps, AutocompleteItem } from "../@types";
+import type { AutocompleteProps, AutocompleteItem } from "./@types";
 import type { ElementRef } from "react";
 
 import { useState, useRef, useEffect, useMemo, forwardRef, useCallback } from 'react';

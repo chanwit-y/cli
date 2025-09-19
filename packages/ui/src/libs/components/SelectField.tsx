@@ -1,4 +1,4 @@
-import type { SelectFieldProps } from "../@types"
+import type { SelectFieldProps } from "./@types"
 import type { ElementRef } from "react"
 
 import { forwardRef, useMemo } from "react"

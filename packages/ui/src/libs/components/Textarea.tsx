@@ -1,4 +1,4 @@
-import type { TextareaProps } from "../@types"
+import type { TextareaProps } from "./@types"
 import type { ElementRef } from "react"
 
 import { forwardRef, useMemo, useEffect, useRef } from "react"

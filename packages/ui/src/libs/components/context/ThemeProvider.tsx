@@ -1,6 +1,6 @@
 
 import { createContext, use, type ComponentType } from 'react'
-import type { BaseComponentProps, Components, ThemeContextType, ThemeProviderProps } from '../../@types'
+import type { BaseComponentProps, Components, ThemeContextType, ThemeProviderProps } from '../@types'
 import { Theme } from '@radix-ui/themes'
 
 

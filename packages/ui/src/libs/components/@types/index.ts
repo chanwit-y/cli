@@ -7,6 +7,7 @@ import {
   RadioGroup as RadixRadioGroup,
 } from "@radix-ui/themes";
 import { type ThemeProps } from "@radix-ui/themes";
+import type { Observable, Subject } from "rxjs";
 
 export type Components = {
   TextField?: TextFieldProps;
@@ -157,6 +158,7 @@ export type AutocompleteProps= BaseComponentProps<
 >;
 
 
+
 export type AutocompleteProps2<T extends Record<string, any> = {}> = BaseComponentProps<
   "button",
   {
@@ -178,7 +180,38 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> = BaseCompone
     onBlur?: () => void;
     maxResults?: number;
     canObserve?: boolean;
-    observeAt?: string;
-    api?: (params?: {query: Record<string, any>, params: Record<string, any>}) => Promise<T[]>;
+    observeKey?: string;
+    apiSubject?: Subject<string>;
+    api?: (params?: {query: Record<string, any>, params: Record<string, any>}) => Observable<T[]>;
   }
 >;
+
+
+
+export type AutocompleteElement = {
+	name: string;
+	api: {
+		nmae: string;
+		params: Record<string, any>;
+	}
+	keys: {
+		id: string;
+		search: string;
+		display: string;
+	}
+}  
+
+
+export type TextFieldElement = {
+
+}
+
+
+type BoxRange = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12";
+export type Box = {
+	sm: BoxRange;
+	md: BoxRange;
+	lg: BoxRange;
+	xl: BoxRange;
+	element?: AutocompleteElement | TextFieldElement;
+}

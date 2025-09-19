@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { Form, SelectField, TextField, Textarea, Checkbox, RadioButton, Autocomplete, AutocompleteF2, CoreProvider, apiMaster, core } from 'vegaui'
+import { Form, SelectField, TextField, Textarea, Checkbox, RadioButton, AutocompleteF2, CoreProvider, core } from 'vegaui'
 import { string, object, boolean } from 'zod'
 import { useFormContext } from 'react-hook-form'
 
@@ -53,7 +53,7 @@ const FormDemo = () => {
 							const { watch, formState: {errors}} = useFormContext()
 							return (
 								<> */}
-			{core.draw(f)}
+			{core.run()}
 			<TextField name="name" {...f} />
 
 			<SelectField

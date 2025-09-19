@@ -1,4 +1,4 @@
-import type { CheckboxProps } from "../@types"
+import type { CheckboxProps } from "./@types"
 import type { ElementRef } from "react"
 
 import { forwardRef, useMemo } from "react"

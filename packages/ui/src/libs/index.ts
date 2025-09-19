@@ -3,5 +3,6 @@ export * from "./components/form"
 export { Form } from "./components/form/Form"
 
 export * from "./components/Autocomplete2"
-export * from "./components/core/context"
+export * from "./components/core/core"
+export * from "./components/core/Page"
 export * from "./api/APIMaster"

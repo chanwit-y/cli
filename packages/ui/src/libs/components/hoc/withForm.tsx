@@ -1,7 +1,7 @@
 import type { ComponentProps, ComponentType } from "react"
 import type { Control, FieldValues, Path, UseFormReturn } from "react-hook-form"
 import { Controller } from "react-hook-form"
-import type { BaseComponentProps } from "../../@types"
+import type { BaseComponentProps } from "../@types"
 
 type WithFormProps<TFieldValues extends FieldValues = FieldValues> = {
 	control: Control<TFieldValues>

@@ -8,11 +8,11 @@ import {
 	type CSSProperties,
 	type ElementRef
 } from "react";
-import type { AutocompleteItem2, AutocompleteProps2 } from "../@types";
+import type { AutocompleteItem2, AutocompleteProps2 } from "./@types";
 import { Box, Text } from "@radix-ui/themes";
 import { cn } from "../util/utils";
 import { AlertCircle, Check, ChevronDown, Search, X } from "lucide-react";
-import { useCore } from "./core/context";
+import { useCore } from "./core/core";
 
 const createAutocomplete = <T extends Record<string, any>>() => {
 	return forwardRef<
@@ -33,7 +33,8 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		maxResults,
 		className,
 		canObserve,
-		observeAt,
+		observeKey: observeAt,
+		apiSubject,
 		api,
 		onValueChange,
 		onChange,
@@ -185,13 +186,11 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		}, [canObserve, selectedItem, name, updataObserveTable, idKey]);
 
 		useEffect(() => {
-			if (api) {
 				console.log('demo')
-				api().then((res) => {
-					console.log(res)
-					setItems(res ?? [])
-				});
-			}
+				api && api().subscribe((res: any) => {
+					console.log('res', res)
+					setItems(res.data ?? [])
+				})
 		}, [api]);
 
 		return <Box className="w-full" >
@@ -255,7 +254,10 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 							type="text"
 							ref={searchInputRef}
 							value={query}
-							onChange={(e) => setQuery(e.target.value)}
+							onChange={(e) => {
+								setQuery(e.target.value);
+								apiSubject && apiSubject.next(e.target.value);
+							}}
 							onKeyDown={handleKeyDown}
 							placeholder="Type to search..."
 							className="flex-1 py-2 text-sm border-none outline-none bg-transparent placeholder:text-gray-400"

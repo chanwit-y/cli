@@ -1,10 +1,14 @@
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
-import type { ModelFactory, TModelMaster } from "../../model/master";
+import type { TModelMaster } from "../../model/master";
 import { ApiFactory, HttpClientFactory } from "../../api";
 import { model } from "./mock/model";
 import { api } from "./mock/api";
 import { ApiMaster, type TApiMaster } from "../../api/APIMaster";
 import { AutocompleteF2 } from "../form";
+import { debounce, distinct, interval, Subject, switchMap } from "rxjs";
+import { Builder } from "./Page";
+import { page } from "./mock/page";
+
 
 type CoreContextType = {
 	observeTable: Record<string, any>;
@@ -40,7 +44,6 @@ export const useCore = () => {
 	}
 	return context;
 };
-
 class Core {
 	// Move to config
 	private _http = new HttpClientFactory(
@@ -51,6 +54,8 @@ class Core {
 	);
 	private _apiFactory = new ApiFactory(this._http, {});
 
+	private _gobalValue: Record<string, any> = {};
+	private _observeTable: Record<string, Subject<unknown>> = {};
 	private _modelConfig: TModelMaster = model;
 	private _apiConfig: TApiMaster<typeof model> = api as TApiMaster<typeof model>;
 	private _apis: ApiMaster<typeof this._modelConfig, typeof this._apiConfig> = new ApiMaster(this._modelConfig, this._apiConfig, this._apiFactory);
@@ -62,24 +67,39 @@ class Core {
 		console.log(res);
 	}
 
-	public draw(f: any) {
+	private _autocomplete(f: any) {
 
-		// Note: http://url/:observeAt?text=xxxx
-		const apiForAutocomplete = async (params?: { query: Record<string, any>, params: Record<string, any> }) => {
-			return (await this._apis.api.todos())["data"];
+		const subject = new Subject<string>();
+		const apiForAutocomplete = (params?: { query: Record<string, any>, params: Record<string, any> }) => {
+			return subject.pipe(
+				debounce(() => interval(500)),
+				distinct(),
+				switchMap(async (t) => {
+					return Promise.resolve(this._apis.api.todos())
+				}),
+
+			)
 		};
-
 
 		return (<div>
 			<AutocompleteF2<{ title: string, id: number }>
-				{ ...f }
+				{...f}
 				name="test"
+				apiSubject={subject}
 				api={apiForAutocomplete}
 				searchKey="title"
 				idKey="id"
 				displayKey="title"
 			/>
 		</div>)
+	}
+
+
+	public run() {
+
+		// return this._autocomplete(f)
+		return (new Builder(page)).draw()
+
 
 
 	}
