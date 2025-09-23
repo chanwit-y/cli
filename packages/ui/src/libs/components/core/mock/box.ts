@@ -1,4 +1,4 @@
-import type { Box } from "../../@types";
+import type { Box, Container } from "../../@types";
 
 export const variables = {}
 
@@ -15,6 +15,7 @@ export const boxs: Box[] = [
 					dataType: "string",
 					canObserve: true,
 					isRequired: true,
+					errorMessage: "", 
 					keys: {
 						id: "id",
 						search: "title",
@@ -48,18 +49,44 @@ export const boxs: Box[] = [
 					isAaary: false,
 					boxs: [
 						{
-							sm: "6",
-							md: "6",
-							lg: "6",
-							xl: "6",
+							sm: "4",
+							md: "4",
+							lg: "4",
+							xl: "4",
 						},
 						{
-							sm: "6",
-							md: "6",
-							lg: "6",
-							xl: "6",
+							sm: "4",
+							md: "4",
+							lg: "4",
+							xl: "4",
+						},
+						{
+							sm: "4",
+							md: "4",
+							lg: "4",
+							xl: "4",
+						},
+						{
+							sm: "4",
+							md: "4",
+							lg: "4",
+							xl: "4",
 						},
 					],
 				}
 			},
+			{
+				sm: "6",
+				md: "6",
+				lg: "6",
+				xl: "6",
+			},
 		]
+
+export const containers: Container[] = [
+	{
+		name: "container",
+		isAaary: false,
+		boxs: boxs,
+	},
+]

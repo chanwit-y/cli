@@ -7,7 +7,7 @@ import { ApiMaster, type TApiMaster } from "../../api/APIMaster";
 import { AutocompleteF2 } from "../form";
 import { debounce, distinct, interval, Subject, switchMap } from "rxjs";
 import { Builder } from "./builder";
-import { boxs } from "./mock/box";
+import { boxs, containers } from "./mock/box";
 
 
 type CoreContextType = {
@@ -63,42 +63,9 @@ class Core {
 
 	constructor() { }
 
-	// public async test() {
-	// 	const res = await this._apis.api.todos();
-	// 	console.log(res);
-	// }
-
-	// private _autocomplete(f: any) {
-
-	// 	const subject = new Subject<string>();
-	// 	const apiForAutocomplete = (params?: { query: Record<string, any>, params: Record<string, any> }) => {
-	// 		return subject.pipe(
-	// 			debounce(() => interval(500)),
-	// 			distinct(),
-	// 			switchMap(async (t) => {
-	// 				return Promise.resolve(this._apis.api.todos())
-	// 			}),
-
-	// 		)
-	// 	};
-
-	// 	return (<div>
-	// 		<AutocompleteF2<{ title: string, id: number }>
-	// 			{...f}
-	// 			name="test"
-	// 			apiSubject={subject}
-	// 			api={apiForAutocomplete}
-	// 			searchKey="title"
-	// 			idKey="id"
-	// 			displayKey="title"
-	// 		/>
-	// 	</div>)
-	// }
-
-
 	public run(f: any) {
 
-		return (new Builder(boxs, this._apis, f)).draw()
+		return (new Builder(containers, this._apis, f)).draw()
 
 
 	}

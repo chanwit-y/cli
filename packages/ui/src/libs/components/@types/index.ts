@@ -186,6 +186,10 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
 
 export type AutocompleteElement = {
   name: string;
+  dataType: string;
+  canObserve: boolean;
+  isRequired: boolean;
+  errorMessage: string;
   api: {
     name: string;
     params: Record<string, any>;
