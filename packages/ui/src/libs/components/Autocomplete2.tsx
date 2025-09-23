@@ -186,12 +186,12 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		}, [canObserve, selectedItem, name, updataObserveTable, idKey]);
 
 		useEffect(() => {
-				console.log('demo')
-				api && api().subscribe((res: any) => {
-					console.log('res', res)
-					setItems(res.data ?? [])
-				})
-		}, [api]);
+			console.log('demo')
+			api && api({}).subscribe((res: any) => {
+				console.log('res', res)
+				setItems(res.data ?? [])
+			})
+		}, [api, query]);
 
 		return <Box className="w-full" >
 			{
@@ -201,7 +201,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 					</Text>
 				)
 			}
-			<div className="relative" ref={dropdownRef}>
+			<div className="relative mb-2" ref={dropdownRef}>
 				<button
 					ref={ref || triggerRef}
 					onClick={openDropdown}
@@ -225,28 +225,14 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 						<ChevronDown className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
 					</div>
 				</button>
-				{
-					displayHelperText && (
-						<Text
-							size="1"
-							id="autocomplete-helper"
-							className={cn(
-								"block mt-2 mr-1 item-center",
-								hasError ? "text-red-500" : "text-gray-600"
-							)}>
-							{hasError && <AlertCircle className=" inline-block h-3 w-3 mr-[0.1rem]" />}
-							{displayHelperText}
-						</Text>
-					)
 
-				}
 			</div>
 			{isOpen && (
 				<div
 					ref={dropdownContainerRef}
 					style={dropdownStyles}
 					// className="bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-500 opacity-0"
-					className="bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-100 opacity-0"
+					className="absolute bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-100 opacity-0 z-20"
 				>
 					<div className="flex items-center border-b border-gray-100 px-3">
 						<Search className="h-4 w-4 text-gray-400 mr-2" />
@@ -299,6 +285,21 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 					</div>
 				</div>
 			)}
+			{
+				displayHelperText && (
+					<Text
+						size="1"
+						id="autocomplete-helper"
+						className={cn(
+							"block mt-2 mr-1 item-center",
+							hasError ? "text-red-500" : "text-gray-600"
+						)}>
+						{hasError && <AlertCircle className=" inline-block h-3 w-3 mr-[0.1rem]" />}
+						{displayHelperText}
+					</Text>
+				)
+
+			}
 		</Box>
 	})
 }

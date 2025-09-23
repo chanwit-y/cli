@@ -53,7 +53,7 @@ const FormDemo = () => {
 							const { watch, formState: {errors}} = useFormContext()
 							return (
 								<> */}
-			{core.run()}
+			{core.run(f)}
 			<TextField name="name" {...f} />
 
 			<SelectField

@@ -115,9 +115,9 @@ export type RadioButtonProps = BaseComponentProps<
     variant?: "classic" | "surface" | "soft";
     value?: string;
     onValueChange?: (value: string) => void;
-    options: Array<{ 
-      value: string; 
-      label: string; 
+    options: Array<{
+      value: string;
+      label: string;
       disabled?: boolean;
       helperText?: string;
     }>;
@@ -132,13 +132,12 @@ export type AutocompleteItem = {
   disabled?: boolean;
 };
 
-
 export type AutocompleteItem2 = {
   id: string;
   label: string;
 };
 
-export type AutocompleteProps= BaseComponentProps<
+export type AutocompleteProps = BaseComponentProps<
   "button",
   {
     label?: string;
@@ -157,61 +156,82 @@ export type AutocompleteProps= BaseComponentProps<
   }
 >;
 
-
-
-export type AutocompleteProps2<T extends Record<string, any> = {}> = BaseComponentProps<
-  "button",
-  {
-    // name?: string;
-    label?: string;
-    placeholder?: string;
-    helperText?: string;
-    error?: boolean;
-    errorMessage?: string;
-    variant?: "classic" | "surface" | "soft";
-    size?: "1" | "2" | "3";
-    radius?: "none" | "small" | "medium" | "large" | "full";
-    options: T[];
-    searchKey: keyof T;
-    idKey: keyof T;
-    displayKey: keyof T;
-    value?: string;
-    onValueChange?: (value: string) => void;
-    onBlur?: () => void;
-    maxResults?: number;
-    canObserve?: boolean;
-    observeKey?: string;
-    apiSubject?: Subject<string>;
-    api?: (params?: {query: Record<string, any>, params: Record<string, any>}) => Observable<T[]>;
-  }
->;
-
-
+export type AutocompleteProps2<T extends Record<string, any> = {}> =
+  BaseComponentProps<
+    "button",
+    {
+      // name?: string;
+      label?: string;
+      placeholder?: string;
+      helperText?: string;
+      error?: boolean;
+      errorMessage?: string;
+      variant?: "classic" | "surface" | "soft";
+      size?: "1" | "2" | "3";
+      radius?: "none" | "small" | "medium" | "large" | "full";
+      options: T[];
+      searchKey: keyof T;
+      idKey: keyof T;
+      displayKey: keyof T;
+      value?: string;
+      onValueChange?: (value: string) => void;
+      onBlur?: () => void;
+      maxResults?: number;
+      canObserve?: boolean;
+      observeKey?: string;
+      apiSubject?: Subject<string>;
+      api?: (params: Record<string, any>) => Observable<T[]>;
+    }
+  >;
 
 export type AutocompleteElement = {
-	name: string;
-	api: {
-		nmae: string;
-		params: Record<string, any>;
-	}
-	keys: {
-		id: string;
-		search: string;
-		display: string;
-	}
-}  
+  name: string;
+  api: {
+    name: string;
+    params: Record<string, any>;
+  };
+  keys: {
+    id: any;
+    search: any;
+    display: any;
+  };
+};
 
+export type TextFieldElement = {};
 
-export type TextFieldElement = {
+type FormArray = {
+  name: string;
+};
 
-}
-
-
-type BoxRange = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "10" | "11" | "12";
+type BoxRange =
+  | "1"
+  | "2"
+  | "3"
+  | "4"
+  | "5"
+  | "6"
+  | "7"
+  | "8"
+  | "9"
+  | "10"
+  | "11"
+  | "12";
 export type Box = {
-	sm: BoxRange;
-	md: BoxRange;
-	lg: BoxRange;
-	xl: BoxRange;
-	element?: AutocompleteElement | TextFieldElement;
-}
+  sm: BoxRange;
+  md: BoxRange;
+  lg: BoxRange;
+  xl: BoxRange;
+  element?: AutocompleteElement | TextFieldElement;
+  container?: Container;
+};
+
+export type Container = {
+  name: string;
+  isAaary: boolean;
+  boxs: Box[];
+};
+
+export type Page = {
+  name: string;
+  containers: Container[];
+};

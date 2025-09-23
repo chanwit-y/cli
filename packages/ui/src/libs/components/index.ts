@@ -5,4 +5,3 @@ export { Textarea, TextareaBase } from "./Textarea";
 export { Checkbox, CheckboxBase } from "./Checkbox";
 export { RadioButton, RadioButtonBase } from "./RadioButton";
 export { AutocompleteBase2 } from "./Autocomplete2";
-export { layout } from "./core/Page";
