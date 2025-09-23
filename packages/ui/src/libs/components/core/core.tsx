@@ -63,9 +63,9 @@ class Core {
 
 	constructor() { }
 
-	public run(f: any) {
+	public run() {
 
-		return (new Builder(containers, this._apis, f)).draw()
+		return (new Builder(containers, this._apis)).draw()
 
 
 	}

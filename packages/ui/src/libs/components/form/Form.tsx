@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm, type DefaultValues, type FieldValues, type UseFormReturn } from "react-hook-form";
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 
 
 export class Form<T extends FieldValues = FieldValues> {
@@ -62,10 +62,9 @@ export class Form<T extends FieldValues = FieldValues> {
           defaultValues: this._defaultValues,
         })
 
-        // useEffect(() => {
-        //   this._form?.trigger();
-        //   console.log('Hi')
-        // }, [])
+        useEffect(() => {
+          this._form?.trigger();
+        }, [])
 
         return (<FormProvider {...this._form}>
           <Context value={{} as C}>
