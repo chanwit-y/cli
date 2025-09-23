@@ -34,7 +34,7 @@ export class Autocomplete implements IElement {
 			searchKey: this._props.keys.search,
 			idKey: this._props.keys.id,
 			displayKey: this._props.keys.display,
-
+			errorMessage: this._props.errorMessage,
 			apiSubject: this._subject,
 			api: this._api.bind(this),
 			options: [], // Add required options property

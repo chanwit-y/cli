@@ -1,13 +1,12 @@
-import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import type { TModelMaster } from "../../model/master";
 import { ApiFactory, HttpClientFactory } from "../../api";
 import { model } from "./mock/model";
 import { api } from "./mock/api";
 import { ApiMaster, type TApiMaster } from "../../api/APIMaster";
-import { AutocompleteF2 } from "../form";
-import { debounce, distinct, interval, Subject, switchMap } from "rxjs";
 import { Builder } from "./builder";
-import { boxs, containers } from "./mock/box";
+import {  containers } from "./mock/box";
+import type { Subject } from "rxjs";
 
 
 type CoreContextType = {
@@ -23,11 +22,13 @@ type CoreProviderProps = {
 
 export const CoreProvider = ({ children }: CoreProviderProps) => {
 
-	const [observeTable, setObserveTable] = useState<Record<string, any>>({});
+	const [observeTable, setObserveTable] = useState<Record<string, Subject<unknown>>>({});
 
 	const updataObserveTable = useCallback((key: string, value: any) => {
 		setObserveTable((prev) => ({ ...prev, [key]: value }));
 	}, []);
+
+
 
 	return <CoreContext.Provider value={{ observeTable, updataObserveTable }}>
 		{children}
@@ -54,9 +55,6 @@ class Core {
 	);
 	private _apiFactory = new ApiFactory(this._http, {});
 
-	private _gobalValue: Record<string, any> = {};
-
-	private _observeTable: Record<string, Subject<unknown>> = {};
 	private _modelConfig: TModelMaster = model;
 	private _apiConfig: TApiMaster<typeof model> = api as TApiMaster<typeof model>;
 	private _apis: ApiMaster<typeof this._modelConfig, typeof this._apiConfig> = new ApiMaster(this._modelConfig, this._apiConfig, this._apiFactory);
@@ -64,10 +62,7 @@ class Core {
 	constructor() { }
 
 	public run() {
-
 		return (new Builder(containers, this._apis)).draw()
-
-
 	}
 }
 

@@ -11,16 +11,16 @@ export const Route = createFileRoute('/')({
 function Index() {
 
 
-	const F = useMemo(() => (new Form(object({
-		test: string("test is required").min(1),
-		title: string(),
-		name: string("name is required").min(1),
-		description: string("description is required").min(1),
-		country: string("country is required").min(1),
-		isAgree: boolean("isAgree is required"),
-		preference: string("preference is required"),
-	}), {
-	})).setup().create(), [])
+	// const F = useMemo(() => (new Form(object({
+	// 	test: string("test is required").min(1),
+	// 	title: string(),
+	// 	name: string("name is required").min(1),
+	// 	description: string("description is required").min(1),
+	// 	country: string("country is required").min(1),
+	// 	isAgree: boolean("isAgree is required"),
+	// 	preference: string("preference is required"),
+	// }), {
+	// })).setup().create(), [])
 
 
 	return (

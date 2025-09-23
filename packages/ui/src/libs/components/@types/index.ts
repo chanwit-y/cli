@@ -225,6 +225,7 @@ export type Box = {
   md: BoxRange;
   lg: BoxRange;
   xl: BoxRange;
+  type: "autocomplete" | "textfield" | "select" | "checkbox" | "radio" | "textarea" | "container" | "empty";
   element?: AutocompleteElement | TextFieldElement;
   container?: Container;
 };
@@ -239,3 +240,5 @@ export type Page = {
   name: string;
   containers: Container[];
 };
+
+export type FnAPI = (query: Record<string, any>, params: Record<string, any>) => Promise<any>
