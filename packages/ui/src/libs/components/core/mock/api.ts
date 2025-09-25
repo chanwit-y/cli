@@ -14,4 +14,20 @@ export const api = {
       parameter: "todoPram",
       withOptions: false,
     },
+    sites: {
+      url: "master/dropdown/site",
+      description: "Get all sites",
+      methods: "GET",
+      response: "oeMasterRes",
+      withOptions: false,
+    },
+    seam: {
+      url: "master/dropdown/seam/site/:siteId",
+      description: "Get all seam",
+      methods: "GET",
+      response: "oeMasterRes",
+      parameter: "oeSiteParam",
+      query: "autocompleteQuery",
+      withOptions: false,
+    }
 }

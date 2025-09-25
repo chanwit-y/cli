@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { Form, core } from 'vegaui'
 import { string, object, boolean } from 'zod'
@@ -9,6 +9,8 @@ export const Route = createFileRoute('/')({
 })
 
 function Index() {
+
+	const f = useMemo(() =>core.run(), []) 
 
 
 	// const F = useMemo(() => (new Form(object({
@@ -25,20 +27,7 @@ function Index() {
 
 	return (
 		<div className="p-2">
-			<h3>Welcome Home!</h3>
-			{/* <F.Pv>
-
-			</F.Pv> */}
-			{/* <F.Fn>
-				{(f) => (
-					
-				)}
-			</F.Fn> */}
-			{/* <F.El> */}
-				{/* <FormDemo /> */}
-			{/* </F.El> */}
-
-			{core.run()}
+			{f}
 		</div>
 	)
 }

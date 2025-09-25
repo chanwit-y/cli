@@ -5,6 +5,7 @@ import type { AutocompleteElement, Container, FnAPI } from "../@types";
 import { Form } from "../form";
 import { Autocomplete } from "./autocomplete";
 import { Schema } from "./schema";
+import { Provider } from "./context";
 
 const registers = {
 	autocomplete: Autocomplete,
@@ -33,7 +34,7 @@ export class Builder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 		return <F.Fn>
 			{(f) => (
-				<>
+				<Provider>
 					<div className="grid grid-cols-12 gap-1">
 						{this._connainers.map((c) => {
 							return c.boxs.map((b) => {
@@ -51,11 +52,7 @@ export class Builder<M extends TModelMaster, A extends TApiMaster<M>> {
 							})
 						})}
 					</div>
-
-					{/* <pre>
-						{JSON.stringify(this.getSchema(), null, 2)}
-					</pre> */}
-				</>
+				</Provider>
 			)}
 		</F.Fn>
 	}

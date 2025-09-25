@@ -29,4 +29,21 @@ export const model: TModelMaster = {
   todoPram: {
     id: "number",
   },
+  oeSiteParam: {
+    siteId: "string",
+  },
+  autocompleteQuery: {
+    text: "string",
+  },
+  oeMasterRes: {
+    data: {
+      type: "array",
+      collection: {
+        label: "string",
+        value: "string",
+      },
+    },
+    message: "string",
+    success: "boolean"
+  }
 };

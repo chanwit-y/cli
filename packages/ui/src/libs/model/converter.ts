@@ -1,8 +1,8 @@
-import { Type, type TSchema, type TObject, type TArray, type TString, type TNumber, type TBoolean } from '@sinclair/typebox';
+import { Type, type TSchema, type TObject, type TArray } from '@sinclair/typebox';
 
 // Define the TModel interface
 interface TModel {
-  [key: string]: string | TModelObject | TModelArray;
+  [key: string]: string | boolean | number | TModelObject | TModelArray;
 }
 
 interface TModelObject {
@@ -16,7 +16,7 @@ interface TModelArray {
   collection: TModel;
 }
 
-type TModelValue = string | TModelObject | TModelArray;
+type TModelValue = string | boolean | number | TModelObject | TModelArray;
 
 // Dynamic converter function
 function convertTModelToTypeBox(model: TModel): TObject {
@@ -55,12 +55,12 @@ function convertValue(value: TModelValue): TSchema {
   }
 
   // Handle object type
-  if (value.type === 'object') {
+  if (typeof value === 'object' && value.type === 'object') {
     return convertTModelToTypeBox(value.collection);
   }
 
   // Handle array type
-  if (value.type === 'array') {
+  if (typeof value === 'object' && value.type === 'array') {
     const itemSchema = convertTModelToTypeBox(value.collection);
     return Type.Array(itemSchema);
   }

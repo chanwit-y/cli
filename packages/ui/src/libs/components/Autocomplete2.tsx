@@ -12,7 +12,8 @@ import type { AutocompleteItem2, AutocompleteProps2 } from "./@types";
 import { Box, Text } from "@radix-ui/themes";
 import { cn } from "../util/utils";
 import { AlertCircle, Check, ChevronDown, Search, X } from "lucide-react";
-import { useCore } from "./core/core";
+import { useCore } from "./core/context";
+import { debounce, distinct, interval, Subject, switchMap } from "rxjs";
 
 const createAutocomplete = <T extends Record<string, any>>() => {
 	return forwardRef<
@@ -33,46 +34,59 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		maxResults,
 		className,
 		canObserve,
-		observeKey: observeAt,
-		apiSubject,
+		observeTo,
 		api,
+		apiCanSearch = false,
 		onValueChange,
 		onChange,
 		onBlur,
 		...props
 	}, ref) => {
-		const { updataObserveTable, observeTable } = useCore()
+		const { addObserveTable, observeTable } = useCore()
+
 		const [items, setItems] = useState(options ?? [])
 		const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);
 		const [isOpen, setIsOpen] = useState(false)
 		const [dropdownStyles, setDropdownStyles] = useState<CSSProperties>({});
 		const [selectedIndex, setSelectedIndex] = useState(-1);
 		const [query, setQuery] = useState('');
+		const [observeData, setObserveData] = useState<unknown>();
 
 		const triggerRef = useRef<HTMLButtonElement>(null);
 		const dropdownRef = useRef<HTMLDivElement>(null);
 		const dropdownContainerRef = useRef<HTMLDivElement>(null);
 		const searchInputRef = useRef<HTMLInputElement>(null);
 
+
+		const subject = useMemo(() => new Subject<string>(), [])
+		const apiSearch = useMemo(() => {
+			if (api && apiCanSearch) {
+				return subject.pipe(
+					debounce(() => interval(500)),
+					distinct(),
+					switchMap(async (text) => {
+						return Promise.resolve(api({ text }, {}))
+					}),
+
+				)
+			} else return undefined
+		}, [subject])
 		const filteredItems = useMemo(() => {
 			if (!query.trim()) return items;
 
 			return items.filter(item => item[searchKey].toLowerCase().includes(query.toLowerCase()))
 		}, [query, items, maxResults])
-		const hasError = useMemo(() => error || !!errorMessage, [error, errorMessage]);
+		const hasError = useMemo(() => error && !!errorMessage, [error, errorMessage]);
 		const displayHelperText = useMemo(() => hasError ? errorMessage : helperText, [hasError, errorMessage, helperText]);
 		const selectedItem = useMemo(() => items.find(item => String(item[idKey]) === String(value)), [items, value, searchKey]);
-
-
-		useEffect(() => {
-			console.log(value)
-		}, [value])
 
 		const handValueChange = useCallback((newValue: string) => {
 			onValueChange?.(newValue);
 			onChange?.(newValue);
-		}, [onValueChange, onChange])
-
+			if (canObserve && name) {
+				observeTable?.[name as keyof typeof observeTable].next(newValue);
+			}
+		}, [onValueChange, onChange, canObserve, name, observeTable])
 		const handleSelect = useCallback((item: T) => {
 			handValueChange(String(item[idKey]));
 			setQuery('');
@@ -174,24 +188,29 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 
 		useEffect(() => setSelectedIndex(-1), [query])
 
-		useEffect(() => {
-			console.log(`observeTable ${observeAt}:`, observeTable?.[observeAt as keyof typeof observeTable])
-		}, [observeTable, observeAt])
 
 		useEffect(() => {
-			console.log('canObserve', canObserve, name, selectedItem, selectedItem?.[idKey])
-			if (canObserve && name && selectedItem && selectedItem[idKey]) {
-				updataObserveTable(name, selectedItem[idKey] as string);
+			canObserve && name && addObserveTable(name);
+		}, [canObserve, name, addObserveTable]);
+
+		useEffect(() => {
+			observeTable?.[observeTo as keyof typeof observeTable] && observeTable?.[observeTo as keyof typeof observeTable].subscribe((data: unknown) => {
+				setObserveData(data)
+			})
+		}, [observeTable, observeTo])
+
+		useEffect(() => {
+			if (!apiCanSearch) {
+				const p = observeTo !== "" ? {
+					siteId: observeData
+				} : {}
+				api && api({}, p).then((res) => setItems(res.data ?? []))
 			}
-		}, [canObserve, selectedItem, name, updataObserveTable, idKey]);
-
-		useEffect(() => {
-			console.log('demo')
-			api && api({}).subscribe((res: any) => {
-				console.log('res', res)
+			else api && apiSearch && apiSearch.subscribe((res) => {
 				setItems(res.data ?? [])
 			})
-		}, [api, query]);
+
+		}, [api, apiCanSearch, apiSearch, observeTo, observeData]);
 
 		return <Box className="w-full" >
 			{
@@ -231,7 +250,6 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 				<div
 					ref={dropdownContainerRef}
 					style={dropdownStyles}
-					// className="bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-500 opacity-0"
 					className="absolute bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-100 opacity-0 z-20"
 				>
 					<div className="flex items-center border-b border-gray-100 px-3">
@@ -242,7 +260,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 							value={query}
 							onChange={(e) => {
 								setQuery(e.target.value);
-								apiSubject && apiSubject.next(e.target.value);
+								subject && subject.next(e.target.value);
 							}}
 							onKeyDown={handleKeyDown}
 							placeholder="Type to search..."
@@ -267,7 +285,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 							</div>
 							: filteredItems.map((item) => {
 								const isSelected = selectedIndex === filteredItems.findIndex(i => i[idKey] === item[idKey]);
-								const isCurrent = value === item.id;
+								const isCurrent = value === item[idKey];
 								return (<button key={item[idKey]}
 									onClick={() => handleSelect(item)}
 									aria-selected={isCurrent}

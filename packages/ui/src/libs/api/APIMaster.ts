@@ -17,7 +17,7 @@ const apiFactory = new ApiFactory(http, {});
 const methods = (method: "GET" | "POST" | "PUT" | "DELETE") =>
   Literal(Method[method]);
 
- export type TApiMaster<T extends TModelMaster> = {
+export type TApiMaster<T extends TModelMaster> = {
   [K: string]: {
     description: string;
     url: string;
@@ -40,10 +40,13 @@ export class ApiMaster<M extends TModelMaster, A extends TApiMaster<M>> {
   ) {
     this._models = new ModelFactory(this._modelConfig);
   }
-  public get apiNames(): {[K in keyof A]: Extract<keyof A, string>} {
-    return Object.keys(this._apis).reduce((acc, key) => {
-      return { ...acc, [key]: key };
-    }, {} as {[K in keyof A]: Extract<keyof A, string>});
+  public get apiNames(): { [K in keyof A]: Extract<keyof A, string> } {
+    return Object.keys(this._apis).reduce(
+      (acc, key) => {
+        return { ...acc, [key]: key };
+      },
+      {} as { [K in keyof A]: Extract<keyof A, string> }
+    );
   }
 
   public get api(): {
@@ -56,6 +59,11 @@ export class ApiMaster<M extends TModelMaster, A extends TApiMaster<M>> {
     >;
   } {
     const apis = Object.entries(this._apis).reduce((acc, [key, value]) => {
+      // const x = value.parameter
+      // ? convertTModelToTypeBox(this._modelConfig[value.parameter as keyof M])
+      // : t.Undefined();
+      // console.log(value.description, value.parameter, x);
+
       return {
         ...acc,
         [key]: {
@@ -84,6 +92,7 @@ export class ApiMaster<M extends TModelMaster, A extends TApiMaster<M>> {
         },
       };
     }, {} as Config);
+
     console.log(apis);
     return this._apiFactory.createService(apis as Config).api as any;
   }
@@ -139,7 +148,6 @@ export const apiMaster = new ApiMaster(
   },
   apiFactory
 );
-
 
 // const key = apiMaster.apiNames.todos
 // const res = await apiMaster.api.todoByID({ id: 1 });

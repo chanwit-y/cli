@@ -13,28 +13,49 @@ export const boxs: Box[] = [
     type: "autocomplete",
     element: {
       type: "autocomplete",
-      name: "test",
+      name: "site",
       dataType: "string",
       canObserve: true,
+      observeTo: "",
       isRequired: true,
-      errorMessage: "test is request",
+      errorMessage: "site is request",
       keys: {
-        id: "id",
-        search: "title",
-        display: "title",
+        id: "value",
+        search: "label",
+        display: "label",
       },
       api: {
-        name: "todos",
+        name: "sites",
         params: {},
       },
     },
   },
   {
-    type: "empty",
+    type: "autocomplete",
     sm: "12",
     md: "6",
     lg: "4",
     xl: "3",
+    element: {
+      type: "autocomplete",
+      name: "seam",
+      dataType: "string",
+      canObserve: false,
+      observeTo: "site",
+      isRequired: true,
+      errorMessage: "seam is request",
+      keys: {
+        id: "value",
+        search: "label",
+        display: "label",
+      },
+      api: {
+        name: "seam",
+        params: {
+          siteId: "string"
+        },
+      },
+    },
   },
   {
     type: "empty",

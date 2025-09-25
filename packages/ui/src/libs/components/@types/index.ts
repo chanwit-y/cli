@@ -156,6 +156,8 @@ export type AutocompleteProps = BaseComponentProps<
   }
 >;
 
+export type APIFunction = (query: Record<string, any>, params: Record<string, any>) => Promise<any>;
+
 export type AutocompleteProps2<T extends Record<string, any> = {}> =
   BaseComponentProps<
     "button",
@@ -178,9 +180,11 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       onBlur?: () => void;
       maxResults?: number;
       canObserve?: boolean;
-      observeKey?: string;
-      apiSubject?: Subject<string>;
-      api?: (params: Record<string, any>) => Observable<T[]>;
+      observeTo?: string;
+      // apiSubject?: Subject<string>;
+      // api?: (params: Record<string, any>) => Observable<T[]>;
+      apiCanSearch?: boolean;
+      api?: APIFunction
     }
   >;
 
@@ -188,11 +192,13 @@ export type AutocompleteElement = {
   name: string;
   dataType: string;
   canObserve: boolean;
+  observeTo: string;
   isRequired: boolean;
   errorMessage: string;
   api: {
     name: string;
     params: Record<string, any>;
+    canSearch: boolean;
   };
   keys: {
     id: any;
