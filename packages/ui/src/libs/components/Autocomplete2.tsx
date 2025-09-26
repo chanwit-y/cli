@@ -297,7 +297,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 						id={listboxId}
 						className="max-h-64 overflow-auto py-1">
 						{filteredItems?.length === 0
-							? <div>
+							? <div className="flex justify-center text-sm">
 								No results found
 							</div>
 							: filteredItems.map((item) => {
