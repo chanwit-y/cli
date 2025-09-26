@@ -14,6 +14,7 @@ import { cn } from "../util/utils";
 import { AlertCircle, Check, ChevronDown, Search, X } from "lucide-react";
 import { useCore } from "./core/context";
 import { debounce, distinct, interval, Subject, switchMap } from "rxjs";
+import { isEmpty } from "lodash";
 
 const createAutocomplete = <T extends Record<string, any>>() => {
 	return forwardRef<
@@ -37,6 +38,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		observeTo,
 		api,
 		apiCanSearch = false,
+		apiObserveParam,
 		onValueChange,
 		onChange,
 		onBlur,
@@ -57,7 +59,6 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		const dropdownContainerRef = useRef<HTMLDivElement>(null);
 		const searchInputRef = useRef<HTMLInputElement>(null);
 
-
 		const subject = useMemo(() => new Subject<string>(), [])
 		const apiSearch = useMemo(() => {
 			if (api && apiCanSearch) {
@@ -65,7 +66,8 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 					debounce(() => interval(500)),
 					distinct(),
 					switchMap(async (text) => {
-						return Promise.resolve(api({ text }, {}))
+						// return Promise.resolve(api({ text }, {}))
+						return Promise.resolve(fetchData(text))
 					}),
 
 				)
@@ -79,6 +81,20 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		const hasError = useMemo(() => error && !!errorMessage, [error, errorMessage]);
 		const displayHelperText = useMemo(() => hasError ? errorMessage : helperText, [hasError, errorMessage, helperText]);
 		const selectedItem = useMemo(() => items.find(item => String(item[idKey]) === String(value)), [items, value, searchKey]);
+
+		const fetchData = useCallback((text: string) => {
+
+			if (observeTo !== "") {
+				if (!isEmpty(apiObserveParam)) {
+					if (!isEmpty(observeData))
+						return api && api({ text }, {
+							[apiObserveParam as string]: observeData
+						})
+				}
+			} else {
+				return api && api({ text }, {})
+			}
+		}, [observeTo, apiObserveParam, observeData, api]);
 
 		const handValueChange = useCallback((newValue: string) => {
 			onValueChange?.(newValue);
@@ -201,16 +217,17 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 
 		useEffect(() => {
 			if (!apiCanSearch) {
-				const p = observeTo !== "" ? {
-					siteId: observeData
-				} : {}
-				api && api({}, p).then((res) => setItems(res.data ?? []))
+				const result = fetchData("");
+				if (result) {
+					result.then((res: { data: any; }) => setItems(res.data ?? []));
+				}
 			}
-			else api && apiSearch && apiSearch.subscribe((res) => {
-				setItems(res.data ?? [])
-			})
-
-		}, [api, apiCanSearch, apiSearch, observeTo, observeData]);
+			else if (api && apiSearch) {
+				apiSearch.subscribe((res) => {
+					setItems(res.data ?? [])
+				})
+			}
+		}, [api, apiCanSearch, apiSearch, observeTo, observeData, apiObserveParam]);
 
 		return <Box className="w-full" >
 			{

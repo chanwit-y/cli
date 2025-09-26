@@ -184,7 +184,8 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       // apiSubject?: Subject<string>;
       // api?: (params: Record<string, any>) => Observable<T[]>;
       apiCanSearch?: boolean;
-      api?: APIFunction
+      api?: APIFunction;
+      apiObserveParam?: string;
     }
   >;
 
@@ -197,7 +198,7 @@ export type AutocompleteElement = {
   errorMessage: string;
   api: {
     name: string;
-    params: Record<string, any>;
+    observeParam: string;
     canSearch: boolean;
   };
   keys: {

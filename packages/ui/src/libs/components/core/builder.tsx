@@ -10,7 +10,6 @@ import { Provider } from "./context";
 const registers = {
 	autocomplete: Autocomplete,
 }
-
 export class Builder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	// private _gobalValue: Record<string, any> = {};
