@@ -19,6 +19,8 @@ const TextFieldBase = forwardRef<
 	variant = "surface",
 	size = "2",
 	radius = "medium",
+	isFullWidth = false,
+	width,
 	...props
 }, ref) => {
 	// const hasError = error || !!errorMessage
@@ -26,7 +28,9 @@ const TextFieldBase = forwardRef<
 	const displayHelperText = hasError ? errorMessage : helperText
 
 	return (
-		<Box className="w-full">
+		<Box
+			className={cn(isFullWidth ? "w-full" : "", "mr-0")}
+			style={width ? { width: `${width}px` } : {}}>
 			{label && (
 				<Text as="label" size="2" weight="medium" className="block mb-1">
 					{label}
@@ -54,7 +58,7 @@ const TextFieldBase = forwardRef<
 					// Error styles
 					// hasError && "border-red-500 focus-within:ring-red-500 focus-within:border-red-500",
 					//focus:outline-none
-					hasError ? "border border-red-500 focus:outline-none  focus:border-red-500" : "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent",
+					hasError ? "border border-red-500 focus:outline-none  focus:border-red-500" : "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent",
 					className)}
 				// className="border border-amber-600"
 				// className={cn(
@@ -64,7 +68,7 @@ const TextFieldBase = forwardRef<
 				// 	hasError && "border-red-500 focus-within:border-red-500",
 				// 	className
 				// )}
-				
+
 				{...props}
 				{...(hasError && { 'data-error': 'true' })}
 			/>

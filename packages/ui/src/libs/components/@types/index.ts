@@ -8,6 +8,7 @@ import {
 } from "@radix-ui/themes";
 import { type ThemeProps } from "@radix-ui/themes";
 import type { ReactNode } from "react";
+import type { LucideIcon, LucideProps } from "lucide-react";
 
 export type Components = {
   TextField?: TextFieldProps;
@@ -18,6 +19,7 @@ export type Components = {
   Checkbox?: CheckboxProps;
   RadioButton?: RadioButtonProps;
   Popover?: PopoverProps;
+  Icon?: IconProps;
 };
 
 export type ThemeContextType = {
@@ -53,6 +55,8 @@ export type TextFieldProps = BaseComponentProps<
     variant?: "classic" | "surface" | "soft";
     size?: "1" | "2" | "3";
     radius?: "none" | "small" | "medium" | "large" | "full";
+    isFullWidth?: boolean;
+    width?: number;
   }
 >;
 
@@ -206,6 +210,17 @@ export type PopoverProps = BaseComponentProps<
     contentClassName?: string;
     disabled?: boolean;
   }
+>;
+
+export type IconProps = BaseComponentProps<
+  "span",
+  {
+    icon: LucideIcon;
+    size?: number | string;
+    color?: string;
+    strokeWidth?: number;
+    className?: string;
+  } & Omit<LucideProps, "size" | "color" | "strokeWidth">
 >;
 
 export type DataTableElement = {
