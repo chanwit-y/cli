@@ -12,7 +12,6 @@ export const boxs: Box[] = [
     xl: "3",
     type: "autocomplete",
     element: {
-      // type: "autocomplete",
       name: "site",
       dataType: "string",
       canObserve: true,
@@ -37,7 +36,6 @@ export const boxs: Box[] = [
     lg: "4",
     xl: "3",
     element: {
-      // type: "autocomplete",
       name: "seam",
       dataType: "string",
       canObserve: false,
@@ -119,3 +117,6 @@ export const containers: Container[] = [
     boxs: boxs,
   },
 ];
+
+// - add gap to container
+// - change element to []

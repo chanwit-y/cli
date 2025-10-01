@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef, ElementType } from "react";
+import type { ComponentPropsWithoutRef, ElementType, JSX } from "react";
 import {
   TextField as RadixTextField,
   Button as RadixButton,
@@ -7,7 +7,7 @@ import {
   RadioGroup as RadixRadioGroup,
 } from "@radix-ui/themes";
 import { type ThemeProps } from "@radix-ui/themes";
-import type { Observable, Subject } from "rxjs";
+import type { ReactNode } from "react";
 
 export type Components = {
   TextField?: TextFieldProps;
@@ -17,6 +17,7 @@ export type Components = {
   Textarea?: TextareaProps;
   Checkbox?: CheckboxProps;
   RadioButton?: RadioButtonProps;
+  Popover?: PopoverProps;
 };
 
 export type ThemeContextType = {
@@ -156,7 +157,10 @@ export type AutocompleteProps = BaseComponentProps<
   }
 >;
 
-export type APIFunction = (query: Record<string, any>, params: Record<string, any>) => Promise<any>;
+export type APIFunction = (
+  query: Record<string, any>,
+  params: Record<string, any>
+) => Promise<any>;
 
 export type AutocompleteProps2<T extends Record<string, any> = {}> =
   BaseComponentProps<
@@ -188,6 +192,26 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       apiObserveParam?: string;
     }
   >;
+
+export type PopoverProps = BaseComponentProps<
+  "div",
+  {
+    children: ReactNode;
+    content: ReactNode;
+    trigger?: 'click' | 'hover';
+    placement?: 'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
+    offset?: number;
+    open?: boolean;
+    onOpenChange?: (open: boolean) => void;
+    contentClassName?: string;
+    disabled?: boolean;
+  }
+>;
+
+export type DataTableElement = {
+  name: string;
+  columns: [];
+};
 
 export type AutocompleteElement = {
   name: string;
@@ -232,7 +256,15 @@ export type Box = {
   md: BoxRange;
   lg: BoxRange;
   xl: BoxRange;
-  type: "autocomplete" | "textfield" | "select" | "checkbox" | "radio" | "textarea" | "container" | "empty";
+  type:
+    | "autocomplete"
+    | "textfield"
+    | "select"
+    | "checkbox"
+    | "radio"
+    | "textarea"
+    | "container"
+    | "empty";
   element?: AutocompleteElement | TextFieldElement;
   container?: Container;
 };
@@ -248,4 +280,10 @@ export type Page = {
   containers: Container[];
 };
 
-export type FnAPI = (query: Record<string, any>, params: Record<string, any>) => Promise<any>
+export type FnAPI = (
+  query: Record<string, any>,
+  params: Record<string, any>
+) => Promise<any>;
+export interface IElement {
+  create(): JSX.Element;
+}

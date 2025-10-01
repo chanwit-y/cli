@@ -1,12 +1,8 @@
-import type { IElement } from "./types";
 import { createElement, type JSX } from "react";
-import { debounce, distinct, interval, Subject, switchMap } from "rxjs";
 import { AutocompleteF2 } from "../form";
-import type { APIFunction, AutocompleteElement } from "../@types";
+import type { APIFunction, AutocompleteElement, IElement } from "../@types";
 
 export class Autocomplete implements IElement {
-
-
 
 	constructor(
 		private _props: AutocompleteElement,
@@ -14,18 +10,6 @@ export class Autocomplete implements IElement {
 		private _fnAPI: APIFunction) {
 
 	}
-
-	// private _api(params: Record<string, any>) {
-	// 	const subject = new Subject<string>();
-	// 	return subject.pipe(
-	// 		debounce(() => interval(500)),
-	// 		distinct(),
-	// 		switchMap(async (text) => {
-	// 			return Promise.resolve(this._fnAPI({ text }, params))
-	// 		}),
-
-	// 	)
-	// }
 
 	public create(): JSX.Element {
 		return createElement(AutocompleteF2, {

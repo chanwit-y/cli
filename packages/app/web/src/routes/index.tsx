@@ -1,7 +1,7 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { Form, core } from 'vegaui'
-import { string, object, boolean } from 'zod'
+import { core } from 'vegaui'
+import { DataTable } from 'vegaui'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({
@@ -27,7 +27,12 @@ function Index() {
 
 	return (
 		<div className="p-2">
+			
+			<DataTable />
+
+<div className='mt-16 '>
 			{f}
+</div>
 		</div>
 	)
 }
