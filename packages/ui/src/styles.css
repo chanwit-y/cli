@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* @import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/colors/mauve.css";
+@import "@radix-ui/colors/violet.css"; */
+
 .rt-TextFieldRoot:where(.rt-variant-surface):has([data-error="true"]) {
   --text-field-focus-color: transparent;
 }
@@ -24,14 +28,24 @@ textarea[data-error="true"] {
   border-color: rgb(239 68 68) !important; /* red-500 */
 }
 
+
+
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .fade-in {
@@ -60,3 +74,165 @@ textarea::-webkit-scrollbar-thumb {
 textarea::-webkit-scrollbar-thumb:hover {
   background: #a8a8a8;
 } */
+
+/* DataTable2 Component Styles */
+.datatable-container {
+  /* Empty container class */
+}
+
+.datatable-header {
+  @apply flex flex-row justify-between items-center sticky top-0 bg-white z-10;
+}
+
+.datatable-title {
+  @apply text-2xl text-gray-500 font-semibold;
+}
+
+.datatable-controls-wrapper {
+  @apply flex flex-col w-full gap-0.5 items-end justify-end;
+}
+
+/* .datatable-controls {
+  @apply flex flex-row gap-0.5 items-center justify-center space-x-2;
+} */
+
+.datatable-icon-button {
+  @apply p-1 hover:scale-110 transition-transform cursor-pointer text-gray-500 border hover:ring-1 hover:ring-blue-400 rounded-sm border-blue-500 hover:bg-gray-50;
+}
+
+.datatable-row-count {
+  @apply text-xs text-gray-500;
+}
+
+.datatable-table-wrapper {
+  @apply shadow-lg rounded-lg overflow-hidden;
+}
+
+.datatable-table {
+  @apply w-full bg-white border border-gray-200 table-fixed;
+}
+
+.datatable-thead {
+  @apply bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200 block;
+}
+
+.datatable-header-row {
+  @apply text-center text-xs font-bold text-gray-700 uppercase tracking-widest table w-full table-fixed;
+}
+
+.datatable-header-cell-icon {
+  @apply py-4 border-r border-gray-200 flex justify-center items-center;
+}
+
+.datatable-header-cell {
+  @apply py-4 border-r border-gray-200 last:border-r-0 transition-colors duration-200 select-none;
+}
+
+.datatable-header-content {
+  @apply flex flex-row gap-2 items-center justify-center;
+}
+
+.datatable-sort-icon {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+.datatable-sort-icon-bounce {
+  @apply animate-bounce;
+}
+
+.datatable-sort-icon-default {
+  @apply opacity-60 hover:opacity-100 transition-opacity duration-200;
+}
+
+.datatable-popover-content {
+  width: 260px;
+  border-radius: 0.25rem;
+  background-color: white;
+  padding: 1.25rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  border: 1px solid rgb(229 231 235);
+  will-change: transform, opacity;
+  outline: none;
+}
+
+.datatable-popover-content:focus {
+  box-shadow: 0 0 0 2px rgb(96 165 250 / 0.5);
+}
+
+.datatable-popover-content[data-state="open"][data-side="bottom"] {
+  animation: slideUpAndFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.datatable-popover-content[data-state="open"][data-side="left"] {
+  animation: slideRightAndFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.datatable-popover-content[data-state="open"][data-side="right"] {
+  animation: slideLeftAndFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.datatable-popover-content[data-state="open"][data-side="top"] {
+  animation: slideDownAndFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideRightAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideLeftAndFade {
+  from {
+    opacity: 0;
+    transform: translateX(2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDownAndFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.datatable-filter-icon {
+  @apply cursor-pointer;
+}
+
+.datatable-tbody {
+  @apply bg-white divide-y divide-gray-200 block max-h-[300px] overflow-y-auto;
+}
+
+.datatable-body-row {
+  @apply text-center text-xs font-bold text-gray-700 uppercase tracking-widest table w-full table-fixed;
+}
+
+.datatable-body-cell {
+  @apply py-4 border-r border-gray-200 last:border-r-0 transition-colors duration-200 select-none;
+}
+
+/* Popover focus-visible styles */

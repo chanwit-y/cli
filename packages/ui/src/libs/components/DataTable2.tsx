@@ -1,7 +1,7 @@
 import { TextField } from "./TextField"
-import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender } from "@tanstack/react-table"
-import { useState } from "react"
-import { ArrowDown, ArrowDownUp, ArrowUp, Download, ListFilter, Plus, SendToBack } from "lucide-react"
+import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel } from "@tanstack/react-table"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Download, ListFilter, Plus, SendToBack } from "lucide-react"
 import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
 
@@ -12,102 +12,170 @@ interface Props<T extends Record<string, any>> {
 
 export const DataTable2 = <T extends Record<string, any>>({ data = [], columns = [] }: Props<T>) => {
 	const [globalFilter, setGlobalFilter] = useState('')
+	const [sorting, setSorting] = useState<SortingState>([])
+	const [pagination, setPagination] = useState<PaginationState>({
+		pageIndex: 0,
+		pageSize: 10,
+	})
+
+	const columnValues = useMemo(() => {
+		const values: Record<string, string[]> = {}
+		
+		columns.forEach(col => {
+			// Skip display columns like drag-handle
+			if ('accessorKey' in col && col.accessorKey) {
+				const accessor = col.accessorKey as string
+				const columnId = col.id || accessor
+				const uniqueValues = [...new Set(data.map(row => String(row[accessor])))]
+					.filter(Boolean)
+					.sort()
+				values[columnId] = uniqueValues
+			}
+		})
+		
+		return values
+	}, [data])
+
+	const filterRef = useRef<HTMLInputElement>(null);
 
 	const table = useReactTable({
 		data,
 		columns,
 		state: {
 			globalFilter,
+			pagination,
+			sorting,
 		},
 		onGlobalFilterChange: setGlobalFilter,
+		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
+		getSortedRowModel: getSortedRowModel(),
+		onPaginationChange: setPagination,
+		manualPagination: false,
 	})
 
-	return (<div className="">
-		<div className="flex flex-row justify-between items-center">
-			<div className="text-2xl text-gray-500 font-semibold">[Table]</div>
+	useEffect(() => {
+		filterRef.current?.focus()
+	}, [filterRef])
 
-			<div className="flex flex-col w-full gap-0.5 items-end justify-end">
+	return (<div className="datatable-container">
+		<div className="datatable-header">
+			<div className="datatable-title">[Table]</div>
 
-				<div className="flex flex-row gap-0.5 items-center justify-center space-x-2">
+			<div className="datatable-controls-wrapper">
 
-					<Icon
-						icon={Plus}
-						size={20}
-						color="#2b7fff"
-						strokeWidth={2}
-						className="p-1 hover:scale-110 transition-transform cursor-pointer text-gray-500 border hover:ring-1 hover:ring-blue-400 rounded-sm border-blue-500 hover:bg-gray-50"
-					/>
-					<Icon
-						icon={Download}
-						color="#2b7fff"
-						size={20}
-						strokeWidth={2}
-						className="p-1 hover:scale-110 transition-transform cursor-pointer text-gray-500 border hover:ring-1 hover:ring-blue-400 rounded-sm border-blue-500 hover:bg-gray-50"
-					/>
-					{/* <Icon
-						icon={Trash2}
-						size={20}
-						color="red"
-						strokeWidth={2}
-						className="p-1  hover:scale-110 transition-transform cursor-pointer text-gray-500 border hover:ring-1 hover:ring-red-400 rounded-sm border-red-500 hover:bg-gray-50"
-					/> */}
-
-					{/* <Icon
-						icon={Search}
-						size={20}
-						strokeWidth={2}
-						className="p-1 hover:scale-110 transition-transform cursor-pointer text-gray-500 border hover:ring-1 hover:ring-gray-400 rounded-sm border-gray-500 hover:bg-gray-50"
-					/> */}
 					<TextField
+						ref={filterRef}
 						width={200}
 						placeholder="Search all columns..."
 						value={globalFilter ?? ''}
 						onChange={(e) => setGlobalFilter(e.target.value)} />
 
-				</div>
-				<span className="text-xs text-gray-500">
+				<span className="datatable-row-count">
 					{table.getFilteredRowModel().rows.length} of {table.getCoreRowModel().rows.length} total rows
 				</span>
 			</div>
 		</div>
 
-		<div className="my-1 overflow-x-auto shadow-lg rounded-lg">
-			<table className="w-full bg-white border border-gray-200">
-				<thead className="bg-gradient-to-r from-gray-50 to-gray-100 border-b-2 border-gray-200">
+		<div className="datatable-table-wrapper">
+			<table className="datatable-table">
+				<thead className="datatable-thead">
 
 					{table.getHeaderGroups().map(headerGroup => (
-						<tr key={headerGroup.id} className="text-center text-xs font-bold text-gray-700 uppercase tracking-widest">
-							<th className="py-4 border-r border-gray-200 flex justify-center items-center">
+						<tr key={headerGroup.id} className="datatable-header-row">
+							<th className="datatable-header-cell-icon">
 								<SendToBack className="w-4 h-4" />
 							</th>
 							{headerGroup.headers.map(header => (
-								header.column.columnDef.header && <th key={header.id} className="py-4  border-r border-gray-200 last:border-r-0 transition-colors duration-200 select-none">
-									<div className="flex flex-row gap-2 items-center justify-center">
+								header.column.columnDef.header && <th key={header.id} className="datatable-header-cell">
+									<div className="datatable-header-content" onClick={header.column.getToggleSortingHandler()}>
 										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 										{header.column.getCanSort() && (
-											<span className="transition-all duration-300 ease-in-out">
+											<span className="datatable-sort-icon">
 												{{
-													asc: <Icon icon={ArrowUp} size={14} className="animate-bounce" />,
-													desc: <Icon icon={ArrowDown} size={14} className="animate-bounce" />,
-												}[header.column.getIsSorted() as string] ?? <Icon icon={ArrowDownUp} size={14} className="opacity-60 hover:opacity-100 transition-opacity duration-200" />}
+													asc: <Icon icon={ArrowUp} size={14} className="datatable-sort-icon-bounce" />,
+													desc: <Icon icon={ArrowDown} size={14} className="datatable-sort-icon-bounce" />,
+												}[header.column.getIsSorted() as string] ?? <Icon icon={ArrowDownUp} size={14} className="datatable-sort-icon-default" />}
 											</span>
 										)}
 										{header.column.getCanFilter() && (
 											<Popover.Root>
-												<Popover.Trigger asChild>
-													<Icon onClick={(e) => e.stopPropagation()} icon={ListFilter} size={14} className="cursor-pointer" />
-												</Popover.Trigger>
-												<Popover.Portal>
-													<Popover.Content
-														className="min-w-[200px] bg-white border border-gray-200 rounded-lg shadow-lg p-4 z-50"
+											<Popover.Trigger asChild>
+												<Icon onClick={(e) => e.stopPropagation()} icon={ListFilter} size={14} className="datatable-filter-icon" />
+											</Popover.Trigger>
+											<Popover.Portal>
+												<Popover.Content
+													className="datatable-popover-content"
 														side="bottom"
 														align="center"
 														sideOffset={5}
 													>
-														<div>HI</div>
-														{/* <Popover.Arrow className="fill-white" /> */}
+														<div className="p-1 bg-white ">
+														<div className="flex items-center justify-between mb-3">
+																<div className="text-xs font-medium text-gray-700">
+																	Filter {typeof header.column.columnDef.header === 'function' ? header.column.columnDef.header(header.getContext()) : header.column.columnDef.header}
+																</div>
+																<button
+																	onClick={() => header.column.setFilterValue(undefined)}
+																	className="text-xs text-blue-600 hover:text-blue-800 font-medium"
+																>
+																	Clear All
+																</button>
+															</div>
+															<div className="space-y-1 max-h-48 overflow-y-auto">
+																{columnValues[header.column.id]?.map((value) => {
+																	const currentFilter = header.column.getFilterValue() as string[] || [];
+																	const isChecked = currentFilter.includes(value);
+																	
+																	return (
+																		<div key={value} className="flex items-center space-x-2 text-xs hover:bg-gray-50 p-1 rounded cursor-pointer">
+																			<input
+																				type="checkbox"
+																				checked={isChecked}
+																				onChange={(e) => {
+																					const currentValues = header.column.getFilterValue() as string[] || [];
+																					let newValues: string[];
+																					
+																					if (e.target.checked) {
+																						newValues = [...currentValues, value];
+																					} else {
+																						newValues = currentValues.filter(v => v !== value);
+																					}
+																					
+																					header.column.setFilterValue(newValues.length > 0 ? newValues : undefined);
+																				}}
+																				className="text-blue-600 focus:ring-blue-500 rounded"
+																			/>
+																			<span>{value}</span>
+																		</div>
+																	);
+																})}
+															</div>
+															{columnValues[header.column.id]?.length > 0 && (
+																<div className="mt-2 pt-2 border-t border-gray-200">
+																	<div className="flex space-x-2">
+																		<button
+																			onClick={() => {
+																				header.column.setFilterValue(columnValues[header.column.id]);
+																			}}
+																			className="text-xs text-gray-600 hover:text-gray-800 font-medium"
+																		>
+																			Select All
+																		</button>
+																		<span className="text-xs text-gray-400">|</span>
+																		<button
+																			onClick={() => header.column.setFilterValue(undefined)}
+																			className="text-xs text-gray-600 hover:text-gray-800 font-medium"
+																		>
+																			Deselect All
+																		</button>
+																	</div>
+																</div>
+															)}
+														</div>
+														<Popover.Arrow className="fill-white" />
 													</Popover.Content>
 												</Popover.Portal>
 											</Popover.Root>
@@ -118,6 +186,127 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 						</tr>
 					))}
 				</thead>
+
+				<tbody className="datatable-tbody">
+					{table.getPaginationRowModel().rows.map(row => (
+						<tr key={row.id} className="datatable-body-row">
+							{row.getVisibleCells().map(cell => (
+								<td key={cell.id} className="datatable-body-cell">
+									{flexRender(cell.column.columnDef.cell, cell.getContext())}
+								</td>
+							))}
+						</tr>
+					))}
+				</tbody>
+				<tfoot className="flex items-center justify-between px-2 py-4 bg-white border-t border-gray-200">
+				<div className="flex items-center space-x-6 text-sm text-gray-700">
+						<div className="flex items-center space-x-2">
+							<span>Rows per page:</span>
+							<select
+								value={table.getState().pagination.pageSize}
+								onChange={e => {
+									table.setPageSize(Number(e.target.value))
+								}}
+								className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-blue-300"
+							>
+								{[5, 10, 20, 30, 40, 50].map(pageSize => (
+									<option key={pageSize} value={pageSize}>
+										{pageSize}
+									</option>
+								))}
+							</select>
+						</div>
+						<div>
+							Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{' '}
+							{Math.min(
+								(table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+								table.getFilteredRowModel().rows.length
+							)}{' '}
+							of {table.getFilteredRowModel().rows.length} entries
+						</div>
+					</div>
+					
+					<div className="flex items-center space-x-2">
+						<button
+							onClick={() => table.setPageIndex(0)}
+							disabled={!table.getCanPreviousPage()}
+							className="px-2 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+						>
+							<ChevronFirst className="w-4 h-4" />
+						</button>
+						<button
+							onClick={() => table.previousPage()}
+							disabled={!table.getCanPreviousPage()}
+							className="px-2 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+						>
+							<ChevronLeft className="w-4 h-4" />
+						</button>
+						
+						<div className="flex items-center space-x-1">
+							{(() => {
+								const currentPage = table.getState().pagination.pageIndex + 1;
+								const totalPages = table.getPageCount();
+								const pages = [];
+								
+								// Always show first page
+								if (totalPages > 0) pages.push(1);
+								
+								// Show pages around current page
+								const start = Math.max(2, currentPage - 1);
+								const end = Math.min(totalPages - 1, currentPage + 1);
+								
+								// Add ellipsis if there's a gap
+								if (start > 2) pages.push('...');
+								
+								// Add pages around current
+								for (let i = start; i <= end; i++) {
+									if (i !== 1 && i !== totalPages) pages.push(i);
+								}
+								
+								// Add ellipsis if there's a gap
+								if (end < totalPages - 1) pages.push('...');
+								
+								// Always show last page
+								if (totalPages > 1) pages.push(totalPages);
+								
+								return pages.map((page, index) => (
+									page === '...' ? (
+										<span key={`ellipsis-${index}`} className="px-2 py-1 text-sm text-gray-500">
+											...
+										</span>
+									) : (
+										<button
+											key={page}
+											onClick={() => table.setPageIndex(Number(page) - 1)}
+											className={`px-3 py-2 text-sm border rounded transition-colors ${
+												currentPage === page
+													? 'bg-blue-500 text-white border-blue-500'
+													: 'border-gray-300 hover:bg-gray-50'
+											}`}
+										>
+											{page}
+										</button>
+									)
+								));
+							})()}
+						</div>
+						
+						<button
+							onClick={() => table.nextPage()}
+							disabled={!table.getCanNextPage()}
+							className="px-2 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+						>
+							<ChevronRight  className="w-4 h-4" />
+						</button>
+						<button
+							onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+							disabled={!table.getCanNextPage()}
+							className="px-2 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+						>
+							<ChevronLast  className="w-4 h-4" />
+						</button>
+					</div>
+				</tfoot>
 			</table>
 		</div>
 	</div>)
