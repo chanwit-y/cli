@@ -89,7 +89,7 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 								<SendToBack className="w-4 h-4" />
 							</th>
 							{headerGroup.headers.map(header => (
-								header.column.columnDef.header && <th key={header.id} className="datatable-header-cell">
+								header.column.columnDef.header && <th key={header.id} className="datatable-header-cell hover:bg-blue-300 cursor-pointer">
 									<div className="datatable-header-content" onClick={header.column.getToggleSortingHandler()}>
 										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 										{header.column.getCanSort() && (
