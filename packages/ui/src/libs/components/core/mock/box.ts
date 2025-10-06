@@ -7,6 +7,14 @@ export const initLoad = {};
 export const boxs: Box[] = [
   {
     sm: "12",
+    md: "12",
+    lg: "12",
+    xl: "12",
+    type: "datatable",
+    element: {}
+  },
+  {
+    sm: "12",
     md: "6",
     lg: "4",
     xl: "3",

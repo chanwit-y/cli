@@ -202,8 +202,16 @@ export type PopoverProps = BaseComponentProps<
   {
     children: ReactNode;
     content: ReactNode;
-    trigger?: 'click' | 'hover';
-    placement?: 'top' | 'bottom' | 'left' | 'right' | 'top-start' | 'top-end' | 'bottom-start' | 'bottom-end';
+    trigger?: "click" | "hover";
+    placement?:
+      | "top"
+      | "bottom"
+      | "left"
+      | "right"
+      | "top-start"
+      | "top-end"
+      | "bottom-start"
+      | "bottom-end";
     offset?: number;
     open?: boolean;
     onOpenChange?: (open: boolean) => void;
@@ -272,6 +280,7 @@ export type Box = {
   lg: BoxRange;
   xl: BoxRange;
   type:
+    | "datatable"
     | "autocomplete"
     | "textfield"
     | "select"
