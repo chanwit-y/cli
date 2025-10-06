@@ -22,11 +22,11 @@ export function ThemeProvider({
   components
 }: ThemeProviderProps) {
   return (
-    <ThemeContext value={{ components: { ...components } }}>
+    <ThemeContext.Provider value={{ components: { ...components } }}>
       <Theme panelBackground="translucent" {...theme} className={className}>
         {children}
       </Theme>
-    </ThemeContext>
+    </ThemeContext.Provider>
   )
 }
 
@@ -41,8 +41,12 @@ export const useTheme = () => {
 
 export const withTheam = <T extends any>(Component: ComponentType<BaseComponentProps & T>): ComponentType<BaseComponentProps & T> => {
 
-  return (props: any) => {
+  const WrappedComponent = (props: any) => {
     const { components } = useTheme()
     return <Component {...props} {...(components[Component.displayName as keyof Components] || {})} />
   }
+  
+  WrappedComponent.displayName = `withTheam(${Component.displayName || Component.name || 'Component'})`
+  
+  return WrappedComponent
 }

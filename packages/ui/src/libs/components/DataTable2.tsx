@@ -1,9 +1,11 @@
 import { TextField } from "./TextField"
 import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel } from "@tanstack/react-table"
 import { useEffect, useMemo, useRef, useState } from "react"
-import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Download, ListFilter, Plus, SendToBack } from "lucide-react"
+import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, ListFilter, SendToBack } from "lucide-react"
 import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
+// import { Checkbox } from "./Checkbox"
+import { Flex, Checkbox, Text } from "@radix-ui/themes"
 
 interface Props<T extends Record<string, any>> {
 	data?: T[]
@@ -20,7 +22,7 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 
 	const columnValues = useMemo(() => {
 		const values: Record<string, string[]> = {}
-		
+
 		columns.forEach(col => {
 			// Skip display columns like drag-handle
 			if ('accessorKey' in col && col.accessorKey) {
@@ -32,7 +34,7 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 				values[columnId] = uniqueValues
 			}
 		})
-		
+
 		return values
 	}, [data])
 
@@ -66,17 +68,18 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 
 			<div className="datatable-controls-wrapper">
 
-					<TextField
-						ref={filterRef}
-						width={200}
-						placeholder="Search all columns..."
-						value={globalFilter ?? ''}
-						onChange={(e) => setGlobalFilter(e.target.value)} />
+				<TextField
+					ref={filterRef}
+					width={200}
+					placeholder="Search all columns..."
+					value={globalFilter ?? ''}
+					onChange={(e) => setGlobalFilter(e.target.value)} />
 
 				<span className="datatable-row-count">
 					{table.getFilteredRowModel().rows.length} of {table.getCoreRowModel().rows.length} total rows
 				</span>
 			</div>
+
 		</div>
 
 		<div className="datatable-table-wrapper">
@@ -90,30 +93,31 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 							</th>
 							{headerGroup.headers.map(header => (
 								header.column.columnDef.header && <th key={header.id} className="datatable-header-cell hover:bg-blue-300 cursor-pointer">
-									<div className="datatable-header-content" onClick={header.column.getToggleSortingHandler()}>
+									<div className="datatable-header-content" >
 										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 										{header.column.getCanSort() && (
-											<span className="datatable-sort-icon">
+											<span className="datatable-sort-icon" onClick={header.column.getToggleSortingHandler()}>
 												{{
 													asc: <Icon icon={ArrowUp} size={14} className="datatable-sort-icon-bounce" />,
 													desc: <Icon icon={ArrowDown} size={14} className="datatable-sort-icon-bounce" />,
 												}[header.column.getIsSorted() as string] ?? <Icon icon={ArrowDownUp} size={14} className="datatable-sort-icon-default" />}
+
 											</span>
 										)}
 										{header.column.getCanFilter() && (
 											<Popover.Root>
-											<Popover.Trigger asChild>
-												<Icon onClick={(e) => e.stopPropagation()} icon={ListFilter} size={14} className="datatable-filter-icon" />
-											</Popover.Trigger>
-											<Popover.Portal>
-												<Popover.Content
-													className="datatable-popover-content"
+												<Popover.Trigger asChild>
+													<Icon onClick={(e) => e.stopPropagation()} icon={ListFilter} size={14} className="datatable-filter-icon" />
+												</Popover.Trigger>
+												<Popover.Portal>
+													<Popover.Content
+														className="datatable-popover-content"
 														side="bottom"
 														align="center"
 														sideOffset={5}
 													>
 														<div className="p-1 bg-white ">
-														<div className="flex items-center justify-between mb-3">
+															<div className="flex items-center justify-between mb-3">
 																<div className="text-xs font-medium text-gray-700">
 																	Filter {typeof header.column.columnDef.header === 'function' ? header.column.columnDef.header(header.getContext()) : header.column.columnDef.header}
 																</div>
@@ -123,51 +127,59 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 																>
 																	Clear All
 																</button>
+
+
 															</div>
 															<div className="space-y-1 max-h-48 overflow-y-auto">
 																{columnValues[header.column.id]?.map((value) => {
 																	const currentFilter = header.column.getFilterValue() as string[] || [];
 																	const isChecked = currentFilter.includes(value);
-																	
+
 																	return (
-																		<div key={value} className="flex items-center space-x-2 text-xs hover:bg-gray-50 p-1 rounded cursor-pointer">
-																			<input
-																				type="checkbox"
-																				checked={isChecked}
-																				onChange={(e) => {
-																					const currentValues = header.column.getFilterValue() as string[] || [];
-																					let newValues: string[];
-																					
-																					if (e.target.checked) {
-																						newValues = [...currentValues, value];
-																					} else {
-																						newValues = currentValues.filter(v => v !== value);
-																					}
-																					
-																					header.column.setFilterValue(newValues.length > 0 ? newValues : undefined);
-																				}}
-																				className="text-blue-600 focus:ring-blue-500 rounded"
-																			/>
-																			<span>{value}</span>
-																		</div>
+																		// <div key={value} className="flex items-center py-1.5 px-1 hover:bg-gray-50 rounded">
+																			<div key={value} className="flex  p-1 hover:bg-gray-50 rounded">
+																				<input
+																					type="checkbox"
+																					checked={isChecked}
+																					className="mr-2"
+																					onChange={(checked) => {
+																						const currentValues = header.column.getFilterValue() as string[] || [];
+																						let newValues: string[];
+
+																						if (checked) {
+																							newValues = [...currentValues, value];
+																						} else {
+																							newValues = currentValues.filter(v => v !== value);
+																						}
+
+																						header.column.setFilterValue(newValues.length > 0 ? newValues : undefined);
+																					}}
+																					// defaultChecked
+																					// size="1"
+																				/>
+																				<Text as="span" size="3">
+																				{value}
+																				</Text>
+																			</div>
+																		// </div>
 																	);
 																})}
 															</div>
 															{columnValues[header.column.id]?.length > 0 && (
 																<div className="mt-2 pt-2 border-t border-gray-200">
-																	<div className="flex space-x-2">
+																	<div className="flex space-x-2 justify-around">
 																		<button
 																			onClick={() => {
 																				header.column.setFilterValue(columnValues[header.column.id]);
 																			}}
-																			className="text-xs text-gray-600 hover:text-gray-800 font-medium"
+																			className=" text-xs text-gray-600 hover:text-gray-800 font-medium cursor-pointer"
 																		>
 																			Select All
 																		</button>
 																		<span className="text-xs text-gray-400">|</span>
 																		<button
 																			onClick={() => header.column.setFilterValue(undefined)}
-																			className="text-xs text-gray-600 hover:text-gray-800 font-medium"
+																			className=" text-xs text-gray-600 hover:text-gray-800 font-medium cursor-pointer"
 																		>
 																			Deselect All
 																		</button>
@@ -199,7 +211,7 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 					))}
 				</tbody>
 				<tfoot className="flex items-center justify-between px-2 py-4 bg-white border-t border-gray-200">
-				<div className="flex items-center space-x-6 text-sm text-gray-700">
+					<div className="flex items-center space-x-6 text-sm text-gray-700">
 						<div className="flex items-center space-x-2">
 							<span>Rows per page:</span>
 							<select
@@ -225,7 +237,7 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 							of {table.getFilteredRowModel().rows.length} entries
 						</div>
 					</div>
-					
+
 					<div className="flex items-center space-x-2">
 						<button
 							onClick={() => table.setPageIndex(0)}
@@ -241,34 +253,34 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 						>
 							<ChevronLeft className="w-4 h-4" />
 						</button>
-						
+
 						<div className="flex items-center space-x-1">
 							{(() => {
 								const currentPage = table.getState().pagination.pageIndex + 1;
 								const totalPages = table.getPageCount();
 								const pages = [];
-								
+
 								// Always show first page
 								if (totalPages > 0) pages.push(1);
-								
+
 								// Show pages around current page
 								const start = Math.max(2, currentPage - 1);
 								const end = Math.min(totalPages - 1, currentPage + 1);
-								
+
 								// Add ellipsis if there's a gap
 								if (start > 2) pages.push('...');
-								
+
 								// Add pages around current
 								for (let i = start; i <= end; i++) {
 									if (i !== 1 && i !== totalPages) pages.push(i);
 								}
-								
+
 								// Add ellipsis if there's a gap
 								if (end < totalPages - 1) pages.push('...');
-								
+
 								// Always show last page
 								if (totalPages > 1) pages.push(totalPages);
-								
+
 								return pages.map((page, index) => (
 									page === '...' ? (
 										<span key={`ellipsis-${index}`} className="px-2 py-1 text-sm text-gray-500">
@@ -278,11 +290,10 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 										<button
 											key={page}
 											onClick={() => table.setPageIndex(Number(page) - 1)}
-											className={`px-3 py-2 text-sm border rounded transition-colors ${
-												currentPage === page
-													? 'bg-blue-500 text-white border-blue-500'
-													: 'border-gray-300 hover:bg-gray-50'
-											}`}
+											className={`px-3 py-2 text-sm border rounded transition-colors ${currentPage === page
+												? 'bg-blue-500 text-white border-blue-500'
+												: 'border-gray-300 hover:bg-gray-50'
+												}`}
 										>
 											{page}
 										</button>
@@ -290,20 +301,20 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 								));
 							})()}
 						</div>
-						
+
 						<button
 							onClick={() => table.nextPage()}
 							disabled={!table.getCanNextPage()}
 							className="px-2 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 						>
-							<ChevronRight  className="w-4 h-4" />
+							<ChevronRight className="w-4 h-4" />
 						</button>
 						<button
 							onClick={() => table.setPageIndex(table.getPageCount() - 1)}
 							disabled={!table.getCanNextPage()}
 							className="px-2 py-2 text-sm border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 						>
-							<ChevronLast  className="w-4 h-4" />
+							<ChevronLast className="w-4 h-4" />
 						</button>
 					</div>
 				</tfoot>

@@ -33,7 +33,7 @@ const CheckboxBase = forwardRef<
 	}
 
 	return (
-		<Box className="w-full">
+		<Box>
 			<Flex direction="column" gap="1">
 				<Flex align="center" gap="2">
 					<RadixCheckbox
@@ -56,9 +56,9 @@ const CheckboxBase = forwardRef<
 					{label && (
 						<Text 
 						as="label" 
-						size="2" 
-						weight="medium" 
-						className={cn("cursor-pointer", hasError ? "text-red-500" : "text-gray-600")}
+						size="1" 
+						weight="light" 
+						className={cn("  cursor-pointer", hasError ? "text-red-500" : "text-gray-600")}
 						>
 							{label}
 						</Text>

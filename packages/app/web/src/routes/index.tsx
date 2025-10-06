@@ -1,8 +1,9 @@
 import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import { core, DataTable2, IconExamples } from 'vegaui'
+import {  core, DataTable2, IconExamples } from 'vegaui'
 import { DataTable } from 'vegaui'
 import { columns, initialData } from '../mock/table'
+import { Checkbox, Flex } from '@radix-ui/themes'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({
@@ -27,19 +28,16 @@ function Index() {
 
 
 	return (
-		<div className="p-2 gap-3 flex flex-col">
+		<div className='p-16'>
 			<div>Hi</div>
 			<DataTable2 columns={columns} data={initialData} />
 			
-			<DataTable />
 
 <div className='mt-16 '>
 			{f}
 </div>
-<div className='m-16'>
-<IconExamples />
+
 </div>
-		</div>
 	)
 }
 

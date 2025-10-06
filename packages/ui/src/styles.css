@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
-/* @import "@radix-ui/colors/black-alpha.css";
+@import "@radix-ui/themes/styles.css";
+@import "@radix-ui/colors/black-alpha.css";
 @import "@radix-ui/colors/mauve.css";
-@import "@radix-ui/colors/violet.css"; */
+@import "@radix-ui/colors/violet.css";
 
 .rt-TextFieldRoot:where(.rt-variant-surface):has([data-error="true"]) {
   --text-field-focus-color: transparent;
@@ -148,7 +149,7 @@ textarea::-webkit-scrollbar-thumb:hover {
   width: 260px;
   border-radius: 0.25rem;
   background-color: white;
-  padding: 1.25rem;
+  padding: 1rem;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   border: 1px solid rgb(229 231 235);
   will-change: transform, opacity;
@@ -223,6 +224,67 @@ textarea::-webkit-scrollbar-thumb:hover {
   @apply cursor-pointer;
 }
 
+/* Checkbox styling within datatable filters */
+.datatable-popover-content .rt-CheckboxRoot {
+  margin-right: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.datatable-popover-content .rt-CheckboxRoot:hover {
+  transform: scale(1.05);
+}
+
+.datatable-popover-content .rt-CheckboxRoot[data-state="checked"] {
+  background-color: rgb(59 130 246); /* blue-500 */
+  border-color: rgb(59 130 246);
+}
+
+.datatable-popover-content .rt-CheckboxRoot[data-state="unchecked"] {
+  border-color: rgb(209 213 219); /* gray-300 */
+  background-color: white;
+}
+
+.datatable-popover-content .rt-CheckboxRoot[data-state="checked"]:hover {
+  background-color: rgb(37 99 235); /* blue-600 */
+  border-color: rgb(37 99 235);
+}
+
+.datatable-popover-content .rt-CheckboxRoot[data-state="unchecked"]:hover {
+  border-color: rgb(59 130 246); /* blue-500 */
+  background-color: rgb(239 246 255); /* blue-50 */
+}
+
+.datatable-popover-content .rt-Text {
+  font-size: 12px;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.datatable-popover-content .rt-Text:hover {
+  color: rgb(59 130 246); /* blue-500 */
+}
+
+/* Checkbox item container styling */
+.datatable-popover-content .rt-Flex {
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.datatable-popover-content .rt-Flex:hover {
+  background-color: rgb(249 250 251); /* gray-50 */
+}
+
+/* Checkbox indicator styling */
+.datatable-popover-content .rt-CheckboxIndicator {
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+}
+
 .datatable-tbody {
   @apply bg-white divide-y divide-gray-200 block max-h-[300px] overflow-y-auto;
 }
@@ -236,3 +298,44 @@ textarea::-webkit-scrollbar-thumb:hover {
 }
 
 /* Popover focus-visible styles */
+
+/* Native checkbox styling for DataTable2 filters */
+.datatable-popover-content input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgb(209 213 219); /* gray-300 */
+  border-radius: 0.25rem;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  background-color: white;
+}
+
+.datatable-popover-content input[type="checkbox"]:hover {
+  border-color: rgb(96 165 250); /* blue-400 */
+  background-color: rgb(239 246 255); /* blue-50 */
+}
+
+.datatable-popover-content input[type="checkbox"]:checked {
+  background-color: rgb(96 165 250); /* blue-400 */
+  border-color: rgb(96 165 250); /* blue-400 */
+}
+
+.datatable-popover-content input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 0.25rem;
+  height: 0.5rem;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+}
+
+.datatable-popover-content input[type="checkbox"]:checked:hover {
+  background-color: rgb(59 130 246); /* blue-500 */
+  border-color: rgb(59 130 246); /* blue-500 */
+}
