@@ -29,7 +29,6 @@ function Index() {
 
 	return (
 		<div className='p-16'>
-			<div>Hi</div>
 			<DataTable2 columns={columns} data={initialData} />
 			
 

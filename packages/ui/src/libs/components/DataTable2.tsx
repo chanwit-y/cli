@@ -4,15 +4,16 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, ListFilter, SendToBack } from "lucide-react"
 import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
-// import { Checkbox } from "./Checkbox"
-import { Flex, Checkbox, Text } from "@radix-ui/themes"
+import { Text } from "@radix-ui/themes"
 
 interface Props<T extends Record<string, any>> {
 	data?: T[]
 	columns?: any[]
+	title?: string,
+	canSearchAllColumns?: boolean
 }
 
-export const DataTable2 = <T extends Record<string, any>>({ data = [], columns = [] }: Props<T>) => {
+export const DataTable2 = <T extends Record<string, any>>({ data = [], columns = [], title, canSearchAllColumns = false }: Props<T>) => {
 	const [globalFilter, setGlobalFilter] = useState('')
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [pagination, setPagination] = useState<PaginationState>({
@@ -64,21 +65,22 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 
 	return (<div className="datatable-container">
 		<div className="datatable-header">
-			<div className="datatable-title">[Table]</div>
+			<div className="datatable-title">{title}</div>
 
-			<div className="datatable-controls-wrapper">
+			{canSearchAllColumns && (
+				<div className="datatable-controls-wrapper">
+					<TextField
+						ref={filterRef}
+						width={200}
+						placeholder="Search all columns..."
+						value={globalFilter ?? ''}
+						onChange={(e) => setGlobalFilter(e.target.value)} />
 
-				<TextField
-					ref={filterRef}
-					width={200}
-					placeholder="Search all columns..."
-					value={globalFilter ?? ''}
-					onChange={(e) => setGlobalFilter(e.target.value)} />
-
-				<span className="datatable-row-count">
-					{table.getFilteredRowModel().rows.length} of {table.getCoreRowModel().rows.length} total rows
-				</span>
-			</div>
+					<span className="datatable-row-count">
+						{table.getFilteredRowModel().rows.length} of {table.getCoreRowModel().rows.length} total rows
+					</span>
+				</div>
+			)}
 
 		</div>
 
@@ -88,9 +90,9 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 
 					{table.getHeaderGroups().map(headerGroup => (
 						<tr key={headerGroup.id} className="datatable-header-row">
-							<th className="datatable-header-cell-icon">
+							{/* <th className="datatable-header-cell-icon">
 								<SendToBack className="w-4 h-4" />
-							</th>
+							</th> */}
 							{headerGroup.headers.map(header => (
 								header.column.columnDef.header && <th key={header.id} className="datatable-header-cell hover:bg-blue-300 cursor-pointer">
 									<div className="datatable-header-content" >
@@ -136,32 +138,29 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 																	const isChecked = currentFilter.includes(value);
 
 																	return (
-																		// <div key={value} className="flex items-center py-1.5 px-1 hover:bg-gray-50 rounded">
-																			<div key={value} className="flex  p-1 hover:bg-gray-50 rounded">
-																				<input
-																					type="checkbox"
-																					checked={isChecked}
-																					className="mr-2"
-																					onChange={(checked) => {
-																						const currentValues = header.column.getFilterValue() as string[] || [];
-																						let newValues: string[];
+																		<div key={value} className="flex  p-1 hover:bg-gray-50 rounded">
+																			<input
+																				type="checkbox"
+																				checked={isChecked}
+																				className="mr-2"
+																				onChange={(e) => {
+																					const checked = e.target.checked;
+																					const currentValues = header.column.getFilterValue() as string[] || [];
+																					let newValues: string[];
 
-																						if (checked) {
-																							newValues = [...currentValues, value];
-																						} else {
-																							newValues = currentValues.filter(v => v !== value);
-																						}
+																					if (checked) {
+																						newValues = [...currentValues, value];
+																					} else {
+																						newValues = currentValues.filter(v => v !== value);
+																					}
 
-																						header.column.setFilterValue(newValues.length > 0 ? newValues : undefined);
-																					}}
-																					// defaultChecked
-																					// size="1"
-																				/>
-																				<Text as="span" size="3">
+																					header.column.setFilterValue(newValues.length > 0 ? newValues : undefined);
+																				}}
+																			/>
+																			<Text as="span" size="3">
 																				{value}
-																				</Text>
-																			</div>
-																		// </div>
+																			</Text>
+																		</div>
 																	);
 																})}
 															</div>
@@ -201,7 +200,7 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 
 				<tbody className="datatable-tbody">
 					{table.getPaginationRowModel().rows.map(row => (
-						<tr key={row.id} className="datatable-body-row">
+						<tr key={row.id} className="datatable-body-row hover:bg-blue-50">
 							{row.getVisibleCells().map(cell => (
 								<td key={cell.id} className="datatable-body-cell">
 									{flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -290,8 +289,8 @@ export const DataTable2 = <T extends Record<string, any>>({ data = [], columns =
 										<button
 											key={page}
 											onClick={() => table.setPageIndex(Number(page) - 1)}
-											className={`px-3 py-2 text-sm border rounded transition-colors ${currentPage === page
-												? 'bg-blue-500 text-white border-blue-500'
+											className={`px-3 py-1 text-sm border rounded transition-colors ${currentPage === page
+												? 'bg-blue-300 text-white ring-1 ring-blue-300'
 												: 'border-gray-300 hover:bg-gray-50'
 												}`}
 										>

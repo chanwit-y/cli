@@ -13,14 +13,7 @@ type Person = {
 const columnHelper = createColumnHelper<Person>();
 
 export const columns = [
-	columnHelper.display({
-		id: 'drag-handle',
-		header: '',
-		cell: () => null, // The drag handle will be rendered in DraggableRow
-		size: 40,
-		enableSorting: false,
-		enableColumnFilter: false,
-	}),
+	
 	columnHelper.accessor('firstName', {
 		id: 'firstName',
 		header: 'First Name',
