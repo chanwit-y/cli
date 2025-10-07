@@ -1,4 +1,5 @@
 import type { Box, Container } from "../../@types";
+import { Table } from "./table";
 
 export const variables = {};
 
@@ -11,7 +12,7 @@ export const boxs: Box[] = [
     lg: "12",
     xl: "12",
     type: "datatable",
-    element: {}
+    element: Table
   },
   {
     sm: "12",

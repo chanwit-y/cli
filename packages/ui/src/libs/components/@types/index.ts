@@ -197,6 +197,13 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
     }
   >;
 
+export type DataTableProps<T extends Record<string, any>> = {
+  columns?: any[];
+  title?: string;
+  canSearchAllColumns?: boolean;
+  api?: APIFunction;
+};
+
 export type PopoverProps = BaseComponentProps<
   "div",
   {
@@ -231,10 +238,10 @@ export type IconProps = BaseComponentProps<
   } & Omit<LucideProps, "size" | "color" | "strokeWidth">
 >;
 
-export type DataTableElement = {
-  name: string;
-  columns: [];
-};
+// export type DataTableElement = {
+//   name: string;
+//   columns: [];
+// };
 
 export type AutocompleteElement = {
   name: string;
@@ -289,7 +296,7 @@ export type Box = {
     | "textarea"
     | "container"
     | "empty";
-  element?: AutocompleteElement | TextFieldElement;
+  element?: AutocompleteElement | TextFieldElement | DataTableElement;
   container?: Container;
 };
 
@@ -311,3 +318,16 @@ export type FnAPI = (
 export interface IElement {
   create(): JSX.Element;
 }
+
+export type DataTableElement = {
+  name: string;
+  columns: {
+    accessor: string;
+    header: string;
+    enableSorting: boolean;
+    enableColumnFilter: boolean;
+  }[];
+  api: {
+    name: string;
+  };
+};

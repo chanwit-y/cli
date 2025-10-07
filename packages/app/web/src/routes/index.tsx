@@ -28,15 +28,12 @@ function Index() {
 
 
 	return (
-		<div className='p-16'>
-			<DataTable2 columns={columns} data={initialData} />
 			
 
-<div className='mt-16 '>
+		<div className='p-8'>
 			{f}
-</div>
+		</div>
 
-</div>
 	)
 }
 

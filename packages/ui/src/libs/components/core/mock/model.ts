@@ -45,5 +45,25 @@ export const model: TModelMaster = {
     },
     message: "string",
     success: "boolean"
+  },
+  empParam: {
+    a: "string"
+  },
+  empQuery: {
+    a: "string"
+  },
+  userRes: {
+    data: {
+      type: "array",
+      collection: {
+        id: "string",
+        firstName: "string",
+        lastName: "string",
+        age: "number",
+        visits: "number",
+        progress: "number",
+        status: "string",
+      },
+    }
   }
 };

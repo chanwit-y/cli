@@ -29,5 +29,14 @@ export const api = {
       parameter: "oeSiteParam",
       query: "autocompleteQuery",
       withOptions: false,
+    },
+    users: {
+      url: "/mock/users/:a",
+      description: "Get all users",
+      methods: "GET",
+      response: "userRes",
+      parameter: "empParam",
+      query: "empQuery",
+      withOptions: false,
     }
 }

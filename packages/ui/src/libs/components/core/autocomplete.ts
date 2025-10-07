@@ -7,7 +7,7 @@ export class Autocomplete implements IElement {
 	constructor(
 		private _props: AutocompleteElement,
 		private _form: any,
-		private _fnAPI: APIFunction) {
+		private _api: APIFunction) {
 
 	}
 
@@ -19,7 +19,7 @@ export class Autocomplete implements IElement {
 			idKey: this._props.keys.id,
 			displayKey: this._props.keys.display,
 			errorMessage: this._props.errorMessage,
-			api: this._fnAPI,
+			api: this._api,
 			canObserve: this._props.canObserve,
 			observeTo: this._props.observeTo,
 			apiObserveParam: this._props.api.observeParam,
