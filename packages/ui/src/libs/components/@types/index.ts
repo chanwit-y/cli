@@ -243,6 +243,10 @@ export type IconProps = BaseComponentProps<
 //   columns: [];
 // };
 
+export type API = {
+  name: string;
+}
+
 export type AutocompleteElement = {
   name: string;
   dataType: string;
@@ -250,8 +254,7 @@ export type AutocompleteElement = {
   observeTo: string;
   isRequired: boolean;
   errorMessage: string;
-  api: {
-    name: string;
+  api: API & {
     observeParam: string;
     canSearch: boolean;
   };
@@ -259,6 +262,19 @@ export type AutocompleteElement = {
     id: any;
     search: any;
     display: any;
+  };
+};
+
+export type DataTableElement = {
+  name: string;
+  columns: {
+    accessor: string;
+    header: string;
+    enableSorting: boolean;
+    enableColumnFilter: boolean;
+  }[];
+  api: API & {
+
   };
 };
 
@@ -311,7 +327,19 @@ export type Page = {
   containers: Container[];
 };
 
-export type FnAPI = (
+export type FnAPI = FnAPI1 | FnAPI2 | FnAPI3 | FnAPI4;
+
+export type FnAPI1 = () => Promise<any>;
+
+export type FnAPI2= (
+  query: Record<string, any>,
+) => Promise<any>;
+
+export type FnAPI3= (
+  params: Record<string, any>
+) => Promise<any>;
+
+export type FnAPI4 = (
   query: Record<string, any>,
   params: Record<string, any>
 ) => Promise<any>;
@@ -319,15 +347,3 @@ export interface IElement {
   create(): JSX.Element;
 }
 
-export type DataTableElement = {
-  name: string;
-  columns: {
-    accessor: string;
-    header: string;
-    enableSorting: boolean;
-    enableColumnFilter: boolean;
-  }[];
-  api: {
-    name: string;
-  };
-};

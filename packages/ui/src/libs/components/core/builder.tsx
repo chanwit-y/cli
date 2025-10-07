@@ -1,6 +1,6 @@
 import type { ApiMaster, TApiMaster } from "../../api/APIMaster";
 import type { TModelMaster } from "../../model/master";
-import type { AutocompleteElement, Container, FnAPI, DataTableElement } from "../@types";
+import type { AutocompleteElement, Container, FnAPI4, DataTableElement, FnAPI } from "../@types";
 import { Form } from "../form";
 import { Autocomplete } from "./autocomplete";
 import { Schema } from "./schema";
@@ -39,7 +39,7 @@ export class Builder<M extends TModelMaster, A extends TApiMaster<M>> {
 		}
 
 		// Fallback
-		return <span>x</span>;
+		return <span>*</span>;
 	}
 
 	public draw() {

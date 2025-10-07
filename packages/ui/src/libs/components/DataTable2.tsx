@@ -345,7 +345,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 										<button
 											key={page}
 											onClick={() => table.setPageIndex(Number(page) - 1)}
-											className={`px-3 py-1 text-sm border rounded transition-colors ${currentPage === page
+											className={`px-3 py-1 text-sm cursor-pointer border rounded transition-colors ${currentPage === page
 												? 'bg-blue-300 text-white ring-1 ring-blue-300'
 												: 'border-gray-300 hover:bg-gray-50'
 												}`}
