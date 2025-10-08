@@ -162,8 +162,9 @@ export type AutocompleteProps = BaseComponentProps<
 >;
 
 export type APIFunction = (
-  query: Record<string, any>,
-  params: Record<string, any>
+  query?: Record<string, any>,
+  params?: Record<string, any>,
+  body?: Record<string, any>
 ) => Promise<any>;
 
 export type AutocompleteProps2<T extends Record<string, any> = {}> =
@@ -191,9 +192,10 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       observeTo?: string;
       // apiSubject?: Subject<string>;
       // api?: (params: Record<string, any>) => Observable<T[]>;
-      apiCanSearch?: boolean;
+      // apiCanSearch?: boolean;
       api?: APIFunction;
-      apiObserveParam?: string;
+      apiInfo?: API
+      // apiObserveParam?: string;
     }
   >;
 
@@ -202,6 +204,7 @@ export type DataTableProps<T extends Record<string, any>> = {
   title?: string;
   canSearchAllColumns?: boolean;
   api?: APIFunction;
+  apiInfo?: API;
 };
 
 export type PopoverProps = BaseComponentProps<
@@ -238,14 +241,17 @@ export type IconProps = BaseComponentProps<
   } & Omit<LucideProps, "size" | "color" | "strokeWidth">
 >;
 
-// export type DataTableElement = {
-//   name: string;
-//   columns: [];
-// };
+export type DataValue = {
+  type: "variable" | "state" | "observe" | "value";
+  key: "none" | string;
+};
 
 export type API = {
   name: string;
-}
+  query?: Record<string, DataValue>;
+  params?: Record<string, DataValue>;
+  body?: Record<string, DataValue>;
+};
 
 export type AutocompleteElement = {
   name: string;
@@ -255,8 +261,8 @@ export type AutocompleteElement = {
   isRequired: boolean;
   errorMessage: string;
   api: API & {
-    observeParam: string;
-    canSearch: boolean;
+    // observeParam: string;
+    // canSearch: boolean;
   };
   keys: {
     id: any;
@@ -273,9 +279,7 @@ export type DataTableElement = {
     enableSorting: boolean;
     enableColumnFilter: boolean;
   }[];
-  api: API & {
-
-  };
+  api: API & {};
 };
 
 export type TextFieldElement = {};
@@ -331,13 +335,9 @@ export type FnAPI = FnAPI1 | FnAPI2 | FnAPI3 | FnAPI4;
 
 export type FnAPI1 = () => Promise<any>;
 
-export type FnAPI2= (
-  query: Record<string, any>,
-) => Promise<any>;
+export type FnAPI2 = (query: Record<string, any>) => Promise<any>;
 
-export type FnAPI3= (
-  params: Record<string, any>
-) => Promise<any>;
+export type FnAPI3 = (params: Record<string, any>) => Promise<any>;
 
 export type FnAPI4 = (
   query: Record<string, any>,
@@ -346,4 +346,3 @@ export type FnAPI4 = (
 export interface IElement {
   create(): JSX.Element;
 }
-

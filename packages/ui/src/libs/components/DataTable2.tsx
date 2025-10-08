@@ -6,6 +6,7 @@ import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
 import { Text } from "@radix-ui/themes"
 import type { DataTableProps } from "./@types"
+import { useCore } from "./core/context"
 
 // Utility function to highlight matching text
 const highlightText = (text: string, searchTerm: string) => {
@@ -18,7 +19,7 @@ const highlightText = (text: string, searchTerm: string) => {
 
 	return (
 		<>
-			{parts.map((part, index) => 
+			{parts.map((part, index) =>
 				regex.test(part) ? (
 					<mark key={index} className="bg-yellow-200 px-1 rounded">
 						{part}
@@ -35,12 +36,12 @@ const highlightText = (text: string, searchTerm: string) => {
 const renderCellWithHighlight = (cell: any, globalFilter: string) => {
 	const cellValue = cell.getValue()
 	const cellContent = flexRender(cell.column.columnDef.cell, cell.getContext())
-	
+
 	// If there's a global filter and the cell value is a string, highlight it
 	if (globalFilter && typeof cellValue === 'string') {
 		return highlightText(cellValue, globalFilter)
 	}
-	
+
 	// For custom cell renderers, try to extract text content and highlight
 	if (globalFilter && cellContent && typeof cellContent === 'object' && 'props' in cellContent) {
 		// If it's a React element with children, try to highlight text content
@@ -51,7 +52,7 @@ const renderCellWithHighlight = (cell: any, globalFilter: string) => {
 			}
 		}
 	}
-	
+
 	return cellContent
 }
 
@@ -59,9 +60,11 @@ const renderCellWithHighlight = (cell: any, globalFilter: string) => {
 export const DataTable2 = <T extends Record<string, any>>({
 	title,
 	api,
+	apiInfo,
 	columns = [],
-	canSearchAllColumns = false
+	canSearchAllColumns = false,
 }: DataTableProps<T>) => {
+	const { getDataValue } = useCore()
 	const [data, setData] = useState<T[]>([])
 	const [globalFilter, setGlobalFilter] = useState('')
 	const [sorting, setSorting] = useState<SortingState>([])
@@ -72,17 +75,17 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 	const columnValues = useMemo(() => {
 		const values: Record<string, string[]> = {}
-			columns.forEach(col => {
-				// Skip display columns like drag-handle
-				if ('accessorKey' in col && col.accessorKey) {
-					const accessor = col.accessorKey as string
-					const columnId = col.id || accessor
-					const uniqueValues = [...new Set(data.map(row => String(row[accessor])))]
-						.filter(Boolean)
-						.sort()
-					values[columnId] = uniqueValues
-				}
-			})
+		columns.forEach(col => {
+			// Skip display columns like drag-handle
+			if ('accessorKey' in col && col.accessorKey) {
+				const accessor = col.accessorKey as string
+				const columnId = col.id || accessor
+				const uniqueValues = [...new Set(data.map(row => String(row[accessor])))]
+					.filter(Boolean)
+					.sort()
+				values[columnId] = uniqueValues
+			}
+		})
 		return values
 	}, [data])
 
@@ -108,11 +111,19 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 
 	useEffect(() => {
-		console.log('call api')
-		api && api({}, {}).then((res) => {
+		// TODO: get value
+		console.log('call api', apiInfo)
+
+		// const query = Object.entries(apiInfo?.query ?? {}).reduce((acc, [key, value]) => {
+		// 	return { ...acc, [key]: value }
+		// }, {})
+
+
+
+		api && api().then((res) => {
 			setData(res.data)
 		})
-	}, [api])
+	}, [api, apiInfo])
 
 	useEffect(() => {
 		filterRef.current?.focus()
@@ -136,7 +147,6 @@ export const DataTable2 = <T extends Record<string, any>>({
 					</span>
 				</div>
 			)}
-
 		</div>
 
 		<div className="datatable-table-wrapper">

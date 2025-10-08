@@ -21,7 +21,7 @@ export const boxs: Box[] = [
     xl: "3",
     type: "autocomplete",
     element: {
-      name: "site",
+      name: "siteId",
       dataType: "string",
       canObserve: true,
       observeTo: "",
@@ -34,7 +34,6 @@ export const boxs: Box[] = [
       },
       api: {
         name: "sites",
-        params: {},
       },
     },
   },
@@ -48,7 +47,7 @@ export const boxs: Box[] = [
       name: "seam",
       dataType: "string",
       canObserve: false,
-      observeTo: "site",
+      observeTo: "siteId",
       isRequired: true,
       errorMessage: "seam is request",
       keys: {
@@ -58,7 +57,19 @@ export const boxs: Box[] = [
       },
       api: {
         name: "seam",
-        observeParam: "siteId",
+        params: {
+          siteId: {
+            type: "observe",
+            key: "siteId",
+          },
+        },
+        query: {
+          text: {
+            type: "value",
+            key: "none"
+          }
+        }
+        // observeParam: "siteId",
       },
     },
   },

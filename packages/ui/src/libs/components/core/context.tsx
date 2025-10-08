@@ -1,9 +1,11 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { Subject } from "rxjs";
+import type { DataValue } from "../@types";
 
 type CoreContextType = {
 	observeTable: Record<string, any>;
 	addObserveTable: (key: string) => void;
+	getDataValue: (dv: DataValue) => Subject<unknown> | undefined
 }
 
 const Context = createContext<CoreContextType>({} as CoreContextType);
@@ -19,13 +21,22 @@ export const Provider = ({ children }: CoreProviderProps) => {
 		setObserveTable((prev) => ({ ...prev, [key]: new Subject<unknown>() }));
 	}, []);
 
+	const getDataValue = useCallback((dv: DataValue) => {
+		switch (dv.type) {
+			case "variable":
+				return undefined;
+			case "state":
+				return undefined
+			case "observe":
+				return observeTable[dv.key]
+		}
+	}, [observeTable]);
+
 	useEffect(() => {
 		console.log('init provider')
 	}, [])
 
-
-
-	return <Context.Provider value={{ observeTable, addObserveTable }}>
+	return <Context.Provider value={{ observeTable, addObserveTable, getDataValue }}>
 		{children}
 		<pre>
 			{JSON.stringify(observeTable, null, 2)}

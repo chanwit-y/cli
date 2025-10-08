@@ -37,14 +37,15 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		canObserve,
 		observeTo,
 		api,
-		apiCanSearch = false,
-		apiObserveParam,
+		apiInfo,
+		// apiCanSearch = false,
+		// apiObserveParam,
 		onValueChange,
 		onChange,
 		onBlur,
 		...props
 	}, ref) => {
-		const { addObserveTable, observeTable } = useCore()
+		const { addObserveTable, getDataValue } = useCore()
 
 		const [items, setItems] = useState(options ?? [])
 		const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);
@@ -60,19 +61,8 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		const searchInputRef = useRef<HTMLInputElement>(null);
 
 		const subject = useMemo(() => new Subject<string>(), [])
-		const apiSearch = useMemo(() => {
-			if (api && apiCanSearch) {
-				return subject.pipe(
-					debounce(() => interval(500)),
-					distinct(),
-					switchMap(async (text) => {
-						// return Promise.resolve(api({ text }, {}))
-						return Promise.resolve(fetchData(text))
-					}),
 
-				)
-			} else return undefined
-		}, [subject])
+
 		const filteredItems = useMemo(() => {
 			if (!query.trim()) return items;
 
@@ -83,26 +73,46 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		const selectedItem = useMemo(() => items.find(item => String(item[idKey]) === String(value)), [items, value, searchKey]);
 
 		const fetchData = useCallback((text: string) => {
-
+			console.log(observeTo, observeData, api, apiInfo)
 			if (observeTo !== "") {
-				if (!isEmpty(apiObserveParam)) {
-					if (!isEmpty(observeData))
+				console.log(observeTo)
+				console.log(!isEmpty(apiInfo?.params))
+				if (!isEmpty(apiInfo?.params)) {
+					if (!isEmpty(observeData)) {
+						const p = Object.entries(apiInfo?.params ?? {}).reduce((acc, [key, value]) => {
+							return { ...acc, [key]: value.type === "observe" ? observeData : value.type === "value" ? text : value }
+						}, {})
 						return api && api({ text }, {
-							[apiObserveParam as string]: observeData
+							...p
 						})
+					}
 				}
 			} else {
 				return api && api({ text }, {})
 			}
-		}, [observeTo, apiObserveParam, observeData, api]);
+		}, [observeTo, observeData, api, apiInfo]);
+
+		const apiSearch = useMemo(() => {
+			if (api && apiInfo?.query) {
+				return subject.pipe(
+					debounce(() => interval(500)),
+					distinct(),
+					switchMap(async (text) => {
+						return Promise.resolve(fetchData(text))
+					}),
+
+				)
+			} else return undefined
+		}, [subject, apiInfo, fetchData, observeData])
 
 		const handValueChange = useCallback((newValue: string) => {
 			onValueChange?.(newValue);
 			onChange?.(newValue);
 			if (canObserve && name) {
-				observeTable?.[name as keyof typeof observeTable].next(newValue);
+				// observeTable?.[name as keyof typeof observeTable].next(newValue);
+				getDataValue({ key: name, type: "observe" })?.next(newValue)
 			}
-		}, [onValueChange, onChange, canObserve, name, observeTable])
+		}, [onValueChange, onChange, canObserve, name, getDataValue])
 		const handleSelect = useCallback((item: T) => {
 			handValueChange(String(item[idKey]));
 			setQuery('');
@@ -204,30 +214,39 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 
 		useEffect(() => setSelectedIndex(-1), [query])
 
-
 		useEffect(() => {
 			canObserve && name && addObserveTable(name);
 		}, [canObserve, name, addObserveTable]);
 
 		useEffect(() => {
-			observeTable?.[observeTo as keyof typeof observeTable] && observeTable?.[observeTo as keyof typeof observeTable].subscribe((data: unknown) => {
-				setObserveData(data)
-			})
-		}, [observeTable, observeTo])
+			if (observeTo) {
+				getDataValue({ key: observeTo, type: "observe" })?.subscribe((data: unknown) => {
+					onChange?.(null as any)
+					onValueChange?.(null as any)
+					setObserveData(data)
+				})
+			}
+		}, [getDataValue, observeTo])
 
 		useEffect(() => {
-			if (!apiCanSearch) {
+			fetchData("")?.then((res) => {
+				setItems(res.data ?? [])
+			});
+		}, [observeData])
+
+		useEffect(() => {
+			if (!apiInfo?.query) {
 				const result = fetchData("");
 				if (result) {
 					result.then((res: { data: any; }) => setItems(res.data ?? []));
 				}
 			}
-			else if (api && apiSearch) {
+			else if (apiSearch) {
 				apiSearch.subscribe((res) => {
 					setItems(res.data ?? [])
 				})
 			}
-		}, [api, apiCanSearch, apiSearch, observeTo, observeData, apiObserveParam]);
+		}, [apiSearch, observeData]);
 
 		return <Box className="w-full" >
 			{

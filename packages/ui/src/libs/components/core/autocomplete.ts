@@ -22,7 +22,8 @@ export class Autocomplete implements IElement {
 			api: this._api,
 			canObserve: this._props.canObserve,
 			observeTo: this._props.observeTo,
-			apiObserveParam: this._props.api.observeParam,
+			apiInfo: this._props.api,
+			// apiObserveParam: this._props.api.observeParam,
 			options: [], // Add required options property
 		})
 	}

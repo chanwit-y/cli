@@ -31,7 +31,7 @@ export const api = {
       withOptions: false,
     },
     users: {
-      url: "/mock/users/:a",
+      url: "/mock/users",
       description: "Get all users",
       methods: "GET",
       response: "userRes",

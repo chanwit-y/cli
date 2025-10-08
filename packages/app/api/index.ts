@@ -63,7 +63,7 @@ const app = new Elysia()
   // Health check
   .get("/health", () => ({ status: "ok", timestamp: new Date().toISOString() }))
 
-  .get("/mock/users/:a", () => {
+  .get("/mock/users", () => {
     return {
       data: [
         {
