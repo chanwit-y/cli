@@ -72,6 +72,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 		pageIndex: 0,
 		pageSize: 10,
 	})
+	const [isPageChanging, setIsPageChanging] = useState(false)
+	const prevPageIndexRef = useRef(pagination.pageIndex)
 
 	const columnValues = useMemo(() => {
 		const values: Record<string, string[]> = {}
@@ -128,6 +130,20 @@ export const DataTable2 = <T extends Record<string, any>>({
 	useEffect(() => {
 		filterRef.current?.focus()
 	}, [filterRef])
+
+	// Handle page change animation
+	useEffect(() => {
+		if (prevPageIndexRef.current !== pagination.pageIndex) {
+			setIsPageChanging(true)
+			prevPageIndexRef.current = pagination.pageIndex
+			
+			const timer = setTimeout(() => {
+				setIsPageChanging(false)
+			}, 300) // Match this with CSS animation duration
+			
+			return () => clearTimeout(timer)
+		}
+	}, [pagination.pageIndex])
 
 	return (<div className="datatable-container">
 		<div className="datatable-header">
@@ -264,7 +280,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 					))}
 				</thead>
 
-				<tbody className="datatable-tbody">
+				<tbody className={`datatable-tbody ${isPageChanging ? 'page-changing' : ''}`}>
 					{table.getPaginationRowModel().rows.map(row => (
 						<tr key={row.id} className="datatable-body-row hover:bg-blue-50">
 							{row.getVisibleCells().map(cell => (

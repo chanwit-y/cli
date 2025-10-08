@@ -366,3 +366,34 @@ textarea::-webkit-scrollbar-thumb:hover {
   display: inline-block;
   width: 100%;
 }
+
+/* Page change animation */
+@keyframes pageSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pageSlideOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+}
+
+.datatable-tbody.page-changing {
+  animation: pageSlideIn 0.3s ease-out;
+}
+
+.datatable-tbody.page-changing .datatable-body-row {
+  animation: fadeIn 0.3s ease-out;
+}
