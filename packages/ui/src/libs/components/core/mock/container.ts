@@ -1,11 +1,11 @@
-import type { Box, Container } from "../../@types";
+import type { Bin, Container } from "../../@types";
 import { Table } from "./table";
 
 export const variables = {};
 
 export const initLoad = {};
 
-export const boxs: Box[] = [
+export const boxs: Bin[] = [
   {
     sm: "12",
     md: "12",
@@ -87,9 +87,10 @@ export const boxs: Box[] = [
     lg: "6",
     xl: "6",
     container: {
+      id: "a7f3c891-4b2e-4d9a-8f6c-3e5d7a9b1c4f",
       name: "container",
       isAaary: false,
-      boxs: [
+      bins: [
         {
           type: "empty",
           sm: "4",
@@ -132,11 +133,19 @@ export const boxs: Box[] = [
 
 export const containers: Container[] = [
   {
+    id: "550e8400-e29b-41d4-a716-446655440000",
     name: "container",
     isAaary: false,
-    boxs: boxs,
+    bins: boxs,
   },
 ];
+
+export const contentModal1: Container = {
+  id: "a7f3c891-4b2e-4d9a-8f6c-3e5d7a9b1c4f",
+  name: "container",
+  isAaary: false,
+  bins: boxs,
+}
 
 // - add gap to container
 // - change element to []

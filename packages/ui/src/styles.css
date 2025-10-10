@@ -286,7 +286,7 @@ textarea::-webkit-scrollbar-thumb:hover {
 }
 
 .datatable-tbody {
-  @apply bg-white divide-y divide-gray-200 block max-h-[300px] overflow-y-auto;
+  @apply bg-white divide-y divide-gray-200 block h-[300px] overflow-y-auto;
 }
 
 .datatable-body-row {
@@ -294,7 +294,7 @@ textarea::-webkit-scrollbar-thumb:hover {
 }
 
 .datatable-body-cell {
-  @apply py-4 border-r border-gray-200 last:border-r-0 transition-colors duration-200 select-none;
+  @apply py-4 border-r border-b border-gray-200 last:border-r-0 transition-colors duration-200 select-none;
 }
 
 /* Popover focus-visible styles */
@@ -397,3 +397,50 @@ textarea::-webkit-scrollbar-thumb:hover {
 .datatable-tbody.page-changing .datatable-body-row {
   animation: fadeIn 0.3s ease-out;
 }
+
+/* Filter change animation */
+@keyframes filterFadeScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes filterRowStagger {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.datatable-tbody.filtering {
+  animation: filterFadeScale 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.datatable-tbody.filtering .datatable-body-row {
+  animation: filterRowStagger 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+.datatable-tbody.filtering .datatable-body-row:nth-child(1) { animation-delay: 0s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(2) { animation-delay: 0.02s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(3) { animation-delay: 0.04s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(4) { animation-delay: 0.06s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(5) { animation-delay: 0.08s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(6) { animation-delay: 0.10s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(7) { animation-delay: 0.12s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(8) { animation-delay: 0.14s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(9) { animation-delay: 0.16s; }
+.datatable-tbody.filtering .datatable-body-row:nth-child(10) { animation-delay: 0.18s; }

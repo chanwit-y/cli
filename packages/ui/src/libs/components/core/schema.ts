@@ -1,4 +1,4 @@
-import type { AutocompleteElement, Box, Container, TextFieldElement } from "../@types";
+import type { AutocompleteElement, Bin, Container, TextFieldElement } from "../@types";
 import { z } from "zod";
 
 export class Schema {
@@ -11,7 +11,7 @@ export class Schema {
 			const fields: Record<string, z.ZodTypeAny> = {};
 
 			containers.forEach(container => {
-				const containerFields = this.processBoxes(container.boxs);
+				const containerFields = this.processBoxes(container.bins);
 				
 				if (container.isAaary) {
 					// If container is an array, wrap the schema in z.array()
@@ -30,7 +30,7 @@ export class Schema {
 		return z.object(schemaFields);
 	}
 
-	private processBoxes(boxes: Box[]): Record<string, z.ZodTypeAny> {
+	private processBoxes(boxes: Bin[]): Record<string, z.ZodTypeAny> {
 		const fields: Record<string, z.ZodTypeAny> = {};
 
 		boxes.forEach(box => {
@@ -40,7 +40,7 @@ export class Schema {
 					fields[box.element.name] = elementSchema;
 				}
 			} else if (box.container) {
-				const containerFields = this.processBoxes(box.container.boxs);
+				const containerFields = this.processBoxes(box.container.bins);
 				
 				if (box.container.isAaary) {
 					fields[box.container.name] = z.array(z.object(containerFields));

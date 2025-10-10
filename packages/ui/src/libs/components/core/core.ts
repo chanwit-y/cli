@@ -4,7 +4,7 @@ import { model } from "./mock/model";
 import { api } from "./mock/api";
 import { ApiMaster, type TApiMaster } from "../../api/APIMaster";
 import { Builder } from "./builder";
-import {  containers } from "./mock/box";
+import {  containers } from "./mock/container";
 
 
 class Core {

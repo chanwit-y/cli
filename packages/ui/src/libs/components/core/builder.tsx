@@ -50,7 +50,7 @@ export class Builder<M extends TModelMaster, A extends TApiMaster<M>> {
 				<Provider>
 					<div className="grid grid-cols-12 gap-1">
 						{this._connainers.map((c) => {
-							return c.boxs.map((b) => {
+							return c.bins.map((b) => {
 								const api = b.element && 'api' in b.element ? this._apis.api[b.element.api.name] as FnAPI : null;
 								const colClasses = `sm-col-span-${b.sm} md-col-span-${b.md} lg-col-span-${b.lg} xl-col-span-${b.xl}`;
 

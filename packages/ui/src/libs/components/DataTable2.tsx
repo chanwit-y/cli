@@ -1,5 +1,5 @@
 import { TextField } from "./TextField"
-import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel } from "@tanstack/react-table"
+import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel, type ColumnFiltersState } from "@tanstack/react-table"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, ListFilter } from "lucide-react"
 import Icon from "./Icon"
@@ -68,12 +68,15 @@ export const DataTable2 = <T extends Record<string, any>>({
 	const [data, setData] = useState<T[]>([])
 	const [globalFilter, setGlobalFilter] = useState('')
 	const [sorting, setSorting] = useState<SortingState>([])
+	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 	const [pagination, setPagination] = useState<PaginationState>({
 		pageIndex: 0,
 		pageSize: 10,
 	})
 	const [isPageChanging, setIsPageChanging] = useState(false)
+	const [isFiltering, setIsFiltering] = useState(false)
 	const prevPageIndexRef = useRef(pagination.pageIndex)
+	const prevColumnFiltersRef = useRef(columnFilters)
 
 	const columnValues = useMemo(() => {
 		const values: Record<string, string[]> = {}
@@ -100,9 +103,11 @@ export const DataTable2 = <T extends Record<string, any>>({
 			globalFilter,
 			pagination,
 			sorting,
+			columnFilters,
 		},
 		onGlobalFilterChange: setGlobalFilter,
 		onSortingChange: setSorting,
+		onColumnFiltersChange: setColumnFilters,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
@@ -144,6 +149,22 @@ export const DataTable2 = <T extends Record<string, any>>({
 			return () => clearTimeout(timer)
 		}
 	}, [pagination.pageIndex])
+
+	// Handle filter change animation
+	useEffect(() => {
+		const hasFilterChanged = JSON.stringify(prevColumnFiltersRef.current) !== JSON.stringify(columnFilters)
+		
+		if (hasFilterChanged && columnFilters.length >= 0) {
+			setIsFiltering(true)
+			prevColumnFiltersRef.current = columnFilters
+			
+			const timer = setTimeout(() => {
+				setIsFiltering(false)
+			}, 400) // Slightly longer animation for filter effect
+			
+			return () => clearTimeout(timer)
+		}
+	}, [columnFilters])
 
 	return (<div className="datatable-container">
 		<div className="datatable-header">
@@ -280,7 +301,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 					))}
 				</thead>
 
-				<tbody className={`datatable-tbody ${isPageChanging ? 'page-changing' : ''}`}>
+				<tbody className={`datatable-tbody ${isPageChanging ? 'page-changing' : ''} ${isFiltering ? 'filtering' : ''}`}>
 					{table.getPaginationRowModel().rows.map(row => (
 						<tr key={row.id} className="datatable-body-row hover:bg-blue-50">
 							{row.getVisibleCells().map(cell => (

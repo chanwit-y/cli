@@ -194,7 +194,7 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       // api?: (params: Record<string, any>) => Observable<T[]>;
       // apiCanSearch?: boolean;
       api?: APIFunction;
-      apiInfo?: API
+      apiInfo?: API;
       // apiObserveParam?: string;
     }
   >;
@@ -301,7 +301,7 @@ type BoxRange =
   | "10"
   | "11"
   | "12";
-export type Box = {
+export type Bin = {
   sm: BoxRange;
   md: BoxRange;
   lg: BoxRange;
@@ -321,10 +321,20 @@ export type Box = {
 };
 
 export type Container = {
+  id: string;
   name: string;
   isAaary: boolean;
-  boxs: Box[];
+  bins: Bin[];
 };
+
+export type Modal = Record<
+  string,
+  {
+    id: string;
+    title: string;
+    container: Container;
+  }
+>;
 
 export type Page = {
   name: string;
