@@ -288,6 +288,19 @@ type FormArray = {
   name: string;
 };
 
+export type TElement = AutocompleteElement | TextFieldElement | DataTableElement | ModalElement
+
+export type BinType =  "modal"
+    | "datatable"
+    | "autocomplete"
+    | "textfield"
+    | "select"
+    | "checkbox"
+    | "radio"
+    | "textarea"
+    | "container"
+    | "empty";
+
 type BoxRange =
   | "1"
   | "2"
@@ -306,17 +319,8 @@ export type Bin = {
   md: BoxRange;
   lg: BoxRange;
   xl: BoxRange;
-  type:
-    | "datatable"
-    | "autocomplete"
-    | "textfield"
-    | "select"
-    | "checkbox"
-    | "radio"
-    | "textarea"
-    | "container"
-    | "empty";
-  element?: AutocompleteElement | TextFieldElement | DataTableElement;
+  type: BinType;
+  element?: TElement;
   container?: Container;
 };
 
@@ -327,14 +331,14 @@ export type Container = {
   bins: Bin[];
 };
 
-export type Modal = Record<
-  string,
-  {
-    id: string;
-    title: string;
-    container: Container;
-  }
->;
+export type ModalElement = {
+  id: string;
+  title: string;
+  description?: string;
+  container: Container;
+};
+
+export type Modals = Record<string, ModalElement>;
 
 export type Page = {
   name: string;
@@ -354,5 +358,7 @@ export type FnAPI4 = (
   params: Record<string, any>
 ) => Promise<any>;
 export interface IElement {
+  // setAPI(api: APIFunction): void;
+  // setForm(form: any): void;
   create(): JSX.Element;
 }

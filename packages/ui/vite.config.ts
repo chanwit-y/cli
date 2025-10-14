@@ -6,13 +6,7 @@ import path from "path";
 
 export default defineConfig({
   plugins: [
-    react({
-      babel: {
-        parserOpts: {
-          plugins: ['decorators-legacy']
-        }
-      }
-    }), 
+    react(), 
     tailwindcss()
   ],
   esbuild: {

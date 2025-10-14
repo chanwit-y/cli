@@ -1,9 +1,7 @@
 import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import {  core, DataTable2, IconExamples } from 'vegaui'
-import { DataTable } from 'vegaui'
-import { columns, initialData } from '../mock/table'
-import { Checkbox, Flex } from '@radix-ui/themes'
+import {  core, Modal } from 'vegaui'
+import { Button } from '@radix-ui/themes'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({
@@ -28,12 +26,19 @@ function Index() {
 
 
 	return (
-			
+		<div>
+			<Modal
+				trigger={<Button>Open Modal</Button>}
+				title="Modal Title"
+				description="Modal Description"
+			>
+				<div>Modal Content</div>
+			</Modal>
 
-		<div className='p-8'>
-			{f}
+			<div className='p-8'>
+				{f}
+			</div>
 		</div>
-
 	)
 }
 

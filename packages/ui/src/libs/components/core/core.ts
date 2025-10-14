@@ -3,7 +3,7 @@ import { ApiFactory, HttpClientFactory } from "../../api";
 import { model } from "./mock/model";
 import { api } from "./mock/api";
 import { ApiMaster, type TApiMaster } from "../../api/APIMaster";
-import { Builder } from "./builder";
+import { ContainerBuilder } from "./containerBuilder";
 import {  containers } from "./mock/container";
 
 
@@ -24,7 +24,7 @@ class Core {
 	constructor() {}
 
 	public run() {
-		return (new Builder(containers, this._apis)).draw()
+		return (new ContainerBuilder(containers, this._apis)).draw()
 	}
 }
 
