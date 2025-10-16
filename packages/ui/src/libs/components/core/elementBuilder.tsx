@@ -54,22 +54,9 @@ export class ElementContext<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	public build(type: BinType): IElement | null {
 		try {
-			// return new ElementData[type](this);
-
 			console.log("type",type)
 			return !["empty", "container"].includes(type) ? new (ElementData as any)[type](this) : null;
-			// switch (type) {
-			// 	case "autocomplete":
-			// 		return new Autocomplete(this);
-			// 	case "datatable":
-			// 		return new DataTable(this);
-			// 	case "modal":
-			// 		return new Modal(this);
-			// 	case "button":
-			// 		return new Button(this);
-			// 	default:
-			// 		return null;
-			// }
+			
 		} catch (err) {
 			throw new Error(err instanceof Error ? err.message : String(err));
 		}
