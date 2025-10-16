@@ -38,9 +38,9 @@ export const Provider = ({ children }: CoreProviderProps) => {
 
 	return <Context.Provider value={{ observeTable, addObserveTable, getDataValue }}>
 		{children}
-		<pre>
+		{/* <pre>
 			{JSON.stringify(observeTable, null, 2)}
-		</pre>
+		</pre> */}
 	</Context.Provider>;
 };
 

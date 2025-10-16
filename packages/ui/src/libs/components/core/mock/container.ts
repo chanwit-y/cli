@@ -5,6 +5,59 @@ export const variables = {};
 
 export const initLoad = {};
 
+export const contentModal1: Container = {
+  id: "a7f3c891-4b2e-4d9a-8f6c-3e5d7a9b1c4f",
+  name: "container",
+  isAaary: false,
+  bins: [
+    {
+      sm: "12",
+      md: "12",
+      lg: "12",
+      xl: "12",
+      type: "datatable",
+      element: Table,
+    },
+    {
+      sm: "12",
+      md: "6",
+      lg: "4",
+      xl: "3",
+      type: "autocomplete",
+      element: {
+        name: "siteId",
+        dataType: "string",
+        canObserve: true,
+        observeTo: "",
+        isRequired: true,
+        errorMessage: "site is request",
+        keys: {
+          id: "value",
+          search: "label",
+          display: "label",
+        },
+        api: {
+          name: "sites",
+        },
+      },
+    },
+    {
+      type: "empty",
+      sm: "4",
+      md: "4",
+      lg: "4",
+      xl: "4",
+    },
+    {
+      type: "empty",
+      sm: "4",
+      md: "4",
+      lg: "4",
+      xl: "4",
+    },
+  ],
+};
+
 export const boxs: Bin[] = [
   {
     sm: "12",
@@ -12,7 +65,7 @@ export const boxs: Bin[] = [
     lg: "12",
     xl: "12",
     type: "datatable",
-    element: Table
+    element: Table,
   },
   {
     sm: "12",
@@ -66,9 +119,9 @@ export const boxs: Bin[] = [
         query: {
           text: {
             type: "value",
-            key: "none"
-          }
-        }
+            key: "none",
+          },
+        },
         // observeParam: "siteId",
       },
     },
@@ -113,11 +166,23 @@ export const boxs: Bin[] = [
           xl: "4",
         },
         {
-          type: "empty",
+          type: "modal",
           sm: "4",
           md: "4",
           lg: "4",
           xl: "4",
+          element: {
+            id: "a7f3c891-4b2e-4d9a-8f6c-3e5d7a9b1c4f",
+            title: "modal",
+            description: "modal",
+            container: contentModal1,
+            maxWidth: "800px",
+            trigger: {
+              label: "",
+              action: "OpenModal",
+              icon: "puls"
+            }
+          },
         },
       ],
     },
@@ -139,13 +204,6 @@ export const containers: Container[] = [
     bins: boxs,
   },
 ];
-
-export const contentModal1: Container = {
-  id: "a7f3c891-4b2e-4d9a-8f6c-3e5d7a9b1c4f",
-  name: "container",
-  isAaary: false,
-  bins: boxs,
-}
 
 // - add gap to container
 // - change element to []

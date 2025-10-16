@@ -9,6 +9,7 @@ import {
 import { type ThemeProps } from "@radix-ui/themes";
 import type { ReactNode } from "react";
 import type { LucideIcon, LucideProps } from "lucide-react";
+import type { IconData } from "../core/const/iconData";
 
 export type Components = {
   TextField?: TextFieldProps;
@@ -271,14 +272,17 @@ export type AutocompleteElement = {
   };
 };
 
+export type ColumnDef = {
+  accessor: string;
+  header: string;
+  enableSorting: boolean;
+  enableColumnFilter: boolean;
+};
+
 export type DataTableElement = {
   name: string;
-  columns: {
-    accessor: string;
-    header: string;
-    enableSorting: boolean;
-    enableColumnFilter: boolean;
-  }[];
+  title: string;
+  columns: ColumnDef[];
   api: API & {};
 };
 
@@ -288,18 +292,24 @@ type FormArray = {
   name: string;
 };
 
-export type TElement = AutocompleteElement | TextFieldElement | DataTableElement | ModalElement
+export type TElement =
+  | AutocompleteElement
+  | TextFieldElement
+  | DataTableElement
+  | ModalElement;
 
-export type BinType =  "modal"
-    | "datatable"
-    | "autocomplete"
-    | "textfield"
-    | "select"
-    | "checkbox"
-    | "radio"
-    | "textarea"
-    | "container"
-    | "empty";
+export type BinType =
+  | "modal"
+  | "button"
+  | "datatable"
+  | "autocomplete"
+  | "textfield"
+  | "select"
+  | "checkbox"
+  | "radio"
+  | "textarea"
+  | "container"
+  | "empty";
 
 type BoxRange =
   | "1"
@@ -331,11 +341,21 @@ export type Container = {
   bins: Bin[];
 };
 
+export type ButtonAction = "OpenModal" | "CallAPI";
+
+export type ButtonElement = {
+  label: string;
+  icon: keyof typeof IconData;
+  action: ButtonAction;
+};
+
 export type ModalElement = {
   id: string;
   title: string;
   description?: string;
   container: Container;
+  trigger: ButtonElement;
+  maxWidth: string;
 };
 
 export type Modals = Record<string, ModalElement>;

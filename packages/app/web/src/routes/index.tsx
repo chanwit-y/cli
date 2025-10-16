@@ -27,14 +27,6 @@ function Index() {
 
 	return (
 		<div>
-			<Modal
-				trigger={<Button>Open Modal</Button>}
-				title="Modal Title"
-				description="Modal Description"
-			>
-				<div>Modal Content</div>
-			</Modal>
-
 			<div className='p-8'>
 				{f}
 			</div>
