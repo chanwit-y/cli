@@ -11,3 +11,6 @@ export * from "./components/DataTable2"
 export * from "./components/Icon"
 export * from "./components/Icon.example"
 export * from "./components/Modal"
+
+
+export * from "./components/MultiAutocomplete.example"

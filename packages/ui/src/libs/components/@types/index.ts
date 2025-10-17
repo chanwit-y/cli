@@ -201,7 +201,38 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
     }
   >;
 
-export type DataTableProps<T extends Record<string, any>> = {
+export type MultiAutocompleteProps<T extends Record<string, any> = {}> =
+  BaseComponentProps<
+    "button",
+    {
+      name?: string;
+      label?: string;
+      placeholder?: string;
+      helperText?: string;
+      error?: boolean;
+      errorMessage?: string;
+      variant?: "classic" | "surface" | "soft";
+      size?: "1" | "2" | "3";
+      radius?: "none" | "small" | "medium" | "large" | "full";
+      options: T[];
+      searchKey: keyof T;
+      idKey: keyof T;
+      displayKey: keyof T;
+      values?: string[];
+      onValuesChange?: (values: string[]) => void;
+      onChange?: (values: string[]) => void;
+      onBlur?: () => void;
+      maxResults?: number;
+      canObserve?: boolean;
+      observeTo?: string;
+      api?: APIFunction;
+      apiInfo?: API;
+      maxSelections?: number;
+      showSelectedCount?: boolean;
+    }
+  >;
+
+export type DataTableProps = {
   columns?: any[];
   title?: string;
   canSearchAllColumns?: boolean;
@@ -291,10 +322,6 @@ export type DataTableElement = {
 };
 
 export type TextFieldElement = {};
-
-type FormArray = {
-  name: string;
-};
 
 export type TElement =
   | AutocompleteElement

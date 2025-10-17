@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import {  core, Modal } from 'vegaui'
+import {  core, Modal, MultiAutocompleteExample } from 'vegaui'
 import { Button } from '@radix-ui/themes'
 
 // @ts-ignore
@@ -29,6 +29,9 @@ function Index() {
 		<div>
 			<div className='p-8'>
 				{f}
+			</div>
+			<div>
+				<MultiAutocompleteExample />
 			</div>
 		</div>
 	)
