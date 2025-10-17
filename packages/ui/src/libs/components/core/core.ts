@@ -1,10 +1,11 @@
 import type { TModelMaster } from "../../model/master";
 import { ApiFactory, HttpClientFactory } from "../../api";
-import { model } from "./mock/model";
-import { api } from "./mock/api";
 import { ApiMaster, type TApiMaster } from "../../api/APIMaster";
 import { ContainerBuilder } from "./containerBuilder";
-import {  containers } from "./mock/container";
+
+import { model } from "./mock/sourceApp/model";
+import { api } from "./mock/sourceApp/api";
+import {  containers } from "./mock/sourceApp/container";
 
 
 class Core {

@@ -96,60 +96,64 @@ export class ApiMaster<M extends TModelMaster, A extends TApiMaster<M>> {
     console.log(apis);
     return this._apiFactory.createService(apis as Config).api as any;
   }
+
+  public modelOf(key: keyof M) {
+    return this._modelConfig[key as keyof M]
+  }
 }
 
-const base = ModelFactory.base({
-  pagination: {
-    type: "object",
-    collection: {
-      page: "number",
-      limit: "number",
-      total: "number",
-      totalPages: "number",
-    },
-  },
-});
+// const base = ModelFactory.base({
+//   pagination: {
+//     type: "object",
+//     collection: {
+//       page: "number",
+//       limit: "number",
+//       total: "number",
+//       totalPages: "number",
+//     },
+//   },
+// });
 
-export const apiMaster = new ApiMaster(
-  {
-    todoRes: {
-      data: {
-        type: "array",
-        collection: {
-          id: "number",
-          name: "string",
-          email: "string",
-          age: "number",
-          role: "string",
-        },
-      },
-      pagination: base.pagination,
-    },
-    todoPram: {
-      id: "number",
-    },
-  },
-  {
-    todos: {
-      url: "/todos",
-      description: "Get all todos",
-      methods: "GET",
-      response: "todoRes",
-      withOptions: false,
-    },
-    todoByID: {
-      url: "/todos/:id",
-      description: "Get todo by id",
-      methods: "GET",
-      response: "todoRes",
-      parameter: "todoPram",
-      withOptions: false,
-    },
-  },
-  apiFactory
-);
+// export const apiMaster = new ApiMaster(
+//   {
+//     todoRes: {
+//       data: {
+//         type: "array",
+//         collection: {
+//           id: "number",
+//           name: "string",
+//           email: "string",
+//           age: "number",
+//           role: "string",
+//         },
+//       },
+//       pagination: base.pagination,
+//     },
+//     todoPram: {
+//       id: "number",
+//     },
+//   },
+//   {
+//     todos: {
+//       url: "/todos",
+//       description: "Get all todos",
+//       methods: "GET",
+//       response: "todoRes",
+//       withOptions: false,
+//     },
+//     todoByID: {
+//       url: "/todos/:id",
+//       description: "Get todo by id",
+//       methods: "GET",
+//       response: "todoRes",
+//       parameter: "todoPram",
+//       withOptions: false,
+//     },
+//   },
+//   apiFactory
+// );
 
-// const key = apiMaster.apiNames.todos
-// const res = await apiMaster.api.todoByID({ id: 1 });
-// console.log(res);
-// console.log(key)
+// // const key = apiMaster.apiNames.todos
+// // const res = await apiMaster.api.todoByID({ id: 1 });
+// // console.log(res);
+// // console.log(key)

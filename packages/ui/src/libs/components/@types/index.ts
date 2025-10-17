@@ -196,6 +196,7 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       // apiCanSearch?: boolean;
       api?: APIFunction;
       apiInfo?: API;
+      // defaultData?: Record<string, unknown>;
       // apiObserveParam?: string;
     }
   >;
@@ -245,10 +246,12 @@ export type IconProps = BaseComponentProps<
 export type DataValue = {
   type: "variable" | "state" | "observe" | "value";
   key: "none" | string;
+  value?: any
 };
 
 export type API = {
   name: string;
+  paths?: string[];
   query?: Record<string, DataValue>;
   params?: Record<string, DataValue>;
   body?: Record<string, DataValue>;
@@ -270,6 +273,7 @@ export type AutocompleteElement = {
     search: any;
     display: any;
   };
+  defaultData: Record<string, unknown>
 };
 
 export type ColumnDef = {

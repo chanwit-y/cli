@@ -23,6 +23,7 @@ export class Autocomplete<M extends TModelMaster, A extends TApiMaster<M>>
       canObserve: props.canObserve,
       observeTo: props.observeTo,
       apiInfo: props.api,
+      // defaultData: props.defaultData ?? {},
       options: [], // Add required options property
     });
   }

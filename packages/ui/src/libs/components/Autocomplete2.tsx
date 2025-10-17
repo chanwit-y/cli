@@ -38,6 +38,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		observeTo,
 		api,
 		apiInfo,
+		// defaultData: defaultValue,
 		// apiCanSearch = false,
 		// apiObserveParam,
 		onValueChange,
@@ -73,22 +74,25 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		const selectedItem = useMemo(() => items.find(item => String(item[idKey]) === String(value)), [items, value, searchKey]);
 
 		const fetchData = useCallback((text: string) => {
-			console.log(observeTo, observeData, api, apiInfo)
+			const q = Object.entries(apiInfo?.query ?? {}).reduce((acc, [key, value]) => {
+				return { ...acc, [key]: value.type === "value" ? value.value : undefined }
+			}, {})
+			console.log('fetchData', apiInfo)
 			if (observeTo !== "") {
-				console.log(observeTo)
-				console.log(!isEmpty(apiInfo?.params))
 				if (!isEmpty(apiInfo?.params)) {
 					if (!isEmpty(observeData)) {
 						const p = Object.entries(apiInfo?.params ?? {}).reduce((acc, [key, value]) => {
 							return { ...acc, [key]: value.type === "observe" ? observeData : value.type === "value" ? text : value }
 						}, {})
-						return api && api({ text }, {
+
+						return api && api({ ...q }, {
 							...p
 						})
 					}
 				}
 			} else {
-				return api && api({ text }, {})
+				console.log("query", q)
+				return api && api({ ...q }, {})
 			}
 		}, [observeTo, observeData, api, apiInfo]);
 
@@ -228,9 +232,17 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 			}
 		}, [getDataValue, observeTo])
 
+		const getItems = useCallback((res: any) => {
+			let data = res
+			apiInfo?.paths?.forEach((path) => {
+				data = data[path]
+			})
+			return data ?? []
+		}, [apiInfo])
+
 		useEffect(() => {
 			fetchData("")?.then((res) => {
-				setItems(res.data ?? [])
+				setItems(getItems(res))
 			});
 		}, [observeData])
 
@@ -238,12 +250,12 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 			if (!apiInfo?.query) {
 				const result = fetchData("");
 				if (result) {
-					result.then((res: { data: any; }) => setItems(res.data ?? []));
+					result.then((res) => setItems(getItems(res)));
 				}
 			}
 			else if (apiSearch) {
 				apiSearch.subscribe((res) => {
-					setItems(res.data ?? [])
+					setItems(getItems(res))
 				})
 			}
 		}, [apiSearch, observeData]);
