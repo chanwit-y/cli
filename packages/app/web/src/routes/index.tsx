@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import {  core, Modal, MultiAutocompleteExample } from 'vegaui'
-import { Button } from '@radix-ui/themes'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({

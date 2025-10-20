@@ -10,6 +10,7 @@ import { type ThemeProps } from "@radix-ui/themes";
 import type { ReactNode } from "react";
 import type { LucideIcon, LucideProps } from "lucide-react";
 import type { IconData } from "../core/const/iconData";
+import type { FieldArrayPath, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove } from "react-hook-form";
 
 export type Components = {
   TextField?: TextFieldProps;
@@ -229,6 +230,10 @@ export type MultiAutocompleteProps<T extends Record<string, any> = {}> =
       apiInfo?: API;
       maxSelections?: number;
       showSelectedCount?: boolean;
+      fields?: any[],
+      append?: UseFieldArrayAppend<any, FieldArrayPath<any>>,
+      remove?: UseFieldArrayRemove,
+
     }
   >;
 
@@ -330,6 +335,7 @@ export type TElement =
   | ModalElement;
 
 export type BinType =
+  | "multiAutocomplete"
   | "modal"
   | "button"
   | "datatable"

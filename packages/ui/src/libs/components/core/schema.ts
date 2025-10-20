@@ -26,6 +26,8 @@ export class Schema {
 		};
 
 		Object.assign(schemaFields, processContainers(this.containers));
+
+		console.log('schema', schemaFields)
 		
 		return z.object(schemaFields);
 	}

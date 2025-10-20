@@ -43,11 +43,19 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 		onValuesChange,
 		onChange,
 		onBlur,
+		fields,
+		append,
+		remove,
 		...props
 	}, ref) => {
+
+		useEffect(() => {
+			console.log('fields', fields)
+		}, [fields])
+
 		const { addObserveTable, getDataValue } = useCore()
 
-		const [items, setItems] = useState(options ?? [])
+		const [items, setItems] = useState( options ?? [])
 		const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);
 		const [isOpen, setIsOpen] = useState(false)
 		const [dropdownStyles, setDropdownStyles] = useState<CSSProperties>({});
@@ -70,8 +78,8 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 
 		const hasError = useMemo(() => error && !!errorMessage, [error, errorMessage]);
 		const displayHelperText = useMemo(() => hasError ? errorMessage : helperText, [hasError, errorMessage, helperText]);
-		const selectedItems = useMemo(() => 
-			items.filter(item => values.includes(String(item[idKey]))), 
+		const selectedItems = useMemo(() =>
+			items.filter(item => values.includes(String(item[idKey]))),
 			[items, values, idKey]
 		);
 
@@ -111,6 +119,7 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 		}, [subject, apiInfo, fetchData, observeData])
 
 		const handleValuesChange = useCallback((newValues: string[]) => {
+			console.log('handleValuesChange', newValues)
 			onValuesChange?.(newValues);
 			onChange?.(newValues);
 			if (canObserve && name) {
@@ -121,7 +130,7 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 		const handleSelect = useCallback((item: T) => {
 			const itemId = String(item[idKey]);
 			const isSelected = values.includes(itemId);
-			
+
 			if (isSelected) {
 				// Remove item if already selected
 				const newValues = values.filter(v => v !== itemId);
@@ -129,19 +138,24 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 			} else {
 				// Add item if not selected and within max limit
 				if (!maxSelections || values.length < maxSelections) {
+					console.log('add item')
 					const newValues = [...values, itemId];
+					console.log('append', itemId, item[displayKey])
+					append?.({ id: itemId, value: item[displayKey] })
 					handleValuesChange(newValues);
 				}
 			}
-			
+
 			setQuery('');
 			setSelectedIndex(-1);
 			// Don't close dropdown for multi-selection
-		}, [handleValuesChange, values, idKey, maxSelections])
+		}, [handleValuesChange, values, idKey, maxSelections, append])
 
 		const handleRemoveSelected = useCallback((itemId: string, e: React.MouseEvent) => {
 			e.stopPropagation();
 			const newValues = values.filter(v => v !== itemId);
+			const index = fields?.findIndex(f => f.id === itemId);
+			index && remove?.(index)
 			handleValuesChange(newValues);
 		}, [values, handleValuesChange])
 
@@ -283,12 +297,12 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 			if (selectedItems.length === 0) {
 				return placeholder || "Select items...";
 			}
-			
+
 			// Always show placeholder text when items are selected and showSelectedCount is true
 			if (showSelectedCount) {
 				return placeholder || "Select items...";
 			}
-			
+
 			return placeholder || "Select items...";
 		}, [selectedItems, displayKey, placeholder, showSelectedCount]);
 
@@ -398,7 +412,7 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 								const isSelected = selectedIndex === filteredItems.findIndex(i => i[idKey] === item[idKey]);
 								const isCurrent = values.includes(String(item[idKey]));
 								const isDisabled = !isCurrent && isMaxReached;
-								
+
 								return (<button key={item[idKey]}
 									onClick={() => handleSelect(item)}
 									disabled={isDisabled}

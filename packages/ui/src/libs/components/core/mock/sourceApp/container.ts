@@ -21,24 +21,65 @@ export const bins: Bin[] = [
       },
       api: {
         name: "mappings",
-	paths: ["data", "result"],
-	query: {
-		offset: {
-			type: "value",
-			key: "offset",
-			value: 0,
-		},
-		limit: {
-			type: "value",
-			key: "limit",
-			value: 100,
-		},
-		userId: {
-			type: "value",
-			key: "userId",
-			value: "0"
-		},
-	}
+        paths: ["data", "result"],
+        query: {
+          offset: {
+            type: "value",
+            key: "offset",
+            value: 0,
+          },
+          limit: {
+            type: "value",
+            key: "limit",
+            value: 100,
+          },
+          userId: {
+            type: "value",
+            key: "userId",
+            value: "0",
+          },
+        },
+      },
+    },
+  },
+  {
+    sm: "12",
+    md: "6",
+    lg: "4",
+    xl: "3",
+    type: "multiAutocomplete",
+    element: {
+      name: "mapping2",
+      dataType: "array",
+      canObserve: false,
+      observeTo: "",
+      isRequired: true,
+      errorMessage: "mapping is request",
+      keys: {
+        id: "id",
+        search: "mappingName",
+        display: "mappingName",
+      },
+      api: {
+        name: "mappings",
+        paths: ["data", "result"],
+        query: {
+          offset: {
+            type: "value",
+            key: "offset",
+            value: 0,
+          },
+          limit: {
+            type: "value",
+            key: "limit",
+            value: 100,
+          },
+          userId: {
+            type: "value",
+            key: "userId",
+            value: "0",
+          },
+        },
       },
     },
   },

@@ -1,7 +1,7 @@
 // import type { TApiMaster } from "../../../api/APIMaster";
 // import type { TModelMaster } from "../../../model/master";
 // import type { IElement } from "../../@types";
-import { Autocomplete } from "../autocomplete";
+import { Autocomplete, MultiAutocomplete } from "../autocomplete";
 import { Button } from "../button";
 import { DataTable } from "../dataTable";
 import { Modal } from "../modal";
@@ -20,5 +20,6 @@ export const ElementData = {
 	button: Button,
 	modal: Modal,
 	autocomplete: Autocomplete,
+	multiAutocomplete: MultiAutocomplete,
 	datatable: DataTable,
 }

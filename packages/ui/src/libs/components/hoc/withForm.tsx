@@ -1,7 +1,6 @@
 import type { ComponentProps, ComponentType } from "react"
-import type { Control, FieldValues, Path, UseFormReturn } from "react-hook-form"
-import { Controller } from "react-hook-form"
-import type { BaseComponentProps } from "../@types"
+import type { ArrayPath, Control, FieldValues, Path, UseFormReturn } from "react-hook-form"
+import { Controller, useFieldArray } from "react-hook-form"
 
 type WithFormProps<TFieldValues extends FieldValues = FieldValues> = {
 	control: Control<TFieldValues>
@@ -25,6 +24,10 @@ export const withForm = <T extends any>(Component:
 
 		// Extract control from either 'control' prop or 'form.control'
 		const control = 'control' in props ? props.control : props.form.control
+		const { fields, append, remove } = useFieldArray({
+			control,
+			name: name as ArrayPath<TFieldValues>,
+		})
 
 		return <Controller
 			name={name}
@@ -39,6 +42,9 @@ export const withForm = <T extends any>(Component:
 						value={value}
 						error={!!error}
 						errorMessage={error?.message}
+						fields={fields}
+						append={append}
+						remove={remove}
 						{...(restProps as any)}
 					/>
 				)
