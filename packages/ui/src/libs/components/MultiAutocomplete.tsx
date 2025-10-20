@@ -254,9 +254,9 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 	}, [canObserve, name, addObserveTable]);
 
 	// Sync internal state with prop changes
-	useEffect(() => {
-		setInternalValues(values);
-	}, [values]);
+	// useEffect(() => {
+	// 	setInternalValues(values);
+	// }, [values]);
 
 		useEffect(() => {
 			if (observeTo) {

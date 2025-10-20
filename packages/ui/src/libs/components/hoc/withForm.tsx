@@ -27,6 +27,9 @@ export const withForm = <T extends any>(Component:
 		// const { watch } = useFormContext()
 
 
+		// useEffect(() => {
+		// 	console.log('watch', watch(name))
+		// }, [watch(name)])
 		// const { fields, append, remove } = useFieldArray({
 		// 	control,
 		// 	name: name as ArrayPath<TFieldValues>,
