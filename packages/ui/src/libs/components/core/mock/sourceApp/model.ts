@@ -31,5 +31,17 @@ export const model: TModelMaster = {
 		offset: "number",
 		limit: "number",
 		userId: "string"
+	},
+	sourceAppRes: {
+		data: {
+			type: "array",
+			collection: {
+				name: "string",
+				createdBy: "string",
+				createdAt: "string",
+				updatedBy: "string",
+				updatedAt: "string",
+			},
+		}
 	}
 }

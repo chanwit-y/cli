@@ -2,6 +2,7 @@ import type { DataTableElement } from "../../@types";
 
 export const Table: DataTableElement = {
   name: "table",
+  title: "Source Apps",
   columns: [
 	{
 		accessor: "firstName",

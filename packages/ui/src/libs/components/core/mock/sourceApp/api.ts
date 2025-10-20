@@ -7,4 +7,11 @@ export const api = {
 		query: "mappingQuery",
 		withOptions: false,
 	},
+	sourceApps: {
+		url: "source-app",
+		description: "Get all source apps",
+		methods: "GET",
+		response: "sourceAppRes",
+		withOptions: false,
+	}
 }

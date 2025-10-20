@@ -86,7 +86,7 @@ textarea::-webkit-scrollbar-thumb:hover {
 }
 
 .datatable-title {
-  @apply text-2xl text-gray-500 font-semibold;
+  @apply text-2xl shrink-0 text-gray-500 font-semibold;
 }
 
 .datatable-controls-wrapper {

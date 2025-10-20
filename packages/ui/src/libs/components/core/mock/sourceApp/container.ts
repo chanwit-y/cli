@@ -3,6 +3,30 @@ import type { Bin, Container } from "../../../@types";
 export const bins: Bin[] = [
   {
     sm: "12",
+    md: "12",
+    lg: "12",
+    xl: "12",
+    type: "datatable",
+    element: {
+      name: "sourceApps",
+      title: "Source Apps",
+      columns: [
+        {
+          accessor: "name",
+          header: "Name",
+        },
+        {
+          accessor: "createdBy",
+          header: "Created By",
+        }
+      ],
+      api: {
+        name: "sourceApps",
+      },
+    },
+  },
+  {
+    sm: "12",
     md: "6",
     lg: "4",
     xl: "3",
