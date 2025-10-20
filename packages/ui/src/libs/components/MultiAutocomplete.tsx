@@ -51,14 +51,14 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 
 		const { addObserveTable, getDataValue } = useCore()
 
-	const [items, setItems] = useState( options ?? [])
-	const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);
-	const [isOpen, setIsOpen] = useState(false)
-	const [dropdownStyles, setDropdownStyles] = useState<CSSProperties>({});
-	const [selectedIndex, setSelectedIndex] = useState(-1);
-	const [query, setQuery] = useState('');
-	const [observeData, setObserveData] = useState<unknown>();
-	const [internalValues, setInternalValues] = useState<string[]>(values);
+		const [items, setItems] = useState(options ?? [])
+		const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);
+		const [isOpen, setIsOpen] = useState(false)
+		const [dropdownStyles, setDropdownStyles] = useState<CSSProperties>({});
+		const [selectedIndex, setSelectedIndex] = useState(-1);
+		const [query, setQuery] = useState('');
+		const [observeData, setObserveData] = useState<unknown>();
+		const [internalValues, setInternalValues] = useState<string[]>(values);
 
 		const triggerRef = useRef<HTMLButtonElement>(null);
 		const dropdownRef = useRef<HTMLDivElement>(null);
@@ -75,10 +75,10 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 
 		const hasError = useMemo(() => error && !!errorMessage, [error, errorMessage]);
 		const displayHelperText = useMemo(() => hasError ? errorMessage : helperText, [hasError, errorMessage, helperText]);
-	const selectedItems = useMemo(() =>
-		items.filter(item => internalValues.includes(String(item[idKey]))),
-		[items, internalValues, idKey]
-	);
+		const selectedItems = useMemo(() =>
+			items.filter(item => internalValues.includes(String(item[idKey]))),
+			[items, internalValues, idKey]
+		);
 
 		const fetchData = useCallback((text: string) => {
 			const q = Object.entries(apiInfo?.query ?? {}).reduce((acc, [key, value]) => {
@@ -115,47 +115,47 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 			} else return undefined
 		}, [subject, apiInfo, fetchData, observeData])
 
-	const handleValuesChange = useCallback((newValues: string[]) => {
-		console.log('handleValuesChange', newValues)
-		setInternalValues(newValues);
-		onValuesChange?.(newValues);
-		onChange?.(newValues);
-		if (canObserve && name) {
-			getDataValue({ key: name, type: "observe" })?.next(newValues)
-		}
-	}, [onValuesChange, onChange, canObserve, name, getDataValue])
-
-	const handleSelect = useCallback((item: T) => {
-		const itemId = String(item[idKey]);
-		const isSelected = internalValues.includes(itemId);
-
-		if (isSelected) {
-			// Remove item if already selected
-			const newValues = internalValues.filter(v => v !== itemId);
-			handleValuesChange(newValues);
-		} else {
-			// Add item if not selected and within max limit
-			if (!maxSelections || internalValues.length < maxSelections) {
-				// console.log('add item')
-				const newValues = [...internalValues, itemId];
-				// console.log('append', itemId, item[displayKey])
-				// append?.({ id: itemId, value: item[displayKey] })
-				handleValuesChange(newValues);
+		const handleValuesChange = useCallback((newValues: string[]) => {
+			console.log('handleValuesChange', newValues)
+			setInternalValues(newValues);
+			onValuesChange?.(newValues);
+			onChange?.(newValues);
+			if (canObserve && name) {
+				getDataValue({ key: name, type: "observe" })?.next(newValues)
 			}
-		}
+		}, [onValuesChange, onChange, canObserve, name, getDataValue])
 
-		setQuery('');
-		setSelectedIndex(-1);
-		// Don't close dropdown for multi-selection
-	}, [handleValuesChange, internalValues, idKey, maxSelections, append])
+		const handleSelect = useCallback((item: T) => {
+			const itemId = String(item[idKey]);
+			const isSelected = internalValues.includes(itemId);
 
-	const handleRemoveSelected = useCallback((itemId: string, e: React.MouseEvent) => {
-		e.stopPropagation();
-		const newValues = internalValues.filter(v => v !== itemId);
-		const index = fields?.findIndex(f => f.id === itemId);
-		index && remove?.(index)
-		handleValuesChange(newValues);
-	}, [internalValues, handleValuesChange])
+			if (isSelected) {
+				// Remove item if already selected
+				const newValues = internalValues.filter(v => v !== itemId);
+				handleValuesChange(newValues);
+			} else {
+				// Add item if not selected and within max limit
+				if (!maxSelections || internalValues.length < maxSelections) {
+					// console.log('add item')
+					const newValues = [...internalValues, itemId];
+					// console.log('append', itemId, item[displayKey])
+					// append?.({ id: itemId, value: item[displayKey] })
+					handleValuesChange(newValues);
+				}
+			}
+
+			setQuery('');
+			setSelectedIndex(-1);
+			// Don't close dropdown for multi-selection
+		}, [handleValuesChange, internalValues, idKey, maxSelections, append])
+
+		const handleRemoveSelected = useCallback((itemId: string, e: React.MouseEvent) => {
+			e.stopPropagation();
+			const newValues = internalValues.filter(v => v !== itemId);
+			const index = fields?.findIndex(f => f.id === itemId);
+			index && remove?.(index)
+			handleValuesChange(newValues);
+		}, [internalValues, handleValuesChange])
 
 		const openDropdown = useCallback(() => {
 			if (triggerRef.current) {
@@ -249,14 +249,14 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 
 		useEffect(() => setSelectedIndex(-1), [query])
 
-	useEffect(() => {
-		canObserve && name && addObserveTable(name);
-	}, [canObserve, name, addObserveTable]);
+		useEffect(() => {
+			canObserve && name && addObserveTable(name);
+		}, [canObserve, name, addObserveTable]);
 
-	// Sync internal state with prop changes
-	// useEffect(() => {
-	// 	setInternalValues(values);
-	// }, [values]);
+		// Sync internal state with prop changes
+		// useEffect(() => {
+		// 	setInternalValues(values);
+		// }, [values]);
 
 		useEffect(() => {
 			if (observeTo) {
@@ -333,7 +333,7 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 						hasError
 							? "border-red-300 hover:border-red-400"
 							: "border-gray-300 hover:border-gray-400",
-						className,)}
+							className,)}
 					data-error={String(hasError)}
 					{...props}
 				>
@@ -341,8 +341,8 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 						<Search className="h-4 w-4 text-gray-400 flex-shrink-0" />
 						<div className="flex-1 min-w-0">
 							{selectedItems.length > 0 && (
-								<div className="flex flex-wrap gap-1 mb-1 max-h-16 overflow-y-auto">
-									{selectedItems.slice(0, showSelectedCount ? 4 : 6).map((item) => (
+								<div className="flex flex-wrap gap-1 mb-1 max-h-24 overflow-y-auto">
+									{selectedItems.slice(0, showSelectedCount ? 10 : 6).map((item) => (
 										<span
 											key={item[idKey]}
 											className="flex items-center justify-between gap-1 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md max-w-[120px] border border-blue-200"
@@ -357,7 +357,7 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 											</button>
 										</span>
 									))}
-									{selectedItems.length > (showSelectedCount ? 4 : 6) && (
+									{selectedItems.length > (showSelectedCount ? 10 : 6) && (
 										<span className="text-xs text-gray-500 flex items-center">
 											+{selectedItems.length - (showSelectedCount ? 4 : 6)} more
 										</span>
