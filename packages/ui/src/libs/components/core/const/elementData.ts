@@ -3,6 +3,7 @@
 // import type { IElement } from "../../@types";
 import { Autocomplete, MultiAutocomplete } from "../autocomplete";
 import { Button } from "../button";
+import { Checkbox } from "../checkbox";
 import { DataTable } from "../dataTable";
 import { Modal } from "../modal";
 import { TextField } from "../textField";
@@ -24,4 +25,5 @@ export const ElementData = {
 	multiAutocomplete: MultiAutocomplete,
 	datatable: DataTable,
 	textfield: TextField,
+	checkbox: Checkbox,
 }

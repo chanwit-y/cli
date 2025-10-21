@@ -37,6 +37,8 @@ export const bins: Bin[] = [
     type: "textfield",
     element: {
       name: "name",
+      label: "Source application",
+      dataType: "string",
       isRequired: true,
       errorMessage: "name is request",
     },
@@ -132,6 +134,20 @@ export const bins: Bin[] = [
           },
         },
       },
+    },
+  },
+  {
+    sm: "1",
+    md: "1",
+    lg: "1",
+    xl: "1",
+    type: "checkbox",
+    element: {
+      name: "checkbox",
+    label: "Active",
+      dataType: "boolean",
+      isRequired: false,
+      errorMessage: "",
     },
   },
 ];

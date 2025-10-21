@@ -15,7 +15,7 @@ const CheckboxBase = forwardRef<
 	error = false,
 	errorMessage,
 	variant = "surface",
-	size = "2",
+	size = "3",
 	checked,
 	onCheckedChange,
 	onChange,
@@ -56,8 +56,8 @@ const CheckboxBase = forwardRef<
 					{label && (
 						<Text 
 						as="label" 
-						size="1" 
-						weight="light" 
+						size="2" 
+						weight='medium' 
 						className={cn("  cursor-pointer", hasError ? "text-red-500" : "text-gray-600")}
 						>
 							{label}

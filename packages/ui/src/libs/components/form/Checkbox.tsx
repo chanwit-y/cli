@@ -1,4 +1,4 @@
-import { Checkbox as CheckboxWithTheme } from "../Checkbox"
+import { CheckboxBase } from "../Checkbox"
 import { withForm } from "../hoc/withForm"
 
-export const Checkbox = withForm(CheckboxWithTheme)
+export const Checkbox = withForm(CheckboxBase)

@@ -320,6 +320,13 @@ export type ConditionTerm = {
   right: Term;
 };
 
+export type CheckboxElement = {
+  name: string;
+  dataType: string;
+  isRequired: boolean;
+  errorMessage: string;
+} & CheckboxProps;
+
 export type AutocompleteElement = {
   name: string;
   dataType: string;
@@ -358,6 +365,7 @@ export type DataTableElement = {
 
 export type TextFieldElement = {
   name: string;
+  dataType: string;
   isRequired: boolean;
   errorMessage: string;
 } & TextFieldProps;
