@@ -1,10 +1,11 @@
 import { createElement, type JSX, type ReactNode } from "react";
 import { Modal as ModalComponent, type ModalProps } from "../Modal";
-import type { IElement, ModalElement } from "../@types";
+import type { ButtonElement, IElement, ModalElement } from "../@types";
 import { ElementContext } from "./elementBuilder";
 import { ContainerBuilder } from "./containerBuilder";
 import type { TModelMaster } from "../../model/master";
 import type { TApiMaster } from "../../api/APIMaster";
+import { Button } from "./button";
 
 export class Modal<M extends TModelMaster, A extends TApiMaster<M>> implements IElement {
 
@@ -14,10 +15,12 @@ export class Modal<M extends TModelMaster, A extends TApiMaster<M>> implements I
 		const props = this._context.props as ModalElement;
 		if (!this._context.apis) throw new Error("API is required for modal");
 		const container = new ContainerBuilder([props.container], this._context.apis);
-		const trigger = new ElementContext(props.trigger).build("button");
+		// const trigger = new ElementContext(props.trigger).build("button");
+		// const triggerCtx = new ElementContext(props.trigger)
+		// const trigger = new Button().create();
 
 		return createElement<ModalProps>(ModalComponent, {
-			trigger: trigger?.create(), 
+			// trigger: trigger?.create(), 
 			title: props.title,
 			description: props.description,
 			maxWidth: props.maxWidth

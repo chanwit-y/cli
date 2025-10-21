@@ -11,7 +11,7 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 	constructor(private _context: ElementContext<M, A>) {}
 
 	create(): JSX.Element {
-		const props = this._context.props as ButtonElement;
+		const props = this._context.props as unknown as ButtonElement;
 		const icon = IconData[props.icon];
 		return createElement(RadixButton, {}, createElement(icon, {}), props.label)
 	}

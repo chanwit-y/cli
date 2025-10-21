@@ -10,7 +10,13 @@ import { type ThemeProps } from "@radix-ui/themes";
 import type { ReactNode } from "react";
 import type { LucideIcon, LucideProps } from "lucide-react";
 import type { IconData } from "../core/const/iconData";
-import type { FieldArrayPath, FieldArrayWithId, UseFieldArrayAppend, UseFieldArrayRemove } from "react-hook-form";
+import type {
+  FieldArrayPath,
+  FieldArrayWithId,
+  UseFieldArrayAppend,
+  UseFieldArrayRemove,
+} from "react-hook-form";
+import type { Button } from "../core/button";
 
 export type Components = {
   TextField?: TextFieldProps;
@@ -230,10 +236,9 @@ export type MultiAutocompleteProps<T extends Record<string, any> = {}> =
       apiInfo?: API;
       maxSelections?: number;
       showSelectedCount?: boolean;
-      fields?: any[],
-      append?: UseFieldArrayAppend<any, FieldArrayPath<any>>,
-      remove?: UseFieldArrayRemove,
-
+      fields?: any[];
+      append?: UseFieldArrayAppend<any, FieldArrayPath<any>>;
+      remove?: UseFieldArrayRemove;
     }
   >;
 
@@ -282,7 +287,7 @@ export type IconProps = BaseComponentProps<
 export type DataValue = {
   type: "variable" | "state" | "observe" | "value";
   key: "none" | string;
-  value?: any
+  value?: any;
 };
 
 export type API = {
@@ -293,11 +298,34 @@ export type API = {
   body?: Record<string, DataValue>;
 };
 
+export type Term = {
+  type: "observe" | "value";
+  name?: string;
+  value?: unknown;
+};
+
+export type Operator =
+  | "eq"
+  | "neq"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "and"
+  | "or";
+
+export type ConditionTerm = {
+  left: Term;
+  operator: Operator;
+  right: Term;
+};
+
 export type AutocompleteElement = {
   name: string;
   dataType: string;
   canObserve: boolean;
   observeTo: string;
+  enabledWhen: ConditionTerm;
   isRequired: boolean;
   errorMessage: string;
   api: API & {
@@ -309,7 +337,7 @@ export type AutocompleteElement = {
     search: any;
     display: any;
   };
-  defaultData: Record<string, unknown>
+  defaultData: Record<string, unknown>;
 };
 
 export type ColumnDef = {
@@ -326,7 +354,7 @@ export type DataTableElement = {
   api: API & {};
 };
 
-export type TextFieldElement = {};
+// export type TextFieldElement = {};
 
 export type TElement =
   | AutocompleteElement
@@ -394,6 +422,10 @@ export type ModalElement = {
   trigger: ButtonElement;
   maxWidth: string;
 };
+
+export type TextFieldElement = {
+  name: string;
+} & TextFieldProps;
 
 export type Modals = Record<string, ModalElement>;
 

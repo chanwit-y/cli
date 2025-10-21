@@ -5,6 +5,7 @@ import { Autocomplete, MultiAutocomplete } from "../autocomplete";
 import { Button } from "../button";
 import { DataTable } from "../dataTable";
 import { Modal } from "../modal";
+import { TextField } from "../textField";
 // import type { IElement } from "../@types";
 // import type { TModelMaster } from "../../model/master";
 // import type { TApiMaster } from "../../api/APIMaster";
@@ -22,4 +23,5 @@ export const ElementData = {
 	autocomplete: Autocomplete,
 	multiAutocomplete: MultiAutocomplete,
 	datatable: DataTable,
+	textField: TextField,
 }

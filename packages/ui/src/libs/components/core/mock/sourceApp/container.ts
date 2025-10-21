@@ -14,10 +14,14 @@ export const bins: Bin[] = [
         {
           accessor: "name",
           header: "Name",
+          enableColumnFilter: true,
+          enableSorting: true, 
         },
         {
           accessor: "createdBy",
           header: "Created By",
+          enableColumnFilter: true,
+          enableSorting: true, 
         }
       ],
       api: {
@@ -35,7 +39,18 @@ export const bins: Bin[] = [
       name: "mapping",
       dataType: "string",
       canObserve: false,
-      observeTo: "",
+      observeTo: "", // for call api
+      enabledWhen: {
+        left: {
+          type: "observe",
+          name: "name"
+        },
+        operator: "eq",
+        right: {
+          type: "value",
+          value: "des",
+        }
+      },
       isRequired: true,
       errorMessage: "mapping is request",
       keys: {

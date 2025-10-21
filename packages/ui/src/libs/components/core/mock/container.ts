@@ -178,10 +178,15 @@ export const boxs: Bin[] = [
             container: contentModal1,
             maxWidth: "800px",
             trigger: {
-              label: "",
+              label: "trigger",
               action: "OpenModal",
-              icon: "puls"
-            }
+              icon: "puls",
+            },
+            // trigger: {
+            //   label: "",
+            //   action: "OpenModal",
+            //   icon: "puls"
+            // }
           },
         },
       ],
