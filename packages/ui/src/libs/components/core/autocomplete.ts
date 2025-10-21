@@ -18,6 +18,7 @@ export class Autocomplete<M extends TModelMaster, A extends TApiMaster<M>>
     return createElement(AutocompleteF2, {
       name: props.name,
       form: this._context.form,
+      label: props.label,
       searchKey: props.keys.search,
       idKey: props.keys.id,
       displayKey: props.keys.display,

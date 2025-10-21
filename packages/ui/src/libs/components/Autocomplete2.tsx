@@ -268,7 +268,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 					</Text>
 				)
 			}
-			<div className="relative mb-2" ref={dropdownRef}>
+			<div className="relative mb-1" ref={dropdownRef}>
 				<button
 					ref={ref || triggerRef}
 					onClick={openDropdown}
@@ -298,7 +298,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 				<div
 					ref={dropdownContainerRef}
 					style={dropdownStyles}
-					className="absolute bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-100 opacity-0 z-20"
+					className="mt-1 absolute bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-100 opacity-0 z-20"
 				>
 					<div className="flex items-center border-b border-gray-100 px-3">
 						<Search className="h-4 w-4 text-gray-400 mr-2" />
@@ -358,7 +358,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 						id="autocomplete-helper"
 						className={cn(
 							"block mt-2 mr-1 item-center",
-							hasError ? "text-red-500" : "text-gray-600"
+							hasError ? "text-red-500 flex items-center gap-0.5" : "text-gray-600"
 						)}>
 						{hasError && <AlertCircle className=" inline-block h-3 w-3 mr-[0.1rem]" />}
 						{displayHelperText}

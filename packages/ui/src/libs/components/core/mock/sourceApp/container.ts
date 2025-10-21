@@ -31,9 +31,9 @@ export const bins: Bin[] = [
   },
   {
     sm: "12",
-    md: "12",
-    lg: "12",
-    xl: "12",
+    md: "6",
+    lg: "6",
+    xl: "6",
     type: "textfield",
     element: {
       name: "name",
@@ -46,12 +46,13 @@ export const bins: Bin[] = [
   {
     sm: "12",
     md: "6",
-    lg: "4",
-    xl: "3",
+    lg: "6",
+    xl: "6",
     type: "autocomplete",
     element: {
       name: "mapping",
       dataType: "string",
+      label: "Service",
       canObserve: false,
       observeTo: "", // for call api
       enabledWhen: {
@@ -98,23 +99,24 @@ export const bins: Bin[] = [
   {
     sm: "12",
     md: "6",
-    lg: "4",
-    xl: "3",
-    type: "multiAutocomplete",
+    lg: "6",
+    xl: "6",
+    type: "autocomplete",
     element: {
-      name: "mapping2",
-      dataType: "array",
+      name: "webHook",
+      dataType: "string",
+      label: "Web Hook",
       canObserve: false,
-      observeTo: "",
+      observeTo: "", // for call api
       isRequired: true,
-      errorMessage: "mapping is request",
+      errorMessage: "web hook is request",
       keys: {
         id: "id",
-        search: "mappingName",
-        display: "mappingName",
+        search: "name",
+        display: "name",
       },
       api: {
-        name: "mappings",
+        name: "webHooks",
         paths: ["data", "result"],
         query: {
           offset: {
@@ -127,15 +129,51 @@ export const bins: Bin[] = [
             key: "limit",
             value: 100,
           },
-          userId: {
-            type: "value",
-            key: "userId",
-            value: "0",
-          },
         },
       },
     },
   },
+  // {
+  //   sm: "12",
+  //   md: "6",
+  //   lg: "4",
+  //   xl: "3",
+  //   type: "multiAutocomplete",
+  //   element: {
+  //     name: "mapping2",
+  //     dataType: "array",
+  //     canObserve: false,
+  //     observeTo: "",
+  //     isRequired: true,
+  //     errorMessage: "mapping is request",
+  //     keys: {
+  //       id: "id",
+  //       search: "mappingName",
+  //       display: "mappingName",
+  //     },
+  //     api: {
+  //       name: "mappings",
+  //       paths: ["data", "result"],
+  //       query: {
+  //         offset: {
+  //           type: "value",
+  //           key: "offset",
+  //           value: 0,
+  //         },
+  //         limit: {
+  //           type: "value",
+  //           key: "limit",
+  //           value: 100,
+  //         },
+  //         userId: {
+  //           type: "value",
+  //           key: "userId",
+  //           value: "0",
+  //         },
+  //       },
+  //     },
+  //   },
+  // },
   {
     sm: "1",
     md: "1",

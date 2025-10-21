@@ -48,7 +48,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 		return <F.Fn>
 			{(f) => (
 				<Provider>
-					<div className="grid grid-cols-12 gap-1">
+					<div className="grid grid-cols-12 gap-1 items-center">
 						{this._connainers.map((c) => {
 							return c.bins.map((b) => {
 								const api = b.element && 'api' in b.element ? this._apis.api[b.element.api.name] as APIFunction : undefined;

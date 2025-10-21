@@ -37,10 +37,19 @@ export const model: TModelMaster = {
 			type: "array",
 			collection: {
 				name: "string",
-				createdBy: "string",
-				createdAt: "string",
-				updatedBy: "string",
-				updatedAt: "string",
+			},
+		}
+	},
+	webHookQuery: {
+		offset: "number",
+		limit: "number",
+		userId: "string"
+	},
+	webHookRes: {
+		data: {
+			type: "array",
+			collection: {
+				name: "string"
 			},
 		}
 	}

@@ -330,6 +330,7 @@ export type CheckboxElement = {
 export type AutocompleteElement = {
   name: string;
   dataType: string;
+  label: string;
   canObserve: boolean;
   observeTo: string;
   enabledWhen: ConditionTerm;

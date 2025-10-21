@@ -5,6 +5,7 @@ import { forwardRef, useMemo } from "react"
 import { TextField as RadixTextField, Text, Box } from '@radix-ui/themes'
 import { cn } from "../util/utils"
 import { withTheam } from "./context"
+import { AlertCircle } from "lucide-react"
 
 const TextFieldBase = forwardRef<
 	ElementRef<typeof RadixTextField.Root>,
@@ -29,7 +30,9 @@ const TextFieldBase = forwardRef<
 
 	return (
 		<Box
-			className={cn(isFullWidth ? "w-full" : "", "mr-0")}
+			className={cn(
+				isFullWidth ? "w-full" : "", 
+				"mr-0 h-6")}
 			style={width ? { width: `${width}px` } : {}}>
 			{label && (
 				<Text as="label" size="2" weight="medium" className="block mb-1">
@@ -51,14 +54,15 @@ const TextFieldBase = forwardRef<
 				className={cn(
 					// Base styles for consistent appearance
 					"transition duration-200 ease-in-out",
-					"",
+					"mb-1",
 					// "focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent",
 					// "hover:border-gray-300",
 					// "disabled:bg-gray-50 disabled:text-gray-500 disabled:cursor-not-allowed",
 					// Error styles
 					// hasError && "border-red-500 focus-within:ring-red-500 focus-within:border-red-500",
 					//focus:outline-none
-					hasError ? "border border-red-500 focus:outline-none  focus:border-red-500" : "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent",
+					// hasError ? "border border-red-500 focus:outline-none  focus:border-red-500" : "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent",
+					hasError ? "border border-red-300  hover:border-red-400  " : "focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent",
 					className)}
 				// className="border border-amber-600"
 				// className={cn(
@@ -75,15 +79,26 @@ const TextFieldBase = forwardRef<
 			{/* {String(hasError)} */}
 
 			{displayHelperText && (
-				<Text
-					size="1"
-					className={cn(
-						"block mt-1",
-						hasError ? "text-red-500" : "text-gray-600"
-					)}
-				>
-					{displayHelperText}
-				</Text>
+				// <Text
+				// 	size="1"
+				// 	className={cn(
+				// 		"block mt-2",
+				// 		hasError ? "text-red-500" : "text-gray-600"
+				// 	)}
+				// >
+				// 	{displayHelperText}
+				// </Text>
+
+					<Text
+						size="1"
+						id="autocomplete-helper"
+						className={cn(
+							"block mt-2 mr-1 ",
+							hasError ? "text-red-500 flex items-center gap-0.5" : "text-gray-600"
+						)}>
+						{hasError && <AlertCircle className=" inline-block h-3 w-3 mr-[0.1rem]" />}
+						<span>{displayHelperText}</span>
+					</Text>
 			)}
 		</Box>
 	)
