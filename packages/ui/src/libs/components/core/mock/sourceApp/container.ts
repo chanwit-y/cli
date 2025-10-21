@@ -31,6 +31,18 @@ export const bins: Bin[] = [
   },
   {
     sm: "12",
+    md: "12",
+    lg: "12",
+    xl: "12",
+    type: "textfield",
+    element: {
+      name: "name",
+      isRequired: true,
+      errorMessage: "name is request",
+    },
+  },
+  {
+    sm: "12",
     md: "6",
     lg: "4",
     xl: "3",

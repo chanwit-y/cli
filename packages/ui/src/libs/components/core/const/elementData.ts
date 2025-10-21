@@ -23,5 +23,5 @@ export const ElementData = {
 	autocomplete: Autocomplete,
 	multiAutocomplete: MultiAutocomplete,
 	datatable: DataTable,
-	textField: TextField,
+	textfield: TextField,
 }

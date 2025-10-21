@@ -356,6 +356,12 @@ export type DataTableElement = {
 
 // export type TextFieldElement = {};
 
+export type TextFieldElement = {
+  name: string;
+  isRequired: boolean;
+  errorMessage: string;
+} & TextFieldProps;
+
 export type TElement =
   | AutocompleteElement
   | TextFieldElement
@@ -423,9 +429,6 @@ export type ModalElement = {
   maxWidth: string;
 };
 
-export type TextFieldElement = {
-  name: string;
-} & TextFieldProps;
 
 export type Modals = Record<string, ModalElement>;
 

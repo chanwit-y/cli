@@ -17,7 +17,7 @@ const TextFieldBase = forwardRef<
 	error = false,
 	errorMessage,
 	variant = "surface",
-	size = "2",
+	size = "3",
 	radius = "medium",
 	isFullWidth = false,
 	width,
