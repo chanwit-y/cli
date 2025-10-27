@@ -26,7 +26,7 @@ export const sourceAppDetail: Bin[] = [
       name: "type",
       dataType: "string",
       label: "Type",
-      canObserve: false,
+      canObserve: true,
       observeTo: "", // for call api
       isRequired: true,
       errorMessage: "type is request",
@@ -99,15 +99,15 @@ export const sourceAppDetail: Bin[] = [
       enabledWhen: {
         left: {
           type: "observe",
-          name: "name",
+          name: "type",
         },
         operator: "eq",
         right: {
           type: "value",
-          value: "des",
+          value: "source",
         },
       },
-      isRequired: true,
+      isRequired: false,
       errorMessage: "mapping is request",
       keys: {
         id: "id",

@@ -30,6 +30,8 @@ export class Autocomplete<M extends TModelMaster, A extends TApiMaster<M>>
       api: this._context.api,
       apiInfo: props.api,
 
+      enabledWhen: props.enabledWhen,
+
       // defaultData: props.defaultData ?? {},
       options: props.options ?? [], // Add required options property
     });

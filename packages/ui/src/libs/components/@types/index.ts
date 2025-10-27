@@ -203,6 +203,7 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       // apiCanSearch?: boolean;
       api?: APIFunction;
       apiInfo?: API;
+      enabledWhen?: ConditionTerm;
       // defaultData?: Record<string, unknown>;
       // apiObserveParam?: string;
     }
@@ -439,7 +440,6 @@ export type ModalElement = {
   trigger: ButtonElement;
   maxWidth: string;
 };
-
 
 export type Modals = Record<string, ModalElement>;
 

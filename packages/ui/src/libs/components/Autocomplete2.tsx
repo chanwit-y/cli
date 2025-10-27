@@ -41,12 +41,16 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		// defaultData: defaultValue,
 		// apiCanSearch = false,
 		// apiObserveParam,
+
+		enabledWhen,
+
 		onValueChange,
 		onChange,
 		onBlur,
+
 		...props
 	}, ref) => {
-		
+
 		const { addObserveTable, getDataValue } = useCore()
 
 		const [items, setItems] = useState(options ?? [])
@@ -55,7 +59,9 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		const [dropdownStyles, setDropdownStyles] = useState<CSSProperties>({});
 		const [selectedIndex, setSelectedIndex] = useState(-1);
 		const [query, setQuery] = useState('');
-		const [observeData, setObserveData] = useState<unknown>();
+		const [observeApiData, setObserveApiData] = useState<unknown>();
+		const [isObserveEnabled, setIsObserveEnabled] = useState(true);
+
 
 		const triggerRef = useRef<HTMLButtonElement>(null);
 		const dropdownRef = useRef<HTMLDivElement>(null);
@@ -81,9 +87,9 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 			console.log('fetchData', apiInfo)
 			if (observeTo !== "") {
 				if (!isEmpty(apiInfo?.params)) {
-					if (!isEmpty(observeData)) {
+					if (!isEmpty(observeApiData)) {
 						const p = Object.entries(apiInfo?.params ?? {}).reduce((acc, [key, value]) => {
-							return { ...acc, [key]: value.type === "observe" ? observeData : value.type === "value" ? text : value }
+							return { ...acc, [key]: value.type === "observe" ? observeApiData : value.type === "value" ? text : value }
 						}, {})
 
 						return api && api({ ...q }, {
@@ -95,7 +101,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 				console.log("query", q)
 				return api && api({ ...q }, {})
 			}
-		}, [observeTo, observeData, api, apiInfo]);
+		}, [observeTo, observeApiData, api, apiInfo]);
 
 		const apiSearch = useMemo(() => {
 			if (api && apiInfo?.query) {
@@ -108,7 +114,24 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 
 				)
 			} else return undefined
-		}, [subject, apiInfo, fetchData, observeData])
+		}, [subject, apiInfo, fetchData, observeApiData])
+
+		// const isEnabledWhen = useMemo(
+		// 	if (enabledWhen) {
+		// 		return enabledWhen.left.type === "observe" ? getDataValue({ key: enabledWhen.left.name, type: "observe" })?.pipe(map((data) => data === enabledWhen.right.value)) : enabledWhen.left.value === enabledWhen.right.value
+		// 	}
+		// 	return true
+		// }, [enabledWhen, getDataValue])
+
+		useEffect(() => {
+			if (enabledWhen && enabledWhen.left.name)
+				getDataValue({ key: enabledWhen.left.name, type: "observe" })?.subscribe((data: unknown) => {
+					setIsObserveEnabled(data === enabledWhen.right.value)
+					// onChange?.(null as any)
+					// onValueChange?.(null as any)
+					// setObserveApiData(data)
+				})
+		}, [enabledWhen, getDataValue])
 
 		const handValueChange = useCallback((newValue: string) => {
 			onValueChange?.(newValue);
@@ -228,7 +251,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 				getDataValue({ key: observeTo, type: "observe" })?.subscribe((data: unknown) => {
 					onChange?.(null as any)
 					onValueChange?.(null as any)
-					setObserveData(data)
+					setObserveApiData(data)
 				})
 			}
 		}, [getDataValue, observeTo])
@@ -245,7 +268,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 			fetchData("")?.then((res) => {
 				setItems(getItems(res))
 			});
-		}, [observeData])
+		}, [observeApiData])
 
 		useEffect(() => {
 			if (!apiInfo?.query) {
@@ -259,7 +282,8 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 					setItems(getItems(res))
 				})
 			}
-		}, [apiSearch, observeData]);
+		}, [apiSearch, observeApiData]);
+
 
 		return <Box className="w-full" >
 			{
@@ -273,6 +297,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 				<button
 					ref={ref || triggerRef}
 					onClick={openDropdown}
+					disabled={!isObserveEnabled}
 					className={cn("w-full h-[40px] px-4 text-sm flex items-center justify-between",
 						"bg-white border rounded-md shadow-sm transition-all duration-200",
 						"text-left focus:ring-2 focus:ring-blue-500 focus:border-transparent",
