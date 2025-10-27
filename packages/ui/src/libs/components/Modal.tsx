@@ -1,6 +1,7 @@
-import { AlertDialog, Button, Flex } from "@radix-ui/themes"
+// import { AlertDialog } from "@radix-ui/themes"
 import { forwardRef } from "react"
 import type { ReactNode } from "react"
+import * as AlertDialog from '@radix-ui/react-dialog';
 
 export interface ModalProps {
 	trigger?: ReactNode
@@ -20,51 +21,38 @@ export interface ModalProps {
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	(
 		{
-			trigger,
-			title = "Modal",
-			description,
 			children,
-			cancelText = "Cancel",
-			confirmText = "Confirm",
-			onConfirm,
-			onCancel,
-			confirmColor = "blue",
-			maxWidth = "500px",
-			open,
-			onOpenChange,
-		},
-		ref
-	) => {
+		}	) => {
 		return (
-			<AlertDialog.Root open={open} onOpenChange={onOpenChange}>
-				{trigger && <AlertDialog.Trigger>{trigger}</AlertDialog.Trigger>}
-				<AlertDialog.Content maxWidth={maxWidth} ref={ref}>
-					<AlertDialog.Title>{title}</AlertDialog.Title>
-					{/* {description && (
-						<AlertDialog.Description size="2">
-							{description}
-						</AlertDialog.Description>
-					)} */}
+			// <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
+			<AlertDialog.Root >
+				{/* {trigger && <AlertDialog.Trigger>{trigger}</AlertDialog.Trigger>} */}
+				<AlertDialog.Trigger asChild>
+					<button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+						Open Dialog
+					</button>
+				</AlertDialog.Trigger>
+				<AlertDialog.Portal>
+					<AlertDialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
+					<AlertDialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-6 z-50 max-w-md w-full mx-4" >
+						<AlertDialog.Title className="text-lg font-semibold mb-2">
+							Modal Title
+						</AlertDialog.Title>
+						{/* <AlertDialog.Description className="text-gray-600 mb-4">
+							This is a modal dialog. Click outside or press Escape to close.
+						</AlertDialog.Description> */}
 
-					{children && <div style={{ marginTop: "1rem" }}>{children}</div>}
+						{children && <div className="mb-4">{children}</div>}
 
-					{/* <Flex gap="3" justify="end" mt="4">
-						<AlertDialog.Cancel>
-							<Button
-								variant="soft"
-								color="gray"
-								onClick={onCancel}
-							>
-								{cancelText}
-							</Button>
-						</AlertDialog.Cancel>
-						<AlertDialog.Action>
-							<Button color={confirmColor} onClick={onConfirm}>
-								{confirmText}
-							</Button>
-						</AlertDialog.Action>
-					</Flex> */}
-				</AlertDialog.Content>
+						<div className="flex justify-end mt-4">
+							<AlertDialog.Close asChild>
+								<button className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors">
+									Close
+								</button>
+							</AlertDialog.Close>
+						</div>
+					</AlertDialog.Content>
+				</AlertDialog.Portal>
 			</AlertDialog.Root>
 		)
 	}

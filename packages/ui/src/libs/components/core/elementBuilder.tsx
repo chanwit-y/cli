@@ -33,10 +33,9 @@ export class ElementContext<M extends TModelMaster, A extends TApiMaster<M>> {
 	public withForm(form: any | undefined): ElementContext<M, A> {
 		return this.setIfPresent(() => { this._form = form; }, form);
 	}
-
 	public get api() {
-		const api = this._element && 'api' in this._element ? this._apis?.api[this._element.api.name] as APIFunction : undefined;
-		if (!api) throw new Error("API is required for autocomplete");
+		const api = this._element && 'api' in this._element && this._element.api ? this._apis?.api?.[this._element.api.name] as APIFunction : undefined;
+		if (!api) return undefined;
 		return api
 	}
 

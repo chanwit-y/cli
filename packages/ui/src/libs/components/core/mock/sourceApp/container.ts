@@ -1,34 +1,6 @@
 import type { Bin, Container } from "../../../@types";
 
-export const bins: Bin[] = [
-  {
-    sm: "12",
-    md: "12",
-    lg: "12",
-    xl: "12",
-    type: "datatable",
-    element: {
-      name: "sourceApps",
-      title: "Source Apps",
-      columns: [
-        {
-          accessor: "name",
-          header: "Name",
-          enableColumnFilter: true,
-          enableSorting: true, 
-        },
-        {
-          accessor: "createdBy",
-          header: "Created By",
-          enableColumnFilter: true,
-          enableSorting: true, 
-        }
-      ],
-      api: {
-        name: "sourceApps",
-      },
-    },
-  },
+export const sourceAppDetail: Bin[] = [
   {
     sm: "12",
     md: "6",
@@ -43,6 +15,7 @@ export const bins: Bin[] = [
       errorMessage: "name is request",
     },
   },
+
   {
     sm: "12",
     md: "6",
@@ -50,50 +23,28 @@ export const bins: Bin[] = [
     xl: "6",
     type: "autocomplete",
     element: {
-      name: "mapping",
+      name: "type",
       dataType: "string",
-      label: "Service",
+      label: "Type",
       canObserve: false,
       observeTo: "", // for call api
-      enabledWhen: {
-        left: {
-          type: "observe",
-          name: "name"
-        },
-        operator: "eq",
-        right: {
-          type: "value",
-          value: "des",
-        }
-      },
       isRequired: true,
-      errorMessage: "mapping is request",
+      errorMessage: "type is request",
       keys: {
         id: "id",
-        search: "mappingName",
-        display: "mappingName",
+        search: "name",
+        display: "name",
       },
-      api: {
-        name: "mappings",
-        paths: ["data", "result"],
-        query: {
-          offset: {
-            type: "value",
-            key: "offset",
-            value: 0,
-          },
-          limit: {
-            type: "value",
-            key: "limit",
-            value: 100,
-          },
-          userId: {
-            type: "value",
-            key: "userId",
-            value: "0",
-          },
+      options: [
+        {
+          id: "source",
+          name: "Source",
         },
-      },
+        {
+          id: "destination",
+          name: "Destination",
+        },
+      ],
     },
   },
   {
@@ -133,6 +84,123 @@ export const bins: Bin[] = [
       },
     },
   },
+  {
+    sm: "12",
+    md: "6",
+    lg: "6",
+    xl: "6",
+    type: "autocomplete",
+    element: {
+      name: "mapping",
+      dataType: "string",
+      label: "Service",
+      canObserve: false,
+      observeTo: "", // for call api
+      enabledWhen: {
+        left: {
+          type: "observe",
+          name: "name",
+        },
+        operator: "eq",
+        right: {
+          type: "value",
+          value: "des",
+        },
+      },
+      isRequired: true,
+      errorMessage: "mapping is request",
+      keys: {
+        id: "id",
+        search: "mappingName",
+        display: "mappingName",
+      },
+      api: {
+        name: "mappings",
+        paths: ["data", "result"],
+        query: {
+          offset: {
+            type: "value",
+            key: "offset",
+            value: 0,
+          },
+          limit: {
+            type: "value",
+            key: "limit",
+            value: 100,
+          },
+          userId: {
+            type: "value",
+            key: "userId",
+            value: "0",
+          },
+        },
+      },
+    },
+  },
+];
+
+
+export const containerSourceAppDetail: Container = {
+    id: "550e8400-e29b-41d4-a716-446655440000",
+    name: "SourceAppDetail",
+    isAaary: false,
+    bins: sourceAppDetail,
+  };
+
+export const sourceAppList: Bin[] = [
+  {
+    type: "modal",
+    sm: "4",
+    md: "4",
+    lg: "4",
+    xl: "4",
+    element: {
+      id: "a7f3c891-4b2e-4d9a-8f6c-3e5d7a9b1c4f",
+      title: "modal",
+      description: "modal",
+      container: containerSourceAppDetail,
+      maxWidth: "800px",
+      trigger: {
+        label: "",
+        action: "OpenModal",
+        icon: "puls",
+      },
+      // trigger: {
+      //   label: "",
+      //   action: "OpenModal",
+      //   icon: "puls"
+      // }
+    },
+  },
+  {
+    sm: "12",
+    md: "12",
+    lg: "12",
+    xl: "12",
+    type: "datatable",
+    element: {
+      name: "sourceApps",
+      title: "Source Apps",
+      columns: [
+        {
+          accessor: "name",
+          header: "Name",
+          enableColumnFilter: true,
+          enableSorting: true,
+        },
+        {
+          accessor: "createdBy",
+          header: "Created By",
+          enableColumnFilter: true,
+          enableSorting: true,
+        },
+      ],
+      api: {
+        name: "sourceApps",
+      },
+    },
+  },
+
   // {
   //   sm: "12",
   //   md: "6",
@@ -174,26 +242,29 @@ export const bins: Bin[] = [
   //     },
   //   },
   // },
-  {
-    sm: "1",
-    md: "1",
-    lg: "1",
-    xl: "1",
-    type: "checkbox",
-    element: {
-      name: "checkbox",
-    label: "Active",
-      dataType: "boolean",
-      isRequired: false,
-      errorMessage: "",
-    },
-  },
+  // {
+  //   sm: "1",
+  //   md: "1",
+  //   lg: "1",
+  //   xl: "1",
+  //   type: "checkbox",
+  //   element: {
+  //     name: "checkbox",
+  //   label: "Active",
+  //     dataType: "boolean",
+  //     isRequired: false,
+  //     errorMessage: "",
+  //   },
+  // },
 ];
-export const containers: Container[] = [
+
+
+export const containerSourceAppList: Container[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440000",
-    name: "container",
+    name: "SourceApp",
     isAaary: false,
-    bins,
+    bins: sourceAppList,
   },
 ];
+

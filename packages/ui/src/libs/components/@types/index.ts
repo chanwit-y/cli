@@ -336,7 +336,7 @@ export type AutocompleteElement = {
   enabledWhen: ConditionTerm;
   isRequired: boolean;
   errorMessage: string;
-  api: API & {
+  api?: API & {
     // observeParam: string;
     // canSearch: boolean;
   };
@@ -346,6 +346,7 @@ export type AutocompleteElement = {
     display: any;
   };
   defaultData: Record<string, unknown>;
+  options: any[];
 };
 
 export type ColumnDef = {
@@ -375,7 +376,8 @@ export type TElement =
   | AutocompleteElement
   | TextFieldElement
   | DataTableElement
-  | ModalElement;
+  | ModalElement
+  | ButtonElement;
 
 export type BinType =
   | "multiAutocomplete"

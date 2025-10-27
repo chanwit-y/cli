@@ -46,6 +46,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		onBlur,
 		...props
 	}, ref) => {
+		
 		const { addObserveTable, getDataValue } = useCore()
 
 		const [items, setItems] = useState(options ?? [])
@@ -136,7 +137,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 
 				const styles: CSSProperties = {
 					position: 'fixed',
-					zIndex: 50,
+					zIndex: 9999,
 					left: rect.left,
 					width: rect.width,
 				}
@@ -298,7 +299,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 				<div
 					ref={dropdownContainerRef}
 					style={dropdownStyles}
-					className="mt-1 absolute bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-100 opacity-0 z-20"
+					className="dropdown mt-1 absolute bg-white border ring-2 ring-blue-400 border-transparent rounded-md shadow-lg overflow-hidden ease-in duration-100 opacity-0 z-[99999]"
 				>
 					<div className="flex items-center border-b border-gray-100 px-3">
 						<Search className="h-4 w-4 text-gray-400 mr-2" />

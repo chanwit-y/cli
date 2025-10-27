@@ -33,7 +33,7 @@ const CheckboxBase = forwardRef<
 	}
 
 	return (
-		<Box>
+		<Box className="">
 			<Flex direction="column" gap="1">
 				<Flex align="center" gap="2">
 					<RadixCheckbox

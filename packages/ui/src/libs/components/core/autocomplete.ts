@@ -23,12 +23,15 @@ export class Autocomplete<M extends TModelMaster, A extends TApiMaster<M>>
       idKey: props.keys.id,
       displayKey: props.keys.display,
       errorMessage: props.errorMessage,
-      api: this._context.api,
       canObserve: props.canObserve,
       observeTo: props.observeTo,
+
+
+      api: this._context.api,
       apiInfo: props.api,
+
       // defaultData: props.defaultData ?? {},
-      options: [], // Add required options property
+      options: props.options ?? [], // Add required options property
     });
   }
 }

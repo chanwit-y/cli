@@ -444,3 +444,11 @@ textarea::-webkit-scrollbar-thumb:hover {
 .datatable-tbody.filtering .datatable-body-row:nth-child(8) { animation-delay: 0.14s; }
 .datatable-tbody.filtering .datatable-body-row:nth-child(9) { animation-delay: 0.16s; }
 .datatable-tbody.filtering .datatable-body-row:nth-child(10) { animation-delay: 0.18s; }
+.modal {
+  pointer-events: none;
+  z-index: 100;
+}
+
+.dropdown {
+  z-index: 200;
+}

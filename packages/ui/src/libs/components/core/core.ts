@@ -5,7 +5,7 @@ import { ContainerBuilder } from "./containerBuilder";
 
 import { model } from "./mock/sourceApp/model";
 import { api } from "./mock/sourceApp/api";
-import {  containers } from "./mock/sourceApp/container";
+import {  containerSourceAppList } from "./mock/sourceApp/container";
 
 
 class Core {
@@ -25,7 +25,7 @@ class Core {
 	constructor() {}
 
 	public run() {
-		return (new ContainerBuilder(containers, this._apis)).draw()
+		return (new ContainerBuilder(containerSourceAppList, this._apis)).draw()
 	}
 }
 
