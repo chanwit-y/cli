@@ -285,7 +285,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		}, [apiSearch, observeApiData]);
 
 
-		return <Box className="w-full" >
+		return <Box className="w-full flex flex-col justify-start h-20" >
 			{
 				label && (
 					<Text as="label" size="2" weight="medium" className="block mb-1">

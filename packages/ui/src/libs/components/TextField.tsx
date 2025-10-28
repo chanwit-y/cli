@@ -32,7 +32,7 @@ const TextFieldBase = forwardRef<
 		<Box
 			className={cn(
 				isFullWidth ? "w-full" : "", 
-				"mr-0 ")}
+				"mr-0 flex flex-col justify-start h-20")}
 			style={width ? { width: `${width}px` } : {}}>
 			{label && (
 				<Text as="label" size="2" weight="medium" className="block mb-1">

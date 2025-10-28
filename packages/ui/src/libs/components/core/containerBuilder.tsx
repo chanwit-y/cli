@@ -48,7 +48,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 								const colClasses = `sm-col-span-${b.sm} md-col-span-${b.md} lg-col-span-${b.lg} xl-col-span-${b.xl} `;
 
 								return (
-									<div className={colClasses}>
+									<div className={`${colClasses} `}>
 										{this._renderElement(b, f, api)}
 									</div>
 								);
