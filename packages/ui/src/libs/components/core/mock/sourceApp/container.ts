@@ -137,6 +137,18 @@ export const sourceAppDetail: Bin[] = [
       },
     },
   },
+  {
+    sm: "12",
+    md: "6",
+    lg: "6",
+    xl: "6",
+    type: "button",
+    element: {
+      label: "Save",
+      actions: ["SubmitFormToAPI", "ReloadDataTable"],
+
+    },
+  },
 ];
 
 
@@ -162,7 +174,7 @@ export const sourceAppList: Bin[] = [
       maxWidth: "800px",
       trigger: {
         label: "",
-        action: "OpenModal",
+        actions: ["OpenModal"],
         icon: "puls",
       },
       // trigger: {

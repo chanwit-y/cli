@@ -5,12 +5,6 @@ import { Form } from "../form";
 import { Schema } from "./schema";
 import { Provider } from "./context";
 import { ElementContext } from "./elementBuilder";
-
-// const registers = {
-// 	autocomplete: Autocomplete,
-// 	datatable: DataTable,
-// 	modal: Modal,
-// }
 export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	constructor(private _connainers: Container[], private _apis: ApiMaster<M, A>) { }
@@ -26,7 +20,6 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	private _renderElement(b: Bin, f: any | undefined, api: APIFunction | undefined) {
 		const el = (new ElementContext(b.element as TElement))
-			// .withAPI(api)
 			.withForm(f)
 			.withAPIs(this._apis as unknown as ApiMaster<TModelMaster, TApiMaster<TModelMaster>>)
 			.build(b.type);
@@ -51,7 +44,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 					<div className="grid grid-cols-12 gap-1 items-center">
 						{this._connainers.map((c) => {
 							return c.bins.map((b) => {
-								const api = b.element && 'api' in b.element && b.element.api ? this._apis.api[b.element.api.name] as APIFunction : undefined;
+								const api = b.element && 'api' in b.element && b.element.api && 'name' in b.element.api ? this._apis.api[b.element.api.name] as APIFunction : undefined;
 								const colClasses = `sm-col-span-${b.sm} md-col-span-${b.md} lg-col-span-${b.lg} xl-col-span-${b.xl} `;
 
 								return (

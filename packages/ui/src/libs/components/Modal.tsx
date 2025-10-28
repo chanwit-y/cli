@@ -1,8 +1,10 @@
 // import { AlertDialog } from "@radix-ui/themes"
-import { forwardRef } from "react"
+import { forwardRef, useEffect } from "react"
 import type { ReactNode } from "react"
 import * as AlertDialog from '@radix-ui/react-dialog';
 import { ThemeProvider } from "./context";
+import { useFormContext } from "react-hook-form";
+import { useCore } from "./core/context";
 
 export interface ModalProps {
 	trigger?: ReactNode
@@ -24,6 +26,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		{
 			children,
 		}) => {
+
+
 		return (
 			// <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
 			<AlertDialog.Root >
@@ -55,13 +59,12 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
 							{children && <div className="mb-4">{children}</div>}
 
-							<div className="flex justify-end mt-4">
+							<div className="flex justify-end mt-4 gap-2">
 								<AlertDialog.Close asChild>
 									<button className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors">
 										Close
 									</button>
 								</AlertDialog.Close>
-
 							</div>
 						</ThemeProvider>
 					</AlertDialog.Content>

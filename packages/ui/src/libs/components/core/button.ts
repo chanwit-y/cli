@@ -1,5 +1,5 @@
 import { createElement, type JSX } from "react";
-import { Button as RadixButton } from '@radix-ui/themes'
+import { Button as ElementButton } from '../Button'
 import type { ButtonElement, IElement } from "../@types";
 import type { TApiMaster } from "../../api/APIMaster";
 import type { ElementContext } from "./elementBuilder";
@@ -12,7 +12,12 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 
 	create(): JSX.Element {
 		const props = this._context.props as unknown as ButtonElement;
-		const icon = IconData[props.icon];
-		return createElement(RadixButton, {}, createElement(icon, {}), props.label)
+		const icon = props.icon ? IconData[props.icon] : null;
+		// return createElement(ElementButton, {}, icon ? createElement(icon, {}) : null, props.label)
+		return createElement(ElementButton, {
+			label: props.label,
+			icon: props.icon,
+			actions: props.actions,
+		})
 	}
 }

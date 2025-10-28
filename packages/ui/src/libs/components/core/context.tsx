@@ -21,6 +21,7 @@ export const Provider = ({ children }: CoreProviderProps) => {
 		setObserveTable((prev) => ({ ...prev, [key]: new Subject<unknown>() }));
 	}, []);
 
+
 	const getDataValue = useCallback((dv: DataValue) => {
 		switch (dv.type) {
 			case "variable":
@@ -32,15 +33,9 @@ export const Provider = ({ children }: CoreProviderProps) => {
 		}
 	}, [observeTable]);
 
-	useEffect(() => {
-		console.log('init provider')
-	}, [])
 
 	return <Context.Provider value={{ observeTable, addObserveTable, getDataValue }}>
 		{children}
-		{/* <pre>
-			{JSON.stringify(observeTable, null, 2)}
-		</pre> */}
 	</Context.Provider>;
 };
 

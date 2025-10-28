@@ -49,6 +49,9 @@ export type ButtonProps = BaseComponentProps<
   typeof RadixButton,
   {
     variant?: "solid" | "outline" | "ghost" | "link";
+    label: string;
+    icon?: keyof typeof IconData;
+    actions: ButtonAction[];
   }
 >;
 
@@ -424,12 +427,15 @@ export type Container = {
   bins: Bin[];
 };
 
-export type ButtonAction = "OpenModal" | "CallAPI";
+export type ButtonAction = "OpenModal" | "SubmitFormToAPI" | "ReloadDataTable";
+
+
 
 export type ButtonElement = {
   label: string;
-  icon: keyof typeof IconData;
-  action: ButtonAction;
+  icon?: keyof typeof IconData;
+  actions: ButtonAction[];
+  api?: {};
 };
 
 export type ModalElement = {

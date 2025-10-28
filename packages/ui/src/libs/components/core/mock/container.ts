@@ -179,7 +179,7 @@ export const boxs: Bin[] = [
             maxWidth: "800px",
             trigger: {
               label: "trigger",
-              action: "OpenModal",
+              actions: "OpenModal",
               icon: "puls",
             },
             // trigger: {

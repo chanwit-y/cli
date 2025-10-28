@@ -1,12 +1,13 @@
 import { TextField } from "./TextField"
 import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel, type ColumnFiltersState } from "@tanstack/react-table"
-import { useEffect, useMemo, useRef, useState, type SetStateAction } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, type SetStateAction } from "react"
 import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, ListFilter } from "lucide-react"
 import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
 import { Text } from "@radix-ui/themes"
 import type { DataTableProps } from "./@types"
 import { useCore } from "./core/context"
+import { useStord } from "./core/stord"
 
 // Utility function to highlight matching text
 const highlightText = (text: string, searchTerm: string) => {
@@ -64,7 +65,9 @@ export const DataTable2 = <T extends Record<string, any>>({
 	columns = [],
 	canSearchAllColumns = false,
 }: DataTableProps) => {
-	const { getDataValue } = useCore()
+
+	const setLoadDataTables = useStord((state) => state.updateLoadDataTables)
+
 	const [data, setData] = useState<T[]>([])
 	const [globalFilter, setGlobalFilter] = useState('')
 	const [sorting, setSorting] = useState<SortingState>([])
@@ -117,9 +120,21 @@ export const DataTable2 = <T extends Record<string, any>>({
 	})
 
 
+	const loadData = useCallback(() => {
+		api && api().then((res: { data: SetStateAction<T[]> }) => {
+			setData(res.data)
+		})
+	}, [api])
+
+
+	useEffect(() => {
+		setLoadDataTables({  [title ?? '']: loadData })
+	}, [title, loadData, setLoadDataTables])
+
+
 	useEffect(() => {
 		// TODO: get value
-		console.log('call api', apiInfo)
+		// console.log('call api', apiInfo)
 
 		// const query = Object.entries(apiInfo?.query ?? {}).reduce((acc, [key, value]) => {
 		// 	return { ...acc, [key]: value }
@@ -127,9 +142,10 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 
 
-		api && api().then((res: { data: SetStateAction<T[]> }) => {
-			setData(res.data)
-		})
+		// api && api().then((res: { data: SetStateAction<T[]> }) => {
+		// 	setData(res.data)
+		// })
+		loadData();
 	}, [api, apiInfo])
 
 	useEffect(() => {
@@ -141,11 +157,11 @@ export const DataTable2 = <T extends Record<string, any>>({
 		if (prevPageIndexRef.current !== pagination.pageIndex) {
 			setIsPageChanging(true)
 			prevPageIndexRef.current = pagination.pageIndex
-			
+
 			const timer = setTimeout(() => {
 				setIsPageChanging(false)
 			}, 300) // Match this with CSS animation duration
-			
+
 			return () => clearTimeout(timer)
 		}
 	}, [pagination.pageIndex])
@@ -153,20 +169,21 @@ export const DataTable2 = <T extends Record<string, any>>({
 	// Handle filter change animation
 	useEffect(() => {
 		const hasFilterChanged = JSON.stringify(prevColumnFiltersRef.current) !== JSON.stringify(columnFilters)
-		
+
 		if (hasFilterChanged && columnFilters.length >= 0) {
 			setIsFiltering(true)
 			prevColumnFiltersRef.current = columnFilters
-			
+
 			const timer = setTimeout(() => {
 				setIsFiltering(false)
 			}, 400) // Slightly longer animation for filter effect
-			
+
 			return () => clearTimeout(timer)
 		}
 	}, [columnFilters])
 
 	return (<div className="datatable-container">
+		{/* <pre>{JSON.stringify(loadDataTables, null, 2)}</pre> */}
 		<div className="datatable-header">
 			<div className="datatable-title">{title}</div>
 
