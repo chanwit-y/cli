@@ -52,6 +52,7 @@ export type ButtonProps = BaseComponentProps<
     label: string;
     icon?: keyof typeof IconData;
     actions: ButtonAction[];
+    api?: APIFunction;
   }
 >;
 
@@ -429,13 +430,11 @@ export type Container = {
 
 export type ButtonAction = "OpenModal" | "SubmitFormToAPI" | "ReloadDataTable";
 
-
-
 export type ButtonElement = {
   label: string;
   icon?: keyof typeof IconData;
   actions: ButtonAction[];
-  api?: {};
+  api?: API & {};
 };
 
 export type ModalElement = {

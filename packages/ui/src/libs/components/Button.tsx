@@ -9,6 +9,7 @@ import { useStord } from "./core/stord";
 const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	label,
 	actions,
+	api,
 	...props }) => {
 
 	// const { loadDataTables } = useCore()
@@ -17,14 +18,16 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 
 	const handleClieck = useCallback(async () => {
 
-	console.log(actions)	
+		console.log(actions)
 
 		for (const action of actions) {
 			switch (action) {
 				case 'SubmitFormToAPI':
-					handleSubmit(async (data) => {
+					await handleSubmit(async (data) => {
 
-							console.log(data)
+						console.log(data)
+						console.log(api)
+						api && await api({  ...data })
 
 					})()
 					break;

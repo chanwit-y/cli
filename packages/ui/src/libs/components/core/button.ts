@@ -18,6 +18,7 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 			label: props.label,
 			icon: props.icon,
 			actions: props.actions,
+			api: this._context.api,
 		})
 	}
 }

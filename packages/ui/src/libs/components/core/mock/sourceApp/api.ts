@@ -21,5 +21,13 @@ export const api = {
 		methods: "GET",
 		response: "sourceAppRes",
 		withOptions: false,
+	},
+	sourceAppsPost: {
+		url: "source-app",
+		description: "Post data to source apps",
+		methods: "POST",
+		response: "sourceAppRes",
+		body: "sourceAppBody",
+		withOptions: false,
 	}
 }

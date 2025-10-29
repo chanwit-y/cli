@@ -54,7 +54,7 @@ export const sourceAppDetail: Bin[] = [
     xl: "6",
     type: "autocomplete",
     element: {
-      name: "webHook",
+      name: "webhookId",
       dataType: "string",
       label: "Web Hook",
       canObserve: false,
@@ -91,7 +91,7 @@ export const sourceAppDetail: Bin[] = [
     xl: "6",
     type: "autocomplete",
     element: {
-      name: "mapping",
+      name: "mappingId",
       dataType: "string",
       label: "Service",
       canObserve: false,
@@ -146,7 +146,9 @@ export const sourceAppDetail: Bin[] = [
     element: {
       label: "Save",
       actions: ["SubmitFormToAPI", "ReloadDataTable"],
-
+      api: {
+        name: "sourceAppsPost",
+      }
     },
   },
 ];
