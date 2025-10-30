@@ -144,7 +144,21 @@ export const sourceAppDetail: Bin[] = [
     xl: "6",
     type: "button",
     element: {
-      label: "Save",
+      label: "Create",
+      actions: ["SubmitFormToAPI", "ReloadDataTable"],
+      api: {
+        name: "sourceAppsPost",
+      }
+    },
+  },
+  {
+    sm: "12",
+    md: "6",
+    lg: "6",
+    xl: "6",
+    type: "button",
+    element: {
+      label: "Update",
       actions: ["SubmitFormToAPI", "ReloadDataTable"],
       api: {
         name: "sourceAppsPost",
@@ -209,9 +223,10 @@ export const sourceAppList: Bin[] = [
           enableSorting: true,
         },
       ],
-      api: {
+      api: { // Get API
         name: "sourceApps",
       },
+      
     },
   },
 

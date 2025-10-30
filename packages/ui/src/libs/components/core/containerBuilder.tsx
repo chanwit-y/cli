@@ -5,6 +5,7 @@ import { Form } from "../form";
 import { Schema } from "./schema";
 import { Provider } from "./context";
 import { ElementContext } from "./elementBuilder";
+import { useStord } from "./stord";
 export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	constructor(private _connainers: Container[], private _apis: ApiMaster<M, A>) { }
@@ -36,7 +37,13 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 	}
 
 	public draw() {
+		const selectedRow = useStord((state) => state.selectedRow)
+
 		const F = new Form(this.getSchema()).setup().create();
+
+
+
+
 
 		return <F.Fn>
 			{(f) => (
@@ -55,6 +62,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 							})
 						})}
 					</div>
+					<pre>{JSON.stringify(selectedRow, null, 2)}</pre>
 				</Provider>
 			)}
 		</F.Fn>

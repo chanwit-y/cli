@@ -1,12 +1,11 @@
 import { TextField } from "./TextField"
-import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel, type ColumnFiltersState } from "@tanstack/react-table"
+import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel, type ColumnFiltersState, type ColumnDef } from "@tanstack/react-table"
 import { useCallback, useEffect, useMemo, useRef, useState, type SetStateAction } from "react"
-import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, ListFilter } from "lucide-react"
+import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Edit, Edit2, ListFilter } from "lucide-react"
 import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
-import { Text } from "@radix-ui/themes"
+import { Button, Text } from "@radix-ui/themes"
 import type { DataTableProps } from "./@types"
-import { useCore } from "./core/context"
 import { useStord } from "./core/stord"
 
 // Utility function to highlight matching text
@@ -66,7 +65,16 @@ export const DataTable2 = <T extends Record<string, any>>({
 	canSearchAllColumns = false,
 }: DataTableProps) => {
 
-	const setLoadDataTables = useStord((state) => state.updateLoadDataTables)
+	// const {
+	// 	updateLoadDataTables,
+	// 	updateSelectedRow,
+	// } = useStord((state) => ({
+	// 	updateLoadDataTables: state.updateLoadDataTables,
+	// 	updateSelectedRow: state.updateSelectedRow,
+	// }))
+
+	const updateLoadDataTables = useStord((state) => state.updateLoadDataTables)
+	const updateSelectedRow = useStord((state) => state.updateSelectedRow)
 
 	const [data, setData] = useState<T[]>([])
 	const [globalFilter, setGlobalFilter] = useState('')
@@ -99,9 +107,37 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 	const filterRef = useRef<HTMLInputElement>(null);
 
+	// Prepend a default display column with an icon
+	const enhancedColumns = useMemo<ColumnDef<T, unknown>[]>(() => {
+		const defaultIconColumn: ColumnDef<T, unknown> = {
+			id: '__icon__',
+			header: () => (
+				<></>
+			),
+			cell: ({ row }) => (
+				<Button
+					className="inline-flex items-center justify-center w-4 h-4"
+					onClick={() => {
+						// eslint-disable-next-line no-console
+						console.log(row.original)
+						updateSelectedRow(title ?? '', row.original)
+					}}
+				>
+					<Icon icon={Edit2} size={14} />
+				</Button>
+			)
+			,
+			enableSorting: false,
+			enableColumnFilter: false,
+			size: 10,
+		}
+
+		return [defaultIconColumn, ...columns]
+	}, [title, columns])
+
 	const table = useReactTable({
 		data,
-		columns,
+		columns: enhancedColumns,
 		state: {
 			globalFilter,
 			pagination,
@@ -128,8 +164,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 
 	useEffect(() => {
-		setLoadDataTables({  [title ?? '']: loadData })
-	}, [title, loadData, setLoadDataTables])
+		updateLoadDataTables({ [title ?? '']: loadData })
+	}, [title, loadData, updateLoadDataTables])
 
 
 	useEffect(() => {
@@ -213,7 +249,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 								<SendToBack className="w-4 h-4" />
 							</th> */}
 							{headerGroup.headers.map(header => (
-								header.column.columnDef.header && <th key={header.id} className="datatable-header-cell hover:bg-blue-300 cursor-pointer">
+								header.column.columnDef.header && <th key={header.id} className="datatable-header-cell hover:bg-blue-300 cursor-pointer" style={{ width: header.getSize() }}>
 									<div className="datatable-header-content" >
 										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 										{header.column.getCanSort() && (
@@ -322,7 +358,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 					{table.getPaginationRowModel().rows.map(row => (
 						<tr key={row.id} className="datatable-body-row hover:bg-blue-50">
 							{row.getVisibleCells().map(cell => (
-								<td key={cell.id} className="datatable-body-cell">
+								<td key={cell.id} className="datatable-body-cell" style={{ width: cell.column.getSize() }}>
 									{renderCellWithHighlight(cell, globalFilter)}
 								</td>
 							))}

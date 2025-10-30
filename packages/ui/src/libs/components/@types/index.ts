@@ -253,6 +253,7 @@ export type DataTableProps = {
   canSearchAllColumns?: boolean;
   api?: APIFunction;
   apiInfo?: API;
+  // apiEdit?: APIFunction;
 };
 
 export type PopoverProps = BaseComponentProps<
@@ -359,6 +360,7 @@ export type ColumnDef = {
   header: string;
   enableSorting: boolean;
   enableColumnFilter: boolean;
+  isEditable?: boolean;
 };
 
 export type DataTableElement = {
@@ -366,6 +368,7 @@ export type DataTableElement = {
   title: string;
   columns: ColumnDef[];
   api: API & {};
+  // Editing: {}
 };
 
 // export type TextFieldElement = {};
