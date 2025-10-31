@@ -7,6 +7,7 @@ import * as Popover from "@radix-ui/react-popover"
 import { Button, Text } from "@radix-ui/themes"
 import type { DataTableProps } from "./@types"
 import { useStord } from "./core/stord"
+import { Modal } from "./Modal"
 
 // Utility function to highlight matching text
 const highlightText = (text: string, searchTerm: string) => {
@@ -63,6 +64,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 	apiInfo,
 	columns = [],
 	canSearchAllColumns = false,
+	editModalContainer,
 }: DataTableProps) => {
 
 	// const {
@@ -121,6 +123,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 						// eslint-disable-next-line no-console
 						console.log(row.original)
 						updateSelectedRow(title ?? '', row.original)
+
+
 					}}
 				>
 					<Icon icon={Edit2} size={14} />
@@ -475,5 +479,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 				</tfoot>
 			</table>
 		</div>
+
+
 	</div>)
 }

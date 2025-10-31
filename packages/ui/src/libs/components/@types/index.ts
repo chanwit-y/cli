@@ -253,6 +253,7 @@ export type DataTableProps = {
   canSearchAllColumns?: boolean;
   api?: APIFunction;
   apiInfo?: API;
+  editModalContainer?: JSX.Element;
   // apiEdit?: APIFunction;
 };
 
