@@ -209,6 +209,7 @@ export const sourceAppList: Bin[] = [
     element: {
       name: "sourceApps",
       title: "Source Apps",
+      modalContainer: containerSourceAppDetail,
       columns: [
         {
           accessor: "name",
@@ -225,6 +226,19 @@ export const sourceAppList: Bin[] = [
       ],
       api: { // Get API
         name: "sourceApps",
+        paths: ["data", "result"],
+        query: {
+          offset: {
+            type: "value",
+            key: "offset",
+            value: 0,
+          },
+          limit: {
+            type: "value",
+            key: "limit",
+            value: 100,
+          },
+        },
       },
       
     },

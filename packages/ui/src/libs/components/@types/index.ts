@@ -253,7 +253,7 @@ export type DataTableProps = {
   canSearchAllColumns?: boolean;
   api?: APIFunction;
   apiInfo?: API;
-  editModalContainer?: JSX.Element;
+  modalContainer?: JSX.Element;
   // apiEdit?: APIFunction;
 };
 
@@ -369,6 +369,7 @@ export type DataTableElement = {
   title: string;
   columns: ColumnDef[];
   api: API & {};
+  modalContainer?: Container;
   // Editing: {}
 };
 

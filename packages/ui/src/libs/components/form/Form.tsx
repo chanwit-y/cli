@@ -7,10 +7,10 @@ export class Form<T extends FieldValues = FieldValues> {
 
 
   private _schema: any;
-  private _defaultValues?: DefaultValues<T>;
+  private _defaultValues?: any;
   public _form: UseFormReturn<any, unknown, any> | undefined;
 
-  constructor(schema: any, defaultValues?: DefaultValues<T>) {
+  constructor(schema: any, defaultValues?: any) {
     this._schema = schema;
     this._defaultValues = defaultValues;
   }

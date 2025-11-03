@@ -6,6 +6,7 @@ import { DataTable2 } from "../DataTable2";
 import type { TApiMaster } from "../../api/APIMaster";
 import type { TModelMaster } from "../../model/master";
 import type { ElementContext } from "./elementBuilder";
+import { ContainerBuilder } from "./containerBuilder";
 
 
 export class DataTable<T extends Record<string, any>, M extends TModelMaster, A extends TApiMaster<M>> implements IElement {
@@ -32,11 +33,20 @@ export class DataTable<T extends Record<string, any>, M extends TModelMaster, A 
 
   create(): JSX.Element {
     const props = this._context.props as DataTableElement;
+
+    // props.editModalContainer
+    const modalContainer = props.modalContainer && this._context.apis ? new ContainerBuilder(
+      [props.modalContainer],
+      this._context.apis
+    ).draw() : undefined;
+
     return createElement(DataTable2, {
       columns: this.toColoumDefinition(props.columns),
       api: this._context.api,
+      apiInfo: props.api,
       canSearchAllColumns: true,
       title: props.title,
+      modalContainer: modalContainer,
     })
   }
 }

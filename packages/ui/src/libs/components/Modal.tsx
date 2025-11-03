@@ -1,10 +1,8 @@
 // import { AlertDialog } from "@radix-ui/themes"
-import { forwardRef, useEffect } from "react"
+import { forwardRef } from "react"
 import type { ReactNode } from "react"
 import * as AlertDialog from '@radix-ui/react-dialog';
 import { ThemeProvider } from "./context";
-import { useFormContext } from "react-hook-form";
-import { useCore } from "./core/context";
 
 export interface ModalProps {
 	trigger?: ReactNode
@@ -19,24 +17,32 @@ export interface ModalProps {
 	maxWidth?: string
 	open?: boolean
 	onOpenChange?: (open: boolean) => void
+	hiddenTrigger?: boolean
 }
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	(
 		{
 			children,
+			open,
+			onOpenChange,
+			hiddenTrigger,
 		}) => {
 
 
 		return (
-			// <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
-			<AlertDialog.Root >
+			<AlertDialog.Root open={open} onOpenChange={onOpenChange}>
 				{/* {trigger && <AlertDialog.Trigger>{trigger}</AlertDialog.Trigger>} */}
-				<AlertDialog.Trigger asChild>
-					<button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
-						Open Dialog
-					</button>
-				</AlertDialog.Trigger>
+
+				{
+					hiddenTrigger ? null : (
+						<AlertDialog.Trigger asChild>
+							<button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+								Open Dialog
+							</button>
+						</AlertDialog.Trigger>
+					)
+				}
 
 				<AlertDialog.Portal>
 					<AlertDialog.Overlay className="fixed inset-0 bg-black/50 z-50" />

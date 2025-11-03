@@ -8,6 +8,7 @@ import { Button, Text } from "@radix-ui/themes"
 import type { DataTableProps } from "./@types"
 import { useStord } from "./core/stord"
 import { Modal } from "./Modal"
+import { useFormContext } from "react-hook-form"
 
 // Utility function to highlight matching text
 const highlightText = (text: string, searchTerm: string) => {
@@ -64,7 +65,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 	apiInfo,
 	columns = [],
 	canSearchAllColumns = false,
-	editModalContainer,
+	modalContainer
+	// editModalContainer,
 }: DataTableProps) => {
 
 	// const {
@@ -74,6 +76,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 	// 	updateLoadDataTables: state.updateLoadDataTables,
 	// 	updateSelectedRow: state.updateSelectedRow,
 	// }))
+
+	const [open, setOpen] = useState(false)
 
 	const updateLoadDataTables = useStord((state) => state.updateLoadDataTables)
 	const updateSelectedRow = useStord((state) => state.updateSelectedRow)
@@ -123,8 +127,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 						// eslint-disable-next-line no-console
 						console.log(row.original)
 						updateSelectedRow(title ?? '', row.original)
-
-
+						setOpen(true)
 					}}
 				>
 					<Icon icon={Edit2} size={14} />
@@ -138,6 +141,9 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 		return [defaultIconColumn, ...columns]
 	}, [title, columns])
+
+
+	// const { setValue } = useFormContext()
 
 	const table = useReactTable({
 		data,
@@ -161,10 +167,17 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 
 	const loadData = useCallback(() => {
-		api && api().then((res: { data: SetStateAction<T[]> }) => {
-			setData(res.data)
+		const q = Object.entries(apiInfo?.query ?? {}).reduce((acc, [key, value]) => {
+			return { ...acc, [key]: value.type === "value" ? value.value : undefined }
+		}, {})
+		api && api({ ...q }).then((res: any) => {
+			let data = res
+			apiInfo?.paths?.forEach((path) => {
+				data = data[path]
+			})
+			setData(data ?? [])
 		})
-	}, [api])
+	}, [api, apiInfo])
 
 
 	useEffect(() => {
@@ -480,6 +493,15 @@ export const DataTable2 = <T extends Record<string, any>>({
 			</table>
 		</div>
 
-
+		<Modal
+			open={open}
+			onOpenChange={() => setOpen(!open)}
+			hiddenTrigger={true}
+		>
+			<div>
+				<h1>Edit Modal</h1>
+			</div>
+			{modalContainer}
+		</Modal>
 	</div>)
 }

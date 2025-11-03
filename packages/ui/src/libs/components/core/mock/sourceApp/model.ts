@@ -40,6 +40,11 @@ export const model: TModelMaster = {
 			},
 		}
 	},
+	sourceAppQuery: {
+		offset: "number",
+		limit: "number",
+		userId: "string"
+	},
 	sourceAppBody: {
 		name: "string",
 		webhookId: "string",

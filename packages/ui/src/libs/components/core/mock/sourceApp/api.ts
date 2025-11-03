@@ -16,10 +16,11 @@ export const api = {
 		withOptions: false,
 	},
 	sourceApps: {
-		url: "source-app",
+		url: "source-app/source",
 		description: "Get all source apps",
 		methods: "GET",
 		response: "sourceAppRes",
+		query: "sourceAppQuery",
 		withOptions: false,
 	},
 	sourceAppsPost: {

@@ -6,6 +6,7 @@ import { Schema } from "./schema";
 import { Provider } from "./context";
 import { ElementContext } from "./elementBuilder";
 import { useStord } from "./stord";
+import { useMemo } from "react";
 export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	constructor(private _connainers: Container[], private _apis: ApiMaster<M, A>) { }
@@ -38,12 +39,11 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	public draw() {
 		const selectedRow = useStord((state) => state.selectedRow)
+		// const defaultValues = selectedRow[this._connainers[0].name]
+		// const defaultValues = useMemo(() => selectedRow[this._connainers[0].name] ?? {}, [selectedRow, this._connainers]) 
+		const defaultValues = useMemo(() => selectedRow["Source Apps"] ?? {}, [selectedRow]) 
 
-		const F = new Form(this.getSchema()).setup().create();
-
-
-
-
+		const F = new Form(this.getSchema(), defaultValues).setup().create();
 
 		return <F.Fn>
 			{(f) => (
