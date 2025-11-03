@@ -20,6 +20,7 @@ import type { Button } from "../core/button";
 
 export type Components = {
   TextField?: TextFieldProps;
+  Hidden?: HiddenProps;
   Button?: ButtonProps;
   SelectField?: SelectFieldProps;
   Autocomplete?: AutocompleteProps;
@@ -69,6 +70,13 @@ export type TextFieldProps = BaseComponentProps<
     radius?: "none" | "small" | "medium" | "large" | "full";
     isFullWidth?: boolean;
     width?: number;
+  }
+>;
+
+export type HiddenProps = BaseComponentProps<
+  "input",
+  {
+    value?: string | number;
   }
 >;
 
@@ -382,7 +390,13 @@ export type TextFieldElement = {
   errorMessage: string;
 } & TextFieldProps;
 
+export type HiddenElement = {
+  name: string;
+  dataType: string;
+};
+
 export type TElement =
+  | HiddenElement
   | AutocompleteElement
   | TextFieldElement
   | DataTableElement
@@ -390,6 +404,7 @@ export type TElement =
   | ButtonElement;
 
 export type BinType =
+  | "hidden"
   | "multiAutocomplete"
   | "modal"
   | "button"

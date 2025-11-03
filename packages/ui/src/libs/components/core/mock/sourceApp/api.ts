@@ -30,5 +30,14 @@ export const api = {
 		response: "sourceAppRes",
 		body: "sourceAppBody",
 		withOptions: false,
+	},
+	sourceAppsPatch: {
+		url: "source-app/:id",
+		description: "Post data to source apps",
+		methods: "PATCH",
+		response: "sourceAppRes",
+		body: "sourceAppBody",
+		parameter: "sourceAppParam",
+		withOptions: false,
 	}
 }

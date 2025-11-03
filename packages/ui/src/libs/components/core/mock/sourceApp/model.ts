@@ -45,6 +45,9 @@ export const model: TModelMaster = {
 		limit: "number",
 		userId: "string"
 	},
+	sourceAppParam: {
+		id: "string"
+	},
 	sourceAppBody: {
 		name: "string",
 		webhookId: "string",

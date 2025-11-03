@@ -1,6 +1,7 @@
 // import type { TApiMaster } from "../../../api/APIMaster";
 // import type { TModelMaster } from "../../../model/master";
 // import type { IElement } from "../../@types";
+import { Hidden } from "../hidden";
 import { Autocomplete, MultiAutocomplete } from "../autocomplete";
 import { Button } from "../button";
 import { Checkbox } from "../checkbox";
@@ -26,4 +27,5 @@ export const ElementData = {
 	datatable: DataTable,
 	textfield: TextField,
 	checkbox: Checkbox,
+	hidden: Hidden,
 }

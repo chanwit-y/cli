@@ -27,7 +27,14 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 
 						console.log(data)
 						console.log(api)
-						api && await api({  ...data })
+
+						// TODO: check api info
+						if (data.id) {
+							api && await api({ id: data.id }, { ...data })
+						} else {
+							api && await api({ ...data })
+						}
+						// api && await api({  ...data })
 
 					})()
 					break;

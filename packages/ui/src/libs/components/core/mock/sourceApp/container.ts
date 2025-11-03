@@ -3,6 +3,17 @@ import type { Bin, Container } from "../../../@types";
 export const sourceAppDetail: Bin[] = [
   {
     sm: "12",
+    md: "12",
+    lg: "12",
+    xl: "12",
+    type: "hidden",
+    element: {
+      name: "id",
+      dataType: "string"
+    },
+  },
+  {
+    sm: "12",
     md: "6",
     lg: "6",
     xl: "6",
@@ -161,7 +172,7 @@ export const sourceAppDetail: Bin[] = [
       label: "Update",
       actions: ["SubmitFormToAPI", "ReloadDataTable"],
       api: {
-        name: "sourceAppsPost",
+        name: "sourceAppsPatch",
       }
     },
   },

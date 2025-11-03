@@ -1,4 +1,5 @@
 export { TextField, TextFieldBase } from "./TextField";
+export { Hidden, HiddenBase } from "./Hidden";
 export { SelectField, SelectFieldBase } from "./SelectField";
 export { AutocompleteBase } from "./Autocomplete";
 export { Textarea, TextareaBase } from "./Textarea";
