@@ -8,7 +8,6 @@ import { Button, Text } from "@radix-ui/themes"
 import type { DataTableProps } from "./@types"
 import { useStord } from "./core/stord"
 import { Modal } from "./Modal"
-import { useFormContext } from "react-hook-form"
 
 // Utility function to highlight matching text
 const highlightText = (text: string, searchTerm: string) => {

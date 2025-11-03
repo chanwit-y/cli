@@ -229,11 +229,18 @@ export const sourceAppList: Bin[] = [
           enableSorting: true,
         },
         {
+          accessor: "mappingName",
+          header: "Mapping Name",
+          enableColumnFilter: true,
+          enableSorting: true,
+        },
+        {
           accessor: "createdBy",
           header: "Created By",
           enableColumnFilter: true,
           enableSorting: true,
         },
+        //mappingName
       ],
       api: { // Get API
         name: "sourceApps",
