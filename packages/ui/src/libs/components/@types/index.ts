@@ -70,6 +70,7 @@ export type TextFieldProps = BaseComponentProps<
     radius?: "none" | "small" | "medium" | "large" | "full";
     isFullWidth?: boolean;
     width?: number;
+    isFixedHeight?: boolean;
   }
 >;
 
@@ -262,6 +263,9 @@ export type DataTableProps = {
   api?: APIFunction;
   apiInfo?: API;
   modalContainer?: JSX.Element;
+  canEdit?: boolean;
+  canDelete?: boolean;
+  align?: Record<string, "start" | "center" | "end">;
   // apiEdit?: APIFunction;
 };
 
@@ -370,6 +374,7 @@ export type ColumnDef = {
   enableSorting: boolean;
   enableColumnFilter: boolean;
   isEditable?: boolean;
+  align?: "start" | "center" | "end";
 };
 
 export type DataTableElement = {
@@ -378,6 +383,8 @@ export type DataTableElement = {
   columns: ColumnDef[];
   api: API & {};
   modalContainer?: Container;
+  canEdit?: boolean;
+  canDelete?: boolean;
   // Editing: {}
 };
 

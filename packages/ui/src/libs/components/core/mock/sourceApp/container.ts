@@ -221,24 +221,29 @@ export const sourceAppList: Bin[] = [
       name: "sourceApps",
       title: "Source Apps",
       modalContainer: containerSourceAppDetail,
+      canEdit: true,
+      canDelete: true,
       columns: [
         {
           accessor: "name",
           header: "Name",
           enableColumnFilter: true,
           enableSorting: true,
+          align: "start",
         },
         {
           accessor: "mappingName",
           header: "Mapping Name",
           enableColumnFilter: true,
           enableSorting: true,
+          align: "start"
         },
         {
           accessor: "createdBy",
           header: "Created By",
           enableColumnFilter: true,
           enableSorting: true,
+          align: "center"
         },
         //mappingName
       ],

@@ -21,6 +21,7 @@ const TextFieldBase = forwardRef<
 	size = "3",
 	radius = "medium",
 	isFullWidth = false,
+	isFixedHeight = true,
 	width,
 	...props
 }, ref) => {
@@ -31,8 +32,9 @@ const TextFieldBase = forwardRef<
 	return (
 		<Box
 			className={cn(
-				isFullWidth ? "w-full" : "", 
-				"mr-0 flex flex-col justify-start h-20")}
+				isFullWidth ? "w-full" : "",
+				"mr-0 flex flex-col justify-start",
+				isFixedHeight ? "h-20" : "")}
 			style={width ? { width: `${width}px` } : {}}>
 			{label && (
 				<Text as="label" size="2" weight="medium" className="block mb-1">
@@ -89,16 +91,16 @@ const TextFieldBase = forwardRef<
 				// 	{displayHelperText}
 				// </Text>
 
-					<Text
-						size="1"
-						id="autocomplete-helper"
-						className={cn(
-							"block mt-2 mr-1 ",
-							hasError ? "text-red-500 flex items-center gap-0.5" : "text-gray-600"
-						)}>
-						{hasError && <AlertCircle className=" inline-block h-3 w-3 mr-[0.1rem]" />}
-						<span>{displayHelperText}</span>
-					</Text>
+				<Text
+					size="1"
+					id="autocomplete-helper"
+					className={cn(
+						"block mt-2 mr-1 ",
+						hasError ? "text-red-500 flex items-center gap-0.5" : "text-gray-600"
+					)}>
+					{hasError && <AlertCircle className=" inline-block h-3 w-3 mr-[0.1rem]" />}
+					<span>{displayHelperText}</span>
+				</Text>
 			)}
 		</Box>
 	)

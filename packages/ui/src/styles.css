@@ -82,7 +82,7 @@ textarea::-webkit-scrollbar-thumb:hover {
 }
 
 .datatable-header {
-  @apply flex flex-row justify-between items-center sticky top-0 bg-white z-10;
+  @apply flex flex-row justify-between items-start  bg-white z-10;
 }
 
 .datatable-title {

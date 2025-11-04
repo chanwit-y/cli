@@ -1,7 +1,7 @@
 import { TextField } from "./TextField"
 import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel, type ColumnFiltersState, type ColumnDef } from "@tanstack/react-table"
 import { useCallback, useEffect, useMemo, useRef, useState, type SetStateAction } from "react"
-import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Edit, Edit2, ListFilter } from "lucide-react"
+import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Edit, Edit2, ListFilter, Trash2 } from "lucide-react"
 import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
 import { Button, Text } from "@radix-ui/themes"
@@ -64,7 +64,10 @@ export const DataTable2 = <T extends Record<string, any>>({
 	apiInfo,
 	columns = [],
 	canSearchAllColumns = false,
-	modalContainer
+	modalContainer,
+	canEdit = false,
+	canDelete = false,
+	align = {},
 	// editModalContainer,
 }: DataTableProps) => {
 
@@ -114,32 +117,60 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 	// Prepend a default display column with an icon
 	const enhancedColumns = useMemo<ColumnDef<T, unknown>[]>(() => {
-		const defaultIconColumn: ColumnDef<T, unknown> = {
+		const actionIconColumn: ColumnDef<T, unknown> = {
 			id: '__icon__',
 			header: () => (
 				<></>
 			),
 			cell: ({ row }) => (
-				<Button
-					className="inline-flex items-center justify-center w-4 h-4"
-					onClick={() => {
-						// eslint-disable-next-line no-console
-						console.log(row.original)
-						updateSelectedRow(title ?? '', row.original)
-						setOpen(true)
-					}}
-				>
-					<Icon icon={Edit2} size={14} />
-				</Button>
+				<div className="flex items-center justify-center gap-1">
+					{
+						canEdit && (<Button
+							className="inline-flex items-center justify-center w-4 h-4"
+							onClick={() => {
+								// eslint-disable-next-line no-console
+								console.log(row.original)
+								updateSelectedRow(title ?? '', row.original)
+								setOpen(true)
+							}}
+						>
+							<Icon icon={Edit2} size={14} />
+						</Button>)
+					}
+					{
+						canDelete && (
+							<Button
+								className="inline-flex items-center justify-center w-4 h-4"
+								color="red"
+								onClick={() => {
+									console.log(row.original)
+									updateSelectedRow(title ?? '', row.original)
+								}}
+							>
+								<Icon icon={Trash2} size={14} />
+							</Button>
+						)
+					}
+				</div>
+
 			)
 			,
 			enableSorting: false,
 			enableColumnFilter: false,
-			size: 10,
+			size: 50,
 		}
 
-		return [defaultIconColumn, ...columns]
+		return canEdit || canDelete ? [actionIconColumn, ...columns] : [...columns]
 	}, [title, columns])
+
+	// const align = useMemo(() => {
+	// 	console.log('align', columns)
+	// 	const x = columns.reduce((acc, current) => {
+	// 		return { ...acc, [current.accessor]: current.align }
+	// 	}, {})
+	// 	console.log('align', x)
+	// 	return x
+	// }, [columns])
 
 
 	// const { setValue } = useFormContext()
@@ -235,7 +266,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 	}, [columnFilters])
 
 	return (<div className="datatable-container">
-		{/* <pre>{JSON.stringify(loadDataTables, null, 2)}</pre> */}
+		<pre>{JSON.stringify(align, null, 2)}</pre>
 		<div className="datatable-header">
 			<div className="datatable-title">{title}</div>
 
@@ -246,6 +277,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 						width={200}
 						placeholder="Search all columns..."
 						value={globalFilter ?? ''}
+						isFixedHeight={false}
 						onChange={(e) => setGlobalFilter(e.target.value)} />
 
 					<span className="datatable-row-count">
@@ -374,7 +406,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 					{table.getPaginationRowModel().rows.map(row => (
 						<tr key={row.id} className="datatable-body-row hover:bg-blue-50">
 							{row.getVisibleCells().map(cell => (
-								<td key={cell.id} className="datatable-body-cell" style={{ width: cell.column.getSize() }}>
+								<td key={cell.id} className="datatable-body-cell px-4" style={{ width: cell.column.getSize(), textAlign: align[cell.column.id] }}>
 									{renderCellWithHighlight(cell, globalFilter)}
 								</td>
 							))}
