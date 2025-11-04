@@ -28,7 +28,7 @@ export class DataTable<
 
   private align(columns: any[]) {
 		return columns.reduce((acc, current) => {
-			return { ...acc, [current.accessor]: current.align }
+			return { ...acc, [current.accessor]: current.align ?? 'center' }
 		}, {})
   }
 
