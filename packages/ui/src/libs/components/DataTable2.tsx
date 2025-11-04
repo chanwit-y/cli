@@ -266,7 +266,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 	}, [columnFilters])
 
 	return (<div className="datatable-container">
-		<pre>{JSON.stringify(align, null, 2)}</pre>
+		{/* <pre>{JSON.stringify(align, null, 2)}</pre> */}
 		<div className="datatable-header">
 			<div className="datatable-title">{title}</div>
 
