@@ -71,6 +71,7 @@ export const sourceAppDetail: Bin[] = [
       canObserve: false,
       observeTo: "", // for call api
       isRequired: true,
+      isSingleLoad: true,
       errorMessage: "web hook is request",
       keys: {
         id: "id",
@@ -119,6 +120,7 @@ export const sourceAppDetail: Bin[] = [
         },
       },
       isRequired: false,
+      isSingleLoad: true,
       errorMessage: "mapping is request",
       keys: {
         id: "id",

@@ -15,6 +15,7 @@ import { AlertCircle, Check, ChevronDown, Search, X } from "lucide-react";
 import { useCore } from "./core/context";
 import { debounce, distinct, interval, Subject, switchMap } from "rxjs";
 import { isEmpty } from "lodash";
+import { useQuery } from "@tanstack/react-query";
 
 const createAutocomplete = <T extends Record<string, any>>() => {
 	return forwardRef<
@@ -43,6 +44,8 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		// apiObserveParam,
 
 		enabledWhen,
+
+		isSingleLoad,
 
 		onValueChange,
 		onChange,
@@ -80,11 +83,20 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		const displayHelperText = useMemo(() => hasError ? errorMessage : helperText, [hasError, errorMessage, helperText]);
 		const selectedItem = useMemo(() => items.find(item => String(item[idKey]) === String(value)), [items, value, searchKey]);
 
+
+
+		const { data, refetch } = useQuery({
+			queryKey: [`${name}-${apiInfo?.name}`],
+			queryFn: () => fetchData(""),
+			staleTime: Infinity,
+			gcTime: Infinity
+		})
+
 		const fetchData = useCallback((text: string) => {
+
 			const q = Object.entries(apiInfo?.query ?? {}).reduce((acc, [key, value]) => {
 				return { ...acc, [key]: value.type === "value" ? value.value : undefined }
 			}, {})
-			console.log('fetchData', apiInfo)
 			if (observeTo !== "") {
 				if (!isEmpty(apiInfo?.params)) {
 					if (!isEmpty(observeApiData)) {
@@ -103,18 +115,27 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 			}
 		}, [observeTo, observeApiData, api, apiInfo]);
 
+
 		const apiSearch = useMemo(() => {
 			if (api && apiInfo?.query) {
 				return subject.pipe(
 					debounce(() => interval(500)),
 					distinct(),
 					switchMap(async (text) => {
-						return Promise.resolve(fetchData(text))
+
+						// if (items.length === 0) refetch()
+
+						// if (isSingleLoad && !data) refetch()
+						console.log('isSingleLoad', isSingleLoad, data)
+
+						if (isSingleLoad && data) return
+						refetch()
+						// return Promise.resolve(fetchData(text))
 					}),
 
 				)
 			} else return undefined
-		}, [subject, apiInfo, fetchData, observeApiData])
+		}, [subject, apiInfo, observeApiData, refetch, items, isSingleLoad])
 
 		// const isEnabledWhen = useMemo(
 		// 	if (enabledWhen) {
@@ -265,24 +286,37 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 		}, [apiInfo])
 
 		useEffect(() => {
-			fetchData("")?.then((res) => {
-				setItems(getItems(res))
-			});
-		}, [observeApiData])
+			console.log('isSingleLoad', isSingleLoad, data, isSingleLoad && data)
+
+
+			if (isSingleLoad && data) return
+
+			console.log('refetch')
+			refetch()
+			// refetch()
+			// fetchData("")?.then((res) => {
+			// 	setItems(getItems(res))
+			// });
+		}, [apiSearch, observeApiData, refetch, data, isSingleLoad])
 
 		useEffect(() => {
-			if (!apiInfo?.query) {
-				const result = fetchData("");
-				if (result) {
-					result.then((res) => setItems(getItems(res)));
-				}
-			}
-			else if (apiSearch) {
-				apiSearch.subscribe((res) => {
-					setItems(getItems(res))
-				})
-			}
-		}, [apiSearch, observeApiData]);
+			console.log('data', data)
+			data && setItems(getItems(data))
+		}, [apiSearch, observeApiData, data])
+
+		// useEffect(() => {
+		// 	if (!apiInfo?.query) {
+		// 		const result = fetchData("");
+		// 		if (result) {
+		// 			result.then((res) => setItems(getItems(res)));
+		// 		}
+		// 	}
+		// 	else if (apiSearch) {
+		// 		apiSearch.subscribe((res) => {
+		// 			setItems(getItems(res))
+		// 		})
+		// 	}
+		// }, [apiSearch, observeApiData]);
 
 
 		return <Box className="w-full flex flex-col justify-start h-20" >

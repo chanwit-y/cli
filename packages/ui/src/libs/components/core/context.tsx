@@ -1,6 +1,8 @@
+import type { DataValue } from "../@types";
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
 import { Subject } from "rxjs";
-import type { DataValue } from "../@types";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 type CoreContextType = {
 	observeTable: Record<string, any>;
@@ -12,9 +14,12 @@ const Context = createContext<CoreContextType>({} as CoreContextType);
 
 type CoreProviderProps = {
 	children: ReactNode;
+	withQueryClient?: boolean;
 }
 
-export const Provider = ({ children }: CoreProviderProps) => {
+const queryClient = new QueryClient()
+
+export const Provider = ({ children, withQueryClient = false }: CoreProviderProps) => {
 
 	const [observeTable, setObserveTable] = useState<Record<string, Subject<unknown>>>({});
 	const addObserveTable = useCallback((key: string) => {
@@ -35,7 +40,14 @@ export const Provider = ({ children }: CoreProviderProps) => {
 
 
 	return <Context.Provider value={{ observeTable, addObserveTable, getDataValue }}>
-		{children}
+		{
+			withQueryClient ? (
+				<QueryClientProvider client={queryClient}>
+					{children}
+					<ReactQueryDevtools initialIsOpen={false} />
+				</QueryClientProvider>
+			) : children
+		}
 	</Context.Provider>;
 };
 

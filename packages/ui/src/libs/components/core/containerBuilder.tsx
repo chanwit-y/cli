@@ -21,6 +21,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 	}
 
 	private _renderElement(b: Bin, f: any | undefined, api: APIFunction | undefined) {
+		//TODO: sholde be 1 object
 		const el = (new ElementContext(b.element as TElement))
 			.withForm(f)
 			.withAPIs(this._apis as unknown as ApiMaster<TModelMaster, TApiMaster<TModelMaster>>)
@@ -37,17 +38,19 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 		return <span>*</span>;
 	}
 
-	public draw() {
+	public draw(withQueryClient: boolean = false) {
 		const selectedRow = useStord((state) => state.selectedRow)
 		// const defaultValues = selectedRow[this._connainers[0].name]
 		// const defaultValues = useMemo(() => selectedRow[this._connainers[0].name] ?? {}, [selectedRow, this._connainers]) 
+
+		//TODO: Fix code
 		const defaultValues = useMemo(() => selectedRow["Source Apps"] ?? {}, [selectedRow]) 
 
 		const F = new Form(this.getSchema(), defaultValues).setup().create();
 
 		return <F.Fn>
 			{(f) => (
-				<Provider>
+				<Provider withQueryClient={withQueryClient}>
 					<div className="grid grid-cols-12 gap-1 items-center">
 						{this._connainers.map((c) => {
 							return c.bins.map((b) => {

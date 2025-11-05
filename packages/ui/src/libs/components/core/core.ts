@@ -25,7 +25,7 @@ class Core {
 	constructor() {}
 
 	public run() {
-		return (new ContainerBuilder(containerSourceAppList, this._apis)).draw()
+		return (new ContainerBuilder(containerSourceAppList, this._apis)).draw(true)
 	}
 }
 

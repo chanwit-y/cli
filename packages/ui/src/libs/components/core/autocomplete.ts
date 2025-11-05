@@ -34,6 +34,7 @@ export class Autocomplete<M extends TModelMaster, A extends TApiMaster<M>>
 
       // defaultData: props.defaultData ?? {},
       options: props.options ?? [], // Add required options property
+      isSingleLoad: props.isSingleLoad,
     });
   }
 }

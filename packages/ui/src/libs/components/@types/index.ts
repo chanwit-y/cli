@@ -179,6 +179,7 @@ export type AutocompleteProps = BaseComponentProps<
     onValueChange?: (value: string) => void;
     onBlur?: () => void;
     maxResults?: number;
+    isSingleLoad?: boolean;
   }
 >;
 
@@ -217,6 +218,7 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       api?: APIFunction;
       apiInfo?: API;
       enabledWhen?: ConditionTerm;
+      isSingleLoad?: boolean;
       // defaultData?: Record<string, unknown>;
       // apiObserveParam?: string;
     }
@@ -354,6 +356,7 @@ export type AutocompleteElement = {
   observeTo: string;
   enabledWhen: ConditionTerm;
   isRequired: boolean;
+  isSingleLoad: boolean;
   errorMessage: string;
   api?: API & {
     // observeParam: string;
