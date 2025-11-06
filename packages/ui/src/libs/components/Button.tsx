@@ -10,19 +10,21 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	label,
 	actions,
 	api,
+	onClick,
 	...props }) => {
 
 	// const { loadDataTables } = useCore()
 	const loadDataTables = useStord((state) => state.loadDataTables)
+	const clearCurrentFormSeleted = useStord((state) => state.clearCurrentFormSeleted)
 	const { handleSubmit } = useFormContext()
 
-	const handleClieck = useCallback(async () => {
+	const handleClieck = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
 
 		console.log(actions)
 
 		for (const action of actions) {
 			switch (action) {
-				case 'SubmitFormToAPI':
+				case 'SubmitFormToPostAPI':
 					await handleSubmit(async (data) => {
 
 						console.log(data)
@@ -41,10 +43,13 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 				case 'ReloadDataTable':
 					await loadDataTables["Source Apps"]()
 					break;
+				case 'ClearCurrentFormSeleted':
+					clearCurrentFormSeleted();
 				default:
 					break;
 			}
 		}
+		onClick && onClick(e)
 	}, [actions, handleSubmit])
 
 	return <RadixButton

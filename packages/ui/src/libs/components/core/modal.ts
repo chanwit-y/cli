@@ -26,7 +26,7 @@ export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
       this._context.apis
     );
 
-    const trigger = new ElementContext(props.trigger as TElement);
+    // const trigger = new ElementContext(props.trigger as TElement);
 
     // const trigger = new ElementContext(props.trigger).build("button");
     // const triggerCtx = new ElementContext(props.trigger)
@@ -35,7 +35,8 @@ export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
     return createElement<ModalProps>(
       ModalComponent,
       {
-        trigger: trigger.build("button")?.create(),
+        // trigger: trigger.build("button")?.create(),
+        trigger: props.trigger,
         title: props.title,
         description: props.description,
         maxWidth: props.maxWidth,

@@ -21,12 +21,15 @@ export const Icon: React.FC<IconProps> = ({
   className,
   ...props
 }) => {
+  const { ref, ...spanProps } = props;
+  
   return (
-    <span className={className} {...props}>
+    <span className={className} {...spanProps}>
       <IconComponent
         size={size}
         color={color}
         strokeWidth={strokeWidth}
+        ref={ref}
       />
     </span>
   );

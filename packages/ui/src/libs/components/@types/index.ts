@@ -458,7 +458,7 @@ export type Container = {
   bins: Bin[];
 };
 
-export type ButtonAction = "OpenModal" | "SubmitFormToAPI" | "ReloadDataTable";
+export type ButtonAction = "OpenModal" | "ClearCurrentFormSeleted"  | "SubmitFormToPostAPI" | "SubmitFormToPatchAPI" | "ReloadDataTable";
 
 export type ButtonElement = {
   label: string;

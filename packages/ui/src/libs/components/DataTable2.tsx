@@ -555,9 +555,6 @@ return (<div className="datatable-container">
 		onOpenChange={() => setOpen(!open)}
 		hiddenTrigger={true}
 	>
-		<div>
-			<h1>Edit Modal</h1>
-		</div>
 		{modalContainer}
 	</Modal>
 </div>)

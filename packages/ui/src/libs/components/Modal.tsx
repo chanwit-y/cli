@@ -1,11 +1,13 @@
 // import { AlertDialog } from "@radix-ui/themes"
-import { forwardRef } from "react"
+import { forwardRef, useCallback, useEffect, useMemo, useState } from "react"
 import type { ReactNode } from "react"
 import * as AlertDialog from '@radix-ui/react-dialog';
 import { ThemeProvider } from "./context";
+import type { ButtonElement } from "./@types";
+import { ElementContext } from "./core/elementBuilder";
 
 export interface ModalProps {
-	trigger?: ReactNode
+	trigger?: ButtonElement
 	title?: string
 	description?: string
 	children?: ReactNode
@@ -24,22 +26,57 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	(
 		{
 			children,
+			trigger,
 			open,
 			onOpenChange,
 			hiddenTrigger,
 		}) => {
 
 
+		const [isOpen, setIsOpen] = useState(open)
+
+		useEffect(() => {
+
+			console.log('isOpen', open)
+			setIsOpen(open)
+		}, [open])
+
+		const triggerElement = useMemo(() => {
+			if (!trigger) return null;
+
+			// const onClick = () => {
+			// 	console.log('click')
+			// 	setIsOpen(true)
+			// }
+
+			return (new ElementContext({ ...trigger })).build("button")?.create();
+		}, [trigger, setIsOpen])
+
+
+		const handleOpenChange = useCallback((open: boolean) => {
+			if (onOpenChange) {
+				setIsOpen(open)
+				onOpenChange(open)
+			}
+		}, [setIsOpen, onOpenChange])
+
+		// const handleTrigger = useCallback(() => {
+
+		// 	setIsOpen(true)
+		// }, [])
+
 		return (
-			<AlertDialog.Root open={open} onOpenChange={onOpenChange}>
-				{/* {trigger && <AlertDialog.Trigger>{trigger}</AlertDialog.Trigger>} */}
+			<AlertDialog.Root open={isOpen} onOpenChange={handleOpenChange}>
+				{/* <AlertDialog.Root open={isOpen}>  */}
 
 				{
-					hiddenTrigger ? null : (
+					hiddenTrigger && trigger ? null : (
 						<AlertDialog.Trigger asChild>
-							<button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
+							{/* {trigger} */}
+							{triggerElement}
+							{/* <button  className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors">
 								Open Dialog
-							</button>
+							</button> */}
 						</AlertDialog.Trigger>
 					)
 				}

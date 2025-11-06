@@ -13,6 +13,7 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 	create(): JSX.Element {
 		const props = this._context.props as unknown as ButtonElement;
 		const icon = props.icon ? IconData[props.icon] : null;
+
 		// return createElement(ElementButton, {}, icon ? createElement(icon, {}) : null, props.label)
 		return createElement(ElementButton, {
 			label: props.label,

@@ -158,7 +158,7 @@ export const sourceAppDetail: Bin[] = [
     type: "button",
     element: {
       label: "Create",
-      actions: ["SubmitFormToAPI", "ReloadDataTable"],
+      actions: ["SubmitFormToPostAPI", "ReloadDataTable"],
       api: {
         name: "sourceAppsPost",
       }
@@ -172,7 +172,7 @@ export const sourceAppDetail: Bin[] = [
     type: "button",
     element: {
       label: "Update",
-      actions: ["SubmitFormToAPI", "ReloadDataTable"],
+      actions: ["SubmitFormToPatchAPI", "ReloadDataTable"],
       api: {
         name: "sourceAppsPatch",
       }
@@ -203,7 +203,7 @@ export const sourceAppList: Bin[] = [
       maxWidth: "800px",
       trigger: {
         label: "",
-        actions: ["OpenModal"],
+        actions: [ "ClearCurrentFormSeleted"],
         icon: "puls",
       },
       // trigger: {
