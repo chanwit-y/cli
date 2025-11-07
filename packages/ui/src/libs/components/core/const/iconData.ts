@@ -1,5 +1,11 @@
-import { Plus } from "lucide-react";
+import * as i from "lucide-react";
 
 export const IconData = {
-	puls: Plus
+	puls: i.Plus,
+	edit: i.Edit2,
+	trash: i.Trash2,
+	arrowUp: i.ArrowUp,
+	arrowDown: i.ArrowDown,
+	arrowDownUp: i.ArrowDownUp,
+	listFilter: i.ListFilter,
 }

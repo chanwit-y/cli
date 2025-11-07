@@ -5,6 +5,7 @@ import * as AlertDialog from '@radix-ui/react-dialog';
 import { ThemeProvider } from "./context";
 import type { ButtonElement } from "./@types";
 import { ElementContext } from "./core/elementBuilder";
+import "./Modal.css";
 
 export interface ModalProps {
 	trigger?: ButtonElement
@@ -33,11 +34,10 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		}) => {
 
 
-		const [isOpen, setIsOpen] = useState(open)
+		const [isOpen, setIsOpen] = useState(open ?? false)
 
 		useEffect(() => {
-
-			console.log('isOpen', open)
+			if (open === undefined) return
 			setIsOpen(open)
 		}, [open])
 
@@ -53,12 +53,10 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		}, [trigger, setIsOpen])
 
 
-		const handleOpenChange = useCallback((open: boolean) => {
-			if (onOpenChange) {
-				setIsOpen(open)
-				onOpenChange(open)
-			}
-		}, [setIsOpen, onOpenChange])
+		const handleOpenChange = useCallback((nextOpen: boolean) => {
+			setIsOpen(nextOpen)
+			onOpenChange?.(nextOpen)
+		}, [onOpenChange])
 
 		// const handleTrigger = useCallback(() => {
 
@@ -82,8 +80,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				}
 
 				<AlertDialog.Portal>
-					<AlertDialog.Overlay className="fixed inset-0 bg-black/50 z-50" />
-					<AlertDialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-6 z-50 max-w-3/4 w-full mx-4" >
+				<AlertDialog.Overlay className="modal-overlay fixed inset-0 z-50" />
+				<AlertDialog.Content className="modal-content fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-6 z-50 max-w-3/4 w-full mx-4" >
 
 						<ThemeProvider
 							components={{

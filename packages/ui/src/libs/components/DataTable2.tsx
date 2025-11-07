@@ -9,6 +9,7 @@ import type { DataTableProps } from "./@types"
 import { useStord } from "./core/stord"
 import { Modal } from "./Modal"
 import { useQuery } from "@tanstack/react-query"
+import { IconData } from "./core/const/iconData"
 
 // Utility function to highlight matching text
 const highlightText = (text: string, searchTerm: string) => {
@@ -136,7 +137,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 								setOpen(true)
 							}}
 						>
-							<Icon icon={Edit2} size={14} />
+							<Icon icon="edit" size={14} />
 						</Button>)
 					}
 					{
@@ -149,7 +150,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 									updateSelectedRow(title ?? '', row.original)
 								}}
 							>
-								<Icon icon={Trash2} size={14} />
+								<Icon icon="trash" size={14} />
 							</Button>
 						)
 					}
@@ -329,16 +330,16 @@ return (<div className="datatable-container">
 									{header.column.getCanSort() && (
 										<span className="datatable-sort-icon" onClick={header.column.getToggleSortingHandler()}>
 											{{
-												asc: <Icon icon={ArrowUp} size={14} className="datatable-sort-icon-bounce" />,
-												desc: <Icon icon={ArrowDown} size={14} className="datatable-sort-icon-bounce" />,
-											}[header.column.getIsSorted() as string] ?? <Icon icon={ArrowDownUp} size={14} className="datatable-sort-icon-default" />}
+												asc: <Icon icon="arrowUp" size={14} className="datatable-sort-icon-bounce" />,
+												desc: <Icon icon="arrowDown" size={14} className="datatable-sort-icon-bounce" />,
+											}[header.column.getIsSorted() as string] ?? <Icon icon="arrowDownUp" size={14} className="datatable-sort-icon-default" />}
 
 										</span>
 									)}
 									{header.column.getCanFilter() && (
 										<Popover.Root>
 											<Popover.Trigger asChild>
-												<Icon onClick={(e) => e.stopPropagation()} icon={ListFilter} size={14} className="datatable-filter-icon" />
+												<Icon onClick={(e) => e.stopPropagation()} icon="listFilter" size={14} className="datatable-filter-icon" />
 											</Popover.Trigger>
 											<Popover.Portal>
 												<Popover.Content

@@ -4,12 +4,14 @@ import type { ButtonProps } from "./@types"
 import { useFormContext } from "react-hook-form";
 import { useCore } from "./core/context";
 import { useStord } from "./core/stord";
+import Icon from "./Icon";
 
 
 const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	label,
 	actions,
 	api,
+	icon,
 	onClick,
 	...props }) => {
 
@@ -53,8 +55,11 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	}, [actions, handleSubmit])
 
 	return <RadixButton
+		className="cursor-pointer"
 		onClick={handleClieck}
-	>{label}</RadixButton>
+	>{  icon ? <Icon icon={icon} size={14} /> : ""}
+	{label}
+	</RadixButton>
 })
 
 Button.displayName = 'Button';

@@ -1,11 +1,12 @@
-import React from "react";
+import React, { createElement } from "react";
 import type { LucideIcon, LucideProps } from "lucide-react";
 import type { BaseComponentProps } from "./@types";
+import { IconData } from "./core/const/iconData";
 
 export type IconProps = BaseComponentProps<
   "span",
   {
-    icon: LucideIcon;
+    icon: keyof typeof IconData;
     size?: number | string;
     color?: string;
     strokeWidth?: number;
@@ -14,7 +15,7 @@ export type IconProps = BaseComponentProps<
 >;
 
 export const Icon: React.FC<IconProps> = ({
-  icon: IconComponent,
+  icon: iconKey,
   size = 24,
   color,
   strokeWidth = 2,
@@ -22,15 +23,23 @@ export const Icon: React.FC<IconProps> = ({
   ...props
 }) => {
   const { ref, ...spanProps } = props;
-  
+
   return (
     <span className={className} {...spanProps}>
-      <IconComponent
+      {
+        createElement(IconData[iconKey as keyof typeof IconData], {
+          size: size,
+          color: color,
+          strokeWidth: strokeWidth,
+          ref: ref,
+        })
+      }
+      {/* <IconComponent
         size={size}
         color={color}
         strokeWidth={strokeWidth}
         ref={ref}
-      />
+      /> */}
     </span>
   );
 };
