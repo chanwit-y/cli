@@ -35,7 +35,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 		}
 
 		// Fallback
-		return <span>*</span>;
+		return <span></span>;
 	}
 
 	public draw(withQueryClient: boolean = false) {
@@ -58,14 +58,14 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 								const colClasses = `sm-col-span-${b.sm} md-col-span-${b.md} lg-col-span-${b.lg} xl-col-span-${b.xl} `;
 
 								return (
-									<div className={`${colClasses} `}>
+									<div className={`${colClasses} ${b.align ? `text-${b.align}` : ''}`}>
 										{this._renderElement(b, f, api)}
 									</div>
 								);
 							})
 						})}
 					</div>
-					<pre>{JSON.stringify(selectedRow, null, 2)}</pre>
+					{/* <pre>{JSON.stringify(selectedRow, null, 2)}</pre> */}
 				</Provider>
 			)}
 		</F.Fn>

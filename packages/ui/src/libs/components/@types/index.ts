@@ -449,6 +449,7 @@ export type Bin = {
   type: BinType;
   element?: TElement;
   container?: Container;
+  align?: "start" | "center" | "end";
 };
 
 export type Container = {
@@ -458,7 +459,12 @@ export type Container = {
   bins: Bin[];
 };
 
-export type ButtonAction = "OpenModal" | "ClearCurrentFormSeleted"  | "SubmitFormToPostAPI" | "SubmitFormToPatchAPI" | "ReloadDataTable";
+export type ButtonAction =
+  | "OpenModal"
+  | "ClearCurrentFormSeleted"
+  | "SubmitFormToPostAPI"
+  | "SubmitFormToPatchAPI"
+  | "ReloadDataTable";
 
 export type ButtonElement = {
   label: string;

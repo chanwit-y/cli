@@ -227,4 +227,14 @@
   @apply xl:col-span-12;
 }
 
+.text-start {
+  @apply text-left;
+}
 
+.text-center {
+  @apply text-center;
+}
+
+.text-end {
+  @apply text-right;
+}

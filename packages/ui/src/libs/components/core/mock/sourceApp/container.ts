@@ -190,11 +190,19 @@ export const containerSourceAppDetail: Container = {
 
 export const sourceAppList: Bin[] = [
   {
+    type: "empty",
+    sm: "11",
+    md: "11",
+    lg: "11",
+    xl: "11",
+  },
+  {
     type: "modal",
-    sm: "4",
-    md: "4",
-    lg: "4",
-    xl: "4",
+    sm: "1",
+    md: "1",
+    lg: "1",
+    xl: "1",
+    align: "end",
     element: {
       id: "a7f3c891-4b2e-4d9a-8f6c-3e5d7a9b1c4f",
       title: "modal",
