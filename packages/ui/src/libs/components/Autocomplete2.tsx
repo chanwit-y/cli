@@ -11,7 +11,7 @@ import {
 import type { AutocompleteItem2, AutocompleteProps2 } from "./@types";
 import { Box, Text } from "@radix-ui/themes";
 import { cn } from "../util/utils";
-import { AlertCircle, Check, ChevronDown, Search, X } from "lucide-react";
+import { AlertCircle, Check, ChevronDown, Loader2, Search, X } from "lucide-react";
 import { useCore } from "./core/context";
 import { debounce, distinct, interval, Subject, switchMap } from "rxjs";
 import { isEmpty } from "lodash";
@@ -85,7 +85,7 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 
 
 
-		const { data, refetch } = useQuery({
+	const { data, refetch, isFetching } = useQuery({
 			queryKey: [`${name}-${apiInfo?.name}`],
 			queryFn: () => fetchData(""),
 			staleTime: Infinity,
@@ -348,7 +348,8 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 							{selectedItem ? selectedItem[displayKey] : placeholder}
 						</span>
 					</div>
-					<div className="flex items-center flex-shrink-0">
+		<div className="flex items-center flex-shrink-0 gap-2">
+			{isFetching && <Loader2 className="h-4 w-4 text-gray-400 animate-spin" aria-hidden="true" />}
 						<ChevronDown className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
 					</div>
 				</button>
@@ -384,14 +385,20 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 						)}
 
 					</div>
-					<div
-						id={listboxId}
-						className="max-h-64 overflow-auto py-1">
-						{filteredItems?.length === 0
-							? <div className="flex justify-center text-sm">
-								No results found
-							</div>
-							: filteredItems.map((item) => {
+			<div
+				id={listboxId}
+				className="max-h-64 overflow-auto py-1">
+				{isFetching && (
+					<div className="flex items-center justify-center gap-2 py-3 text-sm text-gray-500">
+						<Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+						Loading...
+					</div>
+				)}
+				{filteredItems?.length === 0 && !isFetching
+					? <div className="flex justify-center py-3 text-sm text-gray-500">
+						No results found
+					</div>
+					: filteredItems.map((item) => {
 								const isSelected = selectedIndex === filteredItems.findIndex(i => i[idKey] === item[idKey]);
 								const isCurrent = value === item[idKey];
 								return (<button key={item[idKey]}
