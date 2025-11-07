@@ -1,7 +1,7 @@
 import { TextField } from "./TextField"
 import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel, type ColumnFiltersState, type ColumnDef } from "@tanstack/react-table"
-import { useCallback, useEffect, useMemo, useRef, useState, type SetStateAction } from "react"
-import { ArrowDown, ArrowDownUp, ArrowUp, ChevronFirst, ChevronLast, ChevronLeft, ChevronRight, Edit, Edit2, ListFilter, Trash2 } from "lucide-react"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react"
 import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
 import { Button, Text } from "@radix-ui/themes"
@@ -9,7 +9,6 @@ import type { DataTableProps } from "./@types"
 import { useStord } from "./core/stord"
 import { Modal } from "./Modal"
 import { useQuery } from "@tanstack/react-query"
-import { IconData } from "./core/const/iconData"
 
 // Utility function to highlight matching text
 const highlightText = (text: string, searchTerm: string) => {
@@ -100,7 +99,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 	const prevPageIndexRef = useRef(pagination.pageIndex)
 	const prevColumnFiltersRef = useRef(columnFilters)
 
-	const columnValues = useMemo(() => {
+const columnValues = useMemo(() => {
 		const values: Record<string, string[]> = {}
 		columns.forEach((col: { accessorKey: string; id: string }) => {
 			// Skip display columns like drag-handle
@@ -113,8 +112,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 				values[columnId] = uniqueValues
 			}
 		})
-		return values
-	}, [data])
+	return values
+}, [columns, data])
 
 	const filterRef = useRef<HTMLInputElement>(null);
 
@@ -163,8 +162,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 			size: 50,
 		}
 
-		return canEdit || canDelete ? [actionIconColumn, ...columns] : [...columns]
-	}, [title, columns])
+	return canEdit || canDelete ? [actionIconColumn, ...columns] : [...columns]
+	}, [title, columns, canDelete, canEdit])
 
 	// const align = useMemo(() => {
 	// 	console.log('align', columns)
@@ -227,7 +226,10 @@ export const DataTable2 = <T extends Record<string, any>>({
 	// return []
 }, [api, apiInfo])
 
-const { data: tableData, refetch } = useQuery({ queryKey: [`table-data-${title}`], queryFn: fechtData })
+const { data: tableData, refetch, isLoading, isFetching } = useQuery({ queryKey: [`table-data-${title}`], queryFn: fechtData })
+
+const showSkeleton = (isLoading || isFetching) && data.length === 0
+const visibleColumns = table.getVisibleLeafColumns()
 
 useEffect(() => {
 	console.log('tableData', tableData)
@@ -429,16 +431,30 @@ return (<div className="datatable-container">
 				))}
 			</thead>
 
-			<tbody className={`datatable-tbody ${isPageChanging ? 'page-changing' : ''} ${isFiltering ? 'filtering' : ''}`}>
-				{table.getPaginationRowModel().rows.map(row => (
-					<tr key={row.id} className="datatable-body-row hover:bg-blue-50">
-						{row.getVisibleCells().map(cell => (
-							<td key={cell.id} className="datatable-body-cell px-4" style={{ width: cell.column.getSize(), textAlign: align[cell.column.id] }}>
-								{renderCellWithHighlight(cell, globalFilter)}
-							</td>
-						))}
-					</tr>
-				))}
+	<tbody className={`datatable-tbody ${isPageChanging ? 'page-changing' : ''} ${isFiltering ? 'filtering' : ''}`}>
+		{showSkeleton
+			? Array.from({ length: pagination.pageSize }).map((_, rowIndex) => (
+				<tr key={`skeleton-${rowIndex}`} className="datatable-body-row">
+					{visibleColumns.map((column, columnIndex) => (
+						<td
+							key={`skeleton-cell-${column.id}-${columnIndex}`}
+							className="datatable-body-cell px-4"
+							style={{ width: column.getSize(), textAlign: align[column.id] }}
+						>
+							<div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
+						</td>
+					))}
+				</tr>
+			))
+			: table.getPaginationRowModel().rows.map(row => (
+				<tr key={row.id} className="datatable-body-row hover:bg-blue-50">
+					{row.getVisibleCells().map(cell => (
+						<td key={cell.id} className="datatable-body-cell px-4" style={{ width: cell.column.getSize(), textAlign: align[cell.column.id] }}>
+							{renderCellWithHighlight(cell, globalFilter)}
+						</td>
+					))}
+				</tr>
+			))}
 			</tbody>
 			<tfoot className="flex items-center justify-between px-2 py-4 bg-white border-t border-gray-200">
 				<div className="flex items-center space-x-6 text-sm text-gray-700">
