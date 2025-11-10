@@ -20,6 +20,8 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 			icon: props.icon,
 			actions: props.actions,
 			api: this._context.api,
+			snackbarSuccess: props.snackbarSuccess,
+			snackbarError: props.snackbarError,
 		})
 	}
 }

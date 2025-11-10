@@ -161,7 +161,12 @@ export const sourceAppDetail: Bin[] = [
       actions: ["StratLoading", "SubmitFormToPostAPI", "ReloadDataTable", "StopLoading"],
       api: {
         name: "sourceAppsPost",
-      }
+      },
+      snackbarSuccess: {
+        type: "success",
+        message: "Source application created successfully",
+      },
+      snackbarError: "$exception",
     },
   },
   {
@@ -175,7 +180,12 @@ export const sourceAppDetail: Bin[] = [
       actions: ["StratLoading", "SubmitFormToPatchAPI", "ReloadDataTable", "StopLoading"],
       api: {
         name: "sourceAppsPatch",
-      }
+      },
+      snackbarSuccess: {
+        type: "success",
+        message: "Source application updated successfully",
+      },
+      snackbarError: "$exception",
     },
   },
 ];

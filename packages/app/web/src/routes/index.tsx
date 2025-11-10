@@ -30,16 +30,16 @@ function Index() {
 
 	return (
       		<LoadingProvider>
-			<SnackbarProvider>
 				<div>
 					<div className='p-8'>
 						
 						{f}
 					</div>
 					<LoadingDemo />
+			<SnackbarProvider>
 					<SnackbarDemo />
-				</div>
 			</SnackbarProvider>
+				</div>
 		</LoadingProvider>
 	)
 }

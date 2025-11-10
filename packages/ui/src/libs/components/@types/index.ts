@@ -17,6 +17,7 @@ import type {
   UseFieldArrayRemove,
 } from "react-hook-form";
 import type { Button } from "../core/button";
+import type { SnackbarVariant } from "../Snackbar";
 
 export type Components = {
   TextField?: TextFieldProps;
@@ -54,6 +55,8 @@ export type ButtonProps = BaseComponentProps<
     icon?: keyof typeof IconData;
     actions: ButtonAction[];
     api?: APIFunction;
+    snackbarSuccess?: SnackbarElement;
+    snackbarError?: SnackbarElement | "$exception";
   }
 >;
 
@@ -468,11 +471,18 @@ export type ButtonAction =
   | "SubmitFormToPatchAPI"
   | "ReloadDataTable";
 
+
+export type SnackbarElement = {
+  type: SnackbarVariant;
+  message: string;
+}
 export type ButtonElement = {
   label: string;
   icon?: keyof typeof IconData;
   actions: ButtonAction[];
   api?: API & {};
+  snackbarSuccess?: SnackbarElement;
+  snackbarError?: SnackbarElement | "$exception";
 };
 
 export type ModalElement = {

@@ -4,6 +4,7 @@ import { Subject } from "rxjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { LoadingProvider } from "../context";
+import { SnackbarProvider } from "../Snackbar";
 
 type CoreContextType = {
 	observeTable: Record<string, any>;
@@ -20,7 +21,7 @@ type CoreProviderProps = {
 
 const queryClient = new QueryClient()
 
-export const Provider = ({ children,  isRoot = false }: CoreProviderProps) => {
+export const Provider = ({ children, isRoot = false }: CoreProviderProps) => {
 
 	const [observeTable, setObserveTable] = useState<Record<string, Subject<unknown>>>({});
 	const addObserveTable = useCallback((key: string) => {
@@ -44,10 +45,12 @@ export const Provider = ({ children,  isRoot = false }: CoreProviderProps) => {
 		{
 			isRoot ? (
 				<LoadingProvider>
-					<QueryClientProvider client={queryClient}>
-						{children}
-						<ReactQueryDevtools initialIsOpen={false} />
-					</QueryClientProvider>
+					<SnackbarProvider>
+						<QueryClientProvider client={queryClient}>
+							{children}
+							<ReactQueryDevtools initialIsOpen={false} />
+						</QueryClientProvider>
+					</SnackbarProvider>
 				</LoadingProvider>
 			) : children
 		}
