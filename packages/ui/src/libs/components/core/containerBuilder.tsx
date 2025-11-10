@@ -50,7 +50,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 		return <F.Fn>
 			{(f) => (
-				<Provider withQueryClient={withQueryClient}>
+				<Provider isRoot={withQueryClient}>
 					<div className="grid grid-cols-12 gap-1 items-center">
 						{this._connainers.map((c) => {
 							return c.bins.map((b) => {

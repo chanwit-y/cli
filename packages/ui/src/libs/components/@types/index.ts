@@ -460,6 +460,8 @@ export type Container = {
 };
 
 export type ButtonAction =
+  | "StratLoading"
+  | "StopLoading"
   | "OpenModal"
   | "ClearCurrentFormSeleted"
   | "SubmitFormToPostAPI"

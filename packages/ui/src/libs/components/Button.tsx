@@ -5,6 +5,7 @@ import { useFormContext } from "react-hook-form";
 import { useCore } from "./core/context";
 import { useStord } from "./core/stord";
 import Icon from "./Icon";
+import { useLoading } from "./context";
 
 
 const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
@@ -19,14 +20,17 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	const loadDataTables = useStord((state) => state.loadDataTables)
 	const clearCurrentFormSeleted = useStord((state) => state.clearCurrentFormSeleted)
 	const { handleSubmit } = useFormContext()
+	const { startLoading, stopLoading } = useLoading()
 
 	const handleClieck = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
 
 		console.log(actions)
+		let loaderId: string | undefined;
 
 		for (const action of actions) {
 			switch (action) {
 				case 'SubmitFormToPostAPI':
+					console.log('2')
 					await handleSubmit(async (data) => {
 
 						console.log(data)
@@ -43,10 +47,20 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 					})()
 					break;
 				case 'ReloadDataTable':
+					console.log('3')
 					await loadDataTables["Source Apps"]()
 					break;
 				case 'ClearCurrentFormSeleted':
 					clearCurrentFormSeleted();
+					break;
+				case 'StratLoading':
+					console.log('1')
+					loaderId = startLoading();
+					break;
+				case 'StopLoading':
+					console.log('4')
+					loaderId && stopLoading(loaderId);
+					break;
 				default:
 					break;
 			}
@@ -57,8 +71,8 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	return <RadixButton
 		className="cursor-pointer"
 		onClick={handleClieck}
-	>{  icon ? <Icon icon={icon} size={14} /> : ""}
-	{label}
+	>{icon ? <Icon icon={icon} size={14} /> : ""}
+		{label}
 	</RadixButton>
 })
 

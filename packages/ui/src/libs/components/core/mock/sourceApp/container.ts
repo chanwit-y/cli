@@ -158,7 +158,7 @@ export const sourceAppDetail: Bin[] = [
     type: "button",
     element: {
       label: "Create",
-      actions: ["SubmitFormToPostAPI", "ReloadDataTable"],
+      actions: ["StratLoading", "SubmitFormToPostAPI", "ReloadDataTable", "StopLoading"],
       api: {
         name: "sourceAppsPost",
       }
@@ -172,7 +172,7 @@ export const sourceAppDetail: Bin[] = [
     type: "button",
     element: {
       label: "Update",
-      actions: ["SubmitFormToPatchAPI", "ReloadDataTable"],
+      actions: ["StratLoading", "SubmitFormToPatchAPI", "ReloadDataTable", "StopLoading"],
       api: {
         name: "sourceAppsPatch",
       }

@@ -3,6 +3,7 @@ import { createContext, useCallback, useContext, useEffect, useState, type React
 import { Subject } from "rxjs";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { LoadingProvider } from "../context";
 
 type CoreContextType = {
 	observeTable: Record<string, any>;
@@ -14,12 +15,12 @@ const Context = createContext<CoreContextType>({} as CoreContextType);
 
 type CoreProviderProps = {
 	children: ReactNode;
-	withQueryClient?: boolean;
+	isRoot?: boolean;
 }
 
 const queryClient = new QueryClient()
 
-export const Provider = ({ children, withQueryClient = false }: CoreProviderProps) => {
+export const Provider = ({ children,  isRoot = false }: CoreProviderProps) => {
 
 	const [observeTable, setObserveTable] = useState<Record<string, Subject<unknown>>>({});
 	const addObserveTable = useCallback((key: string) => {
@@ -41,11 +42,13 @@ export const Provider = ({ children, withQueryClient = false }: CoreProviderProp
 
 	return <Context.Provider value={{ observeTable, addObserveTable, getDataValue }}>
 		{
-			withQueryClient ? (
-				<QueryClientProvider client={queryClient}>
-					{children}
-					<ReactQueryDevtools initialIsOpen={false} />
-				</QueryClientProvider>
+			isRoot ? (
+				<LoadingProvider>
+					<QueryClientProvider client={queryClient}>
+						{children}
+						<ReactQueryDevtools initialIsOpen={false} />
+					</QueryClientProvider>
+				</LoadingProvider>
 			) : children
 		}
 	</Context.Provider>;
