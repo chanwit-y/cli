@@ -1,6 +1,13 @@
 import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import {  core } from 'vegaui'
+import {
+	core,
+	SnackbarProvider,
+	useSnackbar,
+	useLoading,
+	type SnackbarVariant,
+	LoadingProvider,
+} from 'vegaui'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({
@@ -8,9 +15,7 @@ export const Route = createFileRoute('/')({
 })
 
 function Index() {
-
-	const f = useMemo(() =>core.run(), []) 
-
+	const f = useMemo(() => core.run(), [])
 
 	// const F = useMemo(() => (new Form(object({
 	// 	test: string("test is required").min(1),
@@ -23,11 +28,76 @@ function Index() {
 	// }), {
 	// })).setup().create(), [])
 
+	return (
+      		<LoadingProvider>
+			<SnackbarProvider>
+				<div>
+					<div className='p-8'>
+						
+						{f}
+					</div>
+					<LoadingDemo />
+					<SnackbarDemo />
+				</div>
+			</SnackbarProvider>
+		</LoadingProvider>
+	)
+}
+
+function LoadingDemo() {
+
+	const { withLoading } = useLoading()
 
 	return (
-		<div>
-			<div className='p-8'>
-				{f}
+		<button
+							type="button"
+							className='m-6 rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-500'
+							onClick={() =>
+								withLoading(
+									() =>
+										new Promise<void>((resolve) => {
+											setTimeout(resolve, 1600)
+										}),
+								)
+							}
+						>
+							Show loading overlay
+						</button>
+	)
+}
+
+const demoSnackbars: Array<{ label: string; variant: SnackbarVariant; message: string }> =
+	[
+		{ label: 'Show success', variant: 'success', message: 'Profile saved successfully.' },
+		{ label: 'Show error', variant: 'error', message: 'Something went wrong while saving.' },
+		{ label: 'Show info', variant: 'info', message: 'Heads up! Review the latest updates.' },
+		{ label: 'Show warning', variant: 'warning', message: 'Please double-check your inputs.' },
+		{ label: 'Show neutral', variant: 'neutral', message: 'This is a neutral notification.' },
+	]
+
+function SnackbarDemo() {
+	const { showSnackbar } = useSnackbar()
+
+	return (
+		<div className='px-8 pb-12'>
+			<h2 className='mb-4 text-lg font-semibold'>Snackbar demo</h2>
+			<div className='flex flex-wrap gap-3'>
+				{demoSnackbars.map(({ label, variant, message }) => (
+					<button
+						key={variant}
+						type="button"
+						className='rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-700'
+						onClick={() => {
+							showSnackbar({
+								variant,
+								message,
+								title: `${variant.charAt(0).toUpperCase()}${variant.slice(1)}`,
+							})
+						}}
+					>
+						{label}
+					</button>
+				))}
 			</div>
 		</div>
 	)

@@ -12,5 +12,7 @@ export * from "./components/Icon"
 export * from "./components/Icon.example"
 export * from "./components/Modal"
 
+export * from "./components/Snackbar"
+
 
 export * from "./components/MultiAutocomplete.example"

@@ -1,5 +1,5 @@
 export { TextField, TextFieldBase } from "./TextField";
-export { Hidden, HiddenBase } from "./Hidden";
+export {  HiddenBase } from "./Hidden";
 export { SelectField, SelectFieldBase } from "./SelectField";
 export { AutocompleteBase } from "./Autocomplete";
 export { Textarea, TextareaBase } from "./Textarea";
@@ -14,3 +14,12 @@ export { Popover } from "./Popover";
 export { FilterIcon } from "./FilterIcon";
 export { Icon } from "./Icon";
 export {IconExamples} from "./Icon.example"
+export {
+  SnackbarProvider,
+  SnackbarConsumer,
+  useSnackbar,
+  type SnackbarOptions,
+  type SnackbarVariant,
+  type SnackbarPosition,
+} from "./Snackbar";
+export { LoadingProvider, useLoading } from "./context/LoadingProvider";

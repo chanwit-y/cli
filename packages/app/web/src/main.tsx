@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
+import { LoadingProvider } from 'vegaui'
 
 import "./style/globals.css"
 
@@ -23,7 +24,7 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement)
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
     </StrictMode>,
   )
 }
