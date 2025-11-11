@@ -1,23 +1,18 @@
 // import { AlertDialog } from "@radix-ui/themes"
 import { forwardRef, useCallback, useEffect, useMemo, useState } from "react"
-import type { ReactNode } from "react"
-import * as AlertDialog from '@radix-ui/react-dialog';
-import { ThemeProvider } from "./context";
-import type { ButtonElement } from "./@types";
-import { ElementContext } from "./core/elementBuilder";
-import "./Modal.css";
-import { X } from "lucide-react";
+import type { CSSProperties, ReactNode } from "react"
+import * as AlertDialog from "@radix-ui/react-dialog"
+import { ThemeProvider } from "./context"
+import type { ButtonElement } from "./@types"
+import { ElementContext } from "./core/elementBuilder"
+import "./Modal.css"
+import { X } from "lucide-react"
 
 export interface ModalProps {
 	trigger?: ButtonElement
 	title?: string
-	description?: string
+	// description?: string
 	children?: ReactNode
-	cancelText?: string
-	confirmText?: string
-	onConfirm?: () => void
-	onCancel?: () => void
-	confirmColor?: "red" | "blue" | "green" | "yellow" | "orange" | "purple" | "gray"
 	maxWidth?: string
 	open?: boolean
 	onOpenChange?: (open: boolean) => void
@@ -29,12 +24,14 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		{
 			children,
 			trigger,
+			title,
+			maxWidth,
 			open,
 			onOpenChange,
 			hiddenTrigger,
-		}) => {
-
-
+		},
+		ref
+	) => {
 		const [isOpen, setIsOpen] = useState(open ?? false)
 
 		useEffect(() => {
@@ -43,26 +40,24 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		}, [open])
 
 		const triggerElement = useMemo(() => {
-			if (!trigger) return null;
+			if (!trigger) return null
 
-			// const onClick = () => {
-			// 	console.log('click')
-			// 	setIsOpen(true)
-			// }
+			return new ElementContext({ ...trigger }).build("button")?.create()
+		}, [trigger])
 
-			return (new ElementContext({ ...trigger })).build("button")?.create();
-		}, [trigger, setIsOpen])
+		const contentStyle = useMemo<CSSProperties | undefined>(() => {
+			if (!maxWidth) return undefined
 
+			return { maxWidth }
+		}, [maxWidth])
 
-		const handleOpenChange = useCallback((nextOpen: boolean) => {
-			setIsOpen(nextOpen)
-			onOpenChange?.(nextOpen)
-		}, [onOpenChange])
-
-		// const handleTrigger = useCallback(() => {
-
-		// 	setIsOpen(true)
-		// }, [])
+		const handleOpenChange = useCallback(
+			(nextOpen: boolean) => {
+				setIsOpen(nextOpen)
+				onOpenChange?.(nextOpen)
+			},
+			[onOpenChange]
+		)
 
 		return (
 			<AlertDialog.Root open={isOpen} onOpenChange={handleOpenChange}>
@@ -82,7 +77,11 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
 				<AlertDialog.Portal>
 					<AlertDialog.Overlay className="modal-overlay fixed inset-0 z-50" />
-					<AlertDialog.Content className="modal-content fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-lg p-6 z-50 max-w-3/4 w-full mx-4" >
+					<AlertDialog.Content
+						ref={ref}
+						style={contentStyle}
+						className="modal-content fixed top-1/2 left-1/2 z-50 mx-4 min-w-[400px] max-w-lg transform -translate-x-1/2 -translate-y-1/2 rounded-lg bg-white p-6 shadow-lg"
+					>
 
 						<ThemeProvider
 							components={{
@@ -90,12 +89,15 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 									size: "2",
 								}
 							}}
-							className=" flex flex-col w-full">
-							<div className="flex justify-between">
-								<AlertDialog.Title className="text-lg font-semibold mb-2">
-									Modal Title
-
-								</AlertDialog.Title>
+							className=" flex flex-col">
+							<div className="flex items-start justify-between gap-4">
+								<div className="flex-1">
+									{title && (
+										<AlertDialog.Title className="mb-2 text-lg font-semibold">
+											{title}
+										</AlertDialog.Title>
+									)}
+								</div>
 
 								<AlertDialog.Close asChild>
 									<button
@@ -107,14 +109,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 									</button>
 								</AlertDialog.Close>
 							</div>
-							{/* <AlertDialog.Description className="text-gray-600 mb-4">
-							This is a modal dialog. Click outside or press Escape to close.
-						</AlertDialog.Description> */}
 
 							{children && <div className="mb-4">{children}</div>}
-
-							<div className="flex justify-end mt-4 gap-2">
-							</div>
 						</ThemeProvider>
 					</AlertDialog.Content>
 				</AlertDialog.Portal>

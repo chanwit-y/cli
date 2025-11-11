@@ -38,7 +38,7 @@ export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
         // trigger: trigger.build("button")?.create(),
         trigger: props.trigger,
         title: props.title,
-        description: props.description,
+        // description: props.description,
         maxWidth: props.maxWidth,
       },
       container.draw()

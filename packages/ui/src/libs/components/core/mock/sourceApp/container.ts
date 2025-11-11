@@ -256,7 +256,7 @@ export const sourceAppList: Bin[] = [
           header: "Mapping Name",
           enableColumnFilter: true,
           enableSorting: true,
-          // align: "start"
+          align: "start"
         },
         {
           accessor: "createdBy",

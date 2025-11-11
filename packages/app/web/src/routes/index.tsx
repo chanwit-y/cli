@@ -4,6 +4,7 @@ import {
 	core,
 	LoadingProvider,
 } from 'vegaui'
+import { ConfirmBoxDemo } from './components/ConfirmBoxDemo'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({
@@ -30,6 +31,7 @@ function Index() {
 					<div className='p-8'>
 						
 						{f}
+						<ConfirmBoxDemo />
 					</div>
 					{/* <LoadingDemo />
 			<SnackbarProvider>
