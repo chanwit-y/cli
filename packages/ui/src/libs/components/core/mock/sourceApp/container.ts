@@ -9,7 +9,7 @@ export const sourceAppDetail: Bin[] = [
     type: "hidden",
     element: {
       name: "id",
-      dataType: "string"
+      dataType: "string",
     },
   },
   {
@@ -158,7 +158,18 @@ export const sourceAppDetail: Bin[] = [
     type: "button",
     element: {
       label: "Create",
-      actions: ["StratLoading", "SubmitFormToPostAPI", "ReloadDataTable", "StopLoading"],
+      confirmBox: {
+        title: "Create Source Application",
+        description: "Are you sure you want to create this source application?",
+        True: [
+          "StratLoading",
+          "SubmitFormToPostAPI",
+          "ReloadDataTable",
+          "StopLoading",
+        ],
+        False: [],
+      },
+      actions: ["ConfirmBox"],
       api: {
         name: "sourceAppsPost",
       },
@@ -177,7 +188,12 @@ export const sourceAppDetail: Bin[] = [
     type: "button",
     element: {
       label: "Update",
-      actions: ["StratLoading", "SubmitFormToPatchAPI", "ReloadDataTable", "StopLoading"],
+      actions: [
+        "StratLoading",
+        "SubmitFormToPatchAPI",
+        "ReloadDataTable",
+        "StopLoading",
+      ],
       api: {
         name: "sourceAppsPatch",
       },
@@ -190,13 +206,12 @@ export const sourceAppDetail: Bin[] = [
   },
 ];
 
-
 export const containerSourceAppDetail: Container = {
-    id: "550e8400-e29b-41d4-a716-446655440000",
-    name: "SourceAppDetail",
-    isAaary: false,
-    bins: sourceAppDetail,
-  };
+  id: "550e8400-e29b-41d4-a716-446655440000",
+  name: "SourceAppDetail",
+  isAaary: false,
+  bins: sourceAppDetail,
+};
 
 export const sourceAppList: Bin[] = [
   {
@@ -219,9 +234,10 @@ export const sourceAppList: Bin[] = [
       description: "modal",
       container: containerSourceAppDetail,
       maxWidth: "800px",
+      minWidth: "700px",
       trigger: {
         label: "",
-        actions: [ "ClearCurrentFormSeleted"],
+        actions: ["ClearCurrentFormSeleted"],
         icon: "puls",
       },
       // trigger: {
@@ -256,18 +272,19 @@ export const sourceAppList: Bin[] = [
           header: "Mapping Name",
           enableColumnFilter: true,
           enableSorting: true,
-          align: "start"
+          align: "start",
         },
         {
           accessor: "createdBy",
           header: "Created By",
           enableColumnFilter: true,
           enableSorting: true,
-          align: "center"
+          align: "center",
         },
         //mappingName
       ],
-      api: { // Get API
+      api: {
+        // Get API
         name: "sourceApps",
         paths: ["data", "result"],
         query: {
@@ -283,7 +300,6 @@ export const sourceAppList: Bin[] = [
           },
         },
       },
-      
     },
   },
 
@@ -344,7 +360,6 @@ export const sourceAppList: Bin[] = [
   // },
 ];
 
-
 export const containerSourceAppList: Container[] = [
   {
     id: "550e8400-e29b-41d4-a716-446655440000",
@@ -353,4 +368,3 @@ export const containerSourceAppList: Container[] = [
     bins: sourceAppList,
   },
 ];
-

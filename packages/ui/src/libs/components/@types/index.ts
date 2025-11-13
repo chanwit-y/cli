@@ -57,6 +57,7 @@ export type ButtonProps = BaseComponentProps<
     api?: APIFunction;
     snackbarSuccess?: SnackbarElement;
     snackbarError?: SnackbarElement | "$exception";
+    confirmBox?: ConfirmBoxElement;
   }
 >;
 
@@ -462,6 +463,13 @@ export type Container = {
   bins: Bin[];
 };
 
+export type ConfirmBoxElement = {
+  title: string;
+  description: string;
+  True: ButtonAction[],
+  False: ButtonAction[],
+}
+
 export type ButtonAction =
   | "StratLoading"
   | "StopLoading"
@@ -469,7 +477,8 @@ export type ButtonAction =
   | "ClearCurrentFormSeleted"
   | "SubmitFormToPostAPI"
   | "SubmitFormToPatchAPI"
-  | "ReloadDataTable";
+  | "ReloadDataTable"
+  | "ConfirmBox"
 
 
 export type SnackbarElement = {
@@ -479,6 +488,7 @@ export type SnackbarElement = {
 export type ButtonElement = {
   label: string;
   icon?: keyof typeof IconData;
+  confirmBox?: ConfirmBoxElement;
   actions: ButtonAction[];
   api?: API & {};
   snackbarSuccess?: SnackbarElement;
@@ -491,7 +501,8 @@ export type ModalElement = {
   description?: string;
   container: Container;
   trigger: ButtonElement;
-  maxWidth: string;
+  maxWidth?: string;
+  minWidth?: string;
 };
 
 export type Modals = Record<string, ModalElement>;

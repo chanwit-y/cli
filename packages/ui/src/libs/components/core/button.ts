@@ -22,6 +22,7 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 			api: this._context.api,
 			snackbarSuccess: props.snackbarSuccess,
 			snackbarError: props.snackbarError,
+			confirmBox: props.confirmBox,
 		})
 	}
 }

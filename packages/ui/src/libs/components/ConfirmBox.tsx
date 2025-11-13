@@ -7,6 +7,7 @@ export interface ConfirmBoxProps
 	extends Omit<ModalProps, "children" | "title"> {
 	title: string
 	description: string
+	onConfirm: (isConfirm: boolean) => void
 }
 
 const ConfirmBox = forwardRef<HTMLDivElement, ConfirmBoxProps>(
@@ -15,6 +16,7 @@ const ConfirmBox = forwardRef<HTMLDivElement, ConfirmBoxProps>(
 			title,
 			description,
 			hiddenTrigger = true,
+			onConfirm,
 			...modalProps
 		},
 		ref
@@ -35,6 +37,7 @@ const ConfirmBox = forwardRef<HTMLDivElement, ConfirmBoxProps>(
 					<AlertDialog.Close asChild>
 						<button
 							type="button"
+							onClick={() => onConfirm(false)}
 							className="inline-flex items-center justify-center rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-500 focus-visible:ring-offset-2"
 						>
 							Close
@@ -43,6 +46,7 @@ const ConfirmBox = forwardRef<HTMLDivElement, ConfirmBoxProps>(
 					<AlertDialog.Close asChild>
 						<button
 							type="button"
+							onClick={() => onConfirm(true)}
 							className="inline-flex items-center justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
 						>
 							Confirm

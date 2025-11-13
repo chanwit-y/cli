@@ -26,6 +26,7 @@ export function ConfirmBoxDemo() {
 			<ConfirmBox
 				open={open}
 				onOpenChange={handleOpenChange}
+				onConfirm={handleConfirm}
 				title="Delete item"
 				description="This action cannot be undone. Are you sure you want to continue?"
 			/>

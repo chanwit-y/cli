@@ -1,12 +1,14 @@
-import { forwardRef, useCallback, type ElementRef } from "react";
+import { forwardRef, useCallback, useState, type ElementRef } from "react";
 import { Button as RadixButton } from '@radix-ui/themes'
-import type { ButtonProps } from "./@types"
+import type { ButtonAction, ButtonProps, ConfirmBoxElement } from "./@types"
 import { useFormContext } from "react-hook-form";
-import { useCore } from "./core/context";
 import { useStord } from "./core/stord";
 import Icon from "./Icon";
 import { useLoading } from "./context";
 import { useSnackbar } from "./Snackbar";
+import { ConfirmBox } from "./ConfirmBox";
+
+
 
 
 const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
@@ -17,6 +19,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	onClick,
 	snackbarSuccess,
 	snackbarError,
+	confirmBox,
 	...props }) => {
 
 	// const { loadDataTables } = useCore()
@@ -26,56 +29,83 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	const { handleSubmit } = useFormContext()
 	const { startLoading, stopLoading } = useLoading()
 
+	const [open, setOpen] = useState(false)
+
+	const handleConfirm = useCallback((isConfirm: boolean) => {
+		if (isConfirm) {
+			executeActions(confirmBox?.True || [])
+		} else {
+			executeActions(confirmBox?.False || [])
+		}
+	}, [])
+
+	const executeActions = useCallback(async (
+		actionsToExecute: ButtonAction[] = [],
+		event?: React.MouseEvent<HTMLButtonElement>
+	) => {
+		let loaderId: string | undefined;
+
+		for (const action of actionsToExecute) {
+			switch (action) {
+				case 'SubmitFormToPostAPI':
+					console.log('2')
+					await handleSubmit(async (data) => {
+
+						console.log(data)
+						console.log(api)
+
+						// TODO: check api info
+						if (data.id) {
+							api && await api({ id: data.id }, { ...data })
+						} else {
+							api && await api({ ...data })
+						}
+						// api && await api({  ...data })
+
+					})()
+					break;
+				case 'ReloadDataTable':
+					console.log('3')
+					await loadDataTables["Source Apps"]()
+					break;
+				case 'ClearCurrentFormSeleted':
+					clearCurrentFormSeleted();
+					break;
+				case 'StratLoading':
+					console.log('1')
+					loaderId = startLoading();
+					break;
+				case 'StopLoading':
+					console.log('4')
+					loaderId && stopLoading(loaderId);
+					break;
+				default:
+					break;
+			}
+		}
+
+		if (event && onClick) {
+			onClick(event);
+		}
+
+		if (snackbarSuccess) {
+			showSnackbar({
+				variant: snackbarSuccess.type,
+				message: snackbarSuccess.message,
+			})
+		}
+	}, [api, clearCurrentFormSeleted, handleSubmit, loadDataTables, onClick, showSnackbar, snackbarSuccess, startLoading, stopLoading])
+
 	const handleClieck = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
 		try {
-			console.log(actions)
-			let loaderId: string | undefined;
+			let [a1] = actions || []
 
-			for (const action of actions) {
-				switch (action) {
-					case 'SubmitFormToPostAPI':
-						console.log('2')
-						await handleSubmit(async (data) => {
-
-							console.log(data)
-							console.log(api)
-
-							// TODO: check api info
-							if (data.id) {
-								api && await api({ id: data.id }, { ...data })
-							} else {
-								api && await api({ ...data })
-							}
-							// api && await api({  ...data })
-
-						})()
-						break;
-					case 'ReloadDataTable':
-						console.log('3')
-						await loadDataTables["Source Apps"]()
-						break;
-					case 'ClearCurrentFormSeleted':
-						clearCurrentFormSeleted();
-						break;
-					case 'StratLoading':
-						console.log('1')
-						loaderId = startLoading();
-						break;
-					case 'StopLoading':
-						console.log('4')
-						loaderId && stopLoading(loaderId);
-						break;
-					default:
-						break;
-				}
+			if (a1 === "ConfirmBox") {
+				setOpen(true)
+				return;
 			}
-			onClick && onClick(e)
-			if (snackbarSuccess) {
-				showSnackbar({
-					variant: snackbarSuccess.type,
-					message: snackbarSuccess.message,
-				})
-			}
+
+			await executeActions(actions, e)
 		} catch (err) {
 			if (snackbarError === "$exception") {
 				showSnackbar({
@@ -85,14 +115,24 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 			}
 		}
 
-	}, [actions, handleSubmit])
+	}, [actions, executeActions, onClick, showSnackbar, snackbarError, snackbarSuccess, confirmBox])
 
-	return <RadixButton
-		className="cursor-pointer"
-		onClick={handleClieck}
-	>{icon ? <Icon icon={icon} size={14} /> : ""}
-		{label}
-	</RadixButton>
+	return <>
+
+		<RadixButton
+			className="cursor-pointer"
+			onClick={handleClieck}
+		>{icon ? <Icon icon={icon} size={14} /> : ""}
+			{label}
+		</RadixButton>
+		<ConfirmBox
+			open={open}
+			onOpenChange={() => setOpen(prev => !prev)}
+			onConfirm={handleConfirm}
+			title="Delete item"
+			description="This action cannot be undone. Are you sure you want to continue?"
+		/>
+	</>
 })
 
 Button.displayName = 'Button';

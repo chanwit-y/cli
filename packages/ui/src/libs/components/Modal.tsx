@@ -14,6 +14,7 @@ export interface ModalProps {
 	// description?: string
 	children?: ReactNode
 	maxWidth?: string
+	minWidth?: string
 	open?: boolean
 	onOpenChange?: (open: boolean) => void
 	hiddenTrigger?: boolean
@@ -26,6 +27,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			trigger,
 			title,
 			maxWidth,
+			minWidth,
 			open,
 			onOpenChange,
 			hiddenTrigger,
@@ -48,8 +50,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		const contentStyle = useMemo<CSSProperties | undefined>(() => {
 			if (!maxWidth) return undefined
 
-			return { maxWidth }
-		}, [maxWidth])
+			return { maxWidth, minWidth }
+		}, [maxWidth, minWidth])
 
 		const handleOpenChange = useCallback(
 			(nextOpen: boolean) => {
