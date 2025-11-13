@@ -4,7 +4,7 @@ type LoadDataTables = {
   loadDataTables: Record<string, Function>,
   updateLoadDataTables: (loadDataTables: Record<string, Function>) => void
 
-  selectedRow: Record<string, Record<string, any>>,
+  selectedRow: Record<string, any>,
   updateSelectedRow: (name: string, selectedRow: Record<string, any>) => void,
   clearCurrentFormSeleted: () => void,
 }

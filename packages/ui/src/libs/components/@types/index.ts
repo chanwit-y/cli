@@ -310,7 +310,7 @@ export type IconProps = BaseComponentProps<
 >;
 
 export type DataValue = {
-  type: "variable" | "state" | "observe" | "value";
+  type: "variable" | "state" | "observe" | "value" | "selectedRow";
   key: "none" | string;
   value?: any;
 };

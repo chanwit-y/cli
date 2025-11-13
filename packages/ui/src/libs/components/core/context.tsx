@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { LoadingProvider } from "../context";
 import { SnackbarProvider } from "../Snackbar";
+import { useStord } from "./stord";
 
 type CoreContextType = {
 	observeTable: Record<string, any>;
@@ -23,6 +24,7 @@ const queryClient = new QueryClient()
 
 export const Provider = ({ children, isRoot = false }: CoreProviderProps) => {
 
+	const selectedRow = useStord((state) => state.selectedRow)
 	const [observeTable, setObserveTable] = useState<Record<string, Subject<unknown>>>({});
 	const addObserveTable = useCallback((key: string) => {
 		setObserveTable((prev) => ({ ...prev, [key]: new Subject<unknown>() }));
@@ -37,6 +39,8 @@ export const Provider = ({ children, isRoot = false }: CoreProviderProps) => {
 				return undefined
 			case "observe":
 				return observeTable[dv.key]
+			case "selectedRow":
+				return selectedRow[dv.key] 
 		}
 	}, [observeTable]);
 
