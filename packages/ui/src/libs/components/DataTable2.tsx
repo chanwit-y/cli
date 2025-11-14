@@ -84,7 +84,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 	const [open, setOpen] = useState(false)
 
 	const updateLoadDataTables = useStord((state) => state.updateLoadDataTables)
-	const updateSelectedRow = useStord((state) => state.updateSelectedRow)
+	const updateSelectedRow = useStord((state) => state.updateContextData)
 
 	const [data, setData] = useState<T[]>([])
 	const [globalFilter, setGlobalFilter] = useState('')
@@ -146,7 +146,7 @@ const columnValues = useMemo(() => {
 								color="red"
 								onClick={() => {
 									console.log(row.original)
-									updateSelectedRow(title ?? '', row.original)
+									updateSelectedRow(`selected-row-${title ?? ''}`, row.original)
 								}}
 							>
 								<Icon icon="trash" size={14} />

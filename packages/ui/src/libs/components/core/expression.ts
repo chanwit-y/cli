@@ -1,35 +1,29 @@
-type Value = string | number | boolean;
+import { get } from "lodash";
+
+type Primitive = string | number | boolean;
+
+export type Ref = {
+  key?: string;
+  path?: string;
+};
+
+export type Val = {
+  val?: any;
+};
+
+export type ConditionValue = Ref | Val;
+
 type Operator = "eq" | "neq" | "gt" | "gte" | "lt" | "lte" | "and" | "or";
 
-type Term = {
-  type: "observe" | "value" | "selectedRow";
-  name?: string;
-  value?: Value;
-};
-
-
 type TExpression = {
-  right: Value  | TExpression;
-  left: Value  | TExpression;
+  right: ConditionValue | TExpression;
+  left: ConditionValue | TExpression;
   operator: Operator;
 };
+export class ConditionExpression {
+  constructor(private _contextData: Record<string, any>) {}
 
-const input: TExpression = {
-  right: {
-    right: 1,
-    operator: "neq",
-    left: 2,
-  },
-  left: {
-    right: 1,
-    operator: "eq",
-    left: 1,
-  },
-  operator: "and",
-};
-
-export class Expression {
-  private _isExpression(term: Value | TExpression): term is TExpression {
+  private _isExpression(term: ConditionValue | TExpression): term is TExpression {
     return (
       typeof term === "object" &&
       term !== null &&
@@ -37,6 +31,10 @@ export class Expression {
       "right" in term &&
       "operator" in term
     );
+  }
+
+  private _isKey(term: ConditionValue) {
+    return typeof term === "object" && term !== null && "key" in term;
   }
 
   private _evaluate(expression: TExpression): boolean {
@@ -53,19 +51,28 @@ export class Expression {
         return this._term(expression.left) < this._term(expression.right);
       case "lte":
         return this._term(expression.left) <= this._term(expression.right);
+
       case "and":
-        return this._term(expression.left) && this._term(expression.right);
+        return (
+          Boolean(this._term(expression.left)) &&
+          Boolean(this._term(expression.right))
+        );
       case "or":
-        return this._term(expression.left) || this._term(expression.right);
+        return (
+          Boolean(this._term(expression.left)) ||
+          Boolean(this._term(expression.right))
+        );
       default:
         return false;
     }
   }
 
-  private _term(term: Value | TExpression): boolean {
-    return this._isExpression(term) 
-    ? this._evaluate(term) 
-    :  Boolean(term);
+  private _term(term: ConditionValue | TExpression): Primitive {
+    return this._isExpression(term)
+      ? this._evaluate(term)
+      : this._isKey(term)
+        ? get(this._contextData[(term as Ref).key!], (term as Ref).path ?? "")
+        : (term as Val).val;
   }
 
   public expression(expression: TExpression) {
@@ -73,5 +80,30 @@ export class Expression {
   }
 }
 
-const expression = new Expression();
+const expression = new ConditionExpression({
+  selectedRow: {
+    name: "xxxx"
+  }
+});
+const input: TExpression = {
+  right: {
+    right: { val: 1 },
+    operator: "neq",
+    left: { val: 2 },
+  },
+  left: {
+    right: { val: 1 },
+    operator: "eq",
+    left: { val: 2 },
+  },
+  operator: "and",
+};
 console.log(expression.expression(input));
+
+const input2: TExpression = {
+  right: { key: "selectedRow", path: "name" },
+  operator: "neq",
+  left: { val: "" },
+}
+
+console.log(expression.expression(input2));

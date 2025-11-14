@@ -49,7 +49,7 @@ const createMultiAutocomplete = <T extends Record<string, any>>() => {
 		...props
 	}, ref) => {
 
-		const { addObserveTable, getDataValue } = useCore()
+		const { addObserveTable, getObserveTable: getDataValue } = useCore()
 
 		const [items, setItems] = useState(options ?? [])
 		const [listboxId] = useState(() => `listbox-${Math.random().toString(36).substr(2, 9)}`);

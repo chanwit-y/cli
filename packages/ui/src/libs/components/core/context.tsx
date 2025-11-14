@@ -10,7 +10,7 @@ import { useStord } from "./stord";
 type CoreContextType = {
 	observeTable: Record<string, any>;
 	addObserveTable: (key: string) => void;
-	getDataValue: (dv: DataValue) => Subject<unknown> | undefined
+	getObserveTable: (dv: DataValue) => Subject<unknown> | undefined
 }
 
 const Context = createContext<CoreContextType>({} as CoreContextType);
@@ -24,28 +24,24 @@ const queryClient = new QueryClient()
 
 export const Provider = ({ children, isRoot = false }: CoreProviderProps) => {
 
-	const selectedRow = useStord((state) => state.selectedRow)
+	// const selectedRow = useStord((state) => state.contextData)
 	const [observeTable, setObserveTable] = useState<Record<string, Subject<unknown>>>({});
 	const addObserveTable = useCallback((key: string) => {
 		setObserveTable((prev) => ({ ...prev, [key]: new Subject<unknown>() }));
 	}, []);
 
 
-	const getDataValue = useCallback((dv: DataValue) => {
+	const getObserveTable = useCallback((dv: DataValue) => {
 		switch (dv.type) {
-			case "variable":
-				return undefined;
-			case "state":
-				return undefined
 			case "observe":
 				return observeTable[dv.key]
-			case "selectedRow":
-				return selectedRow[dv.key] 
+			// case "selectedRow":
+			// 	return selectedRow[dv.key] 
 		}
 	}, [observeTable]);
 
 
-	return <Context.Provider value={{ observeTable, addObserveTable, getDataValue }}>
+	return <Context.Provider value={{ observeTable, addObserveTable,  getObserveTable }}>
 		{
 			isRoot ? (
 				<LoadingProvider>

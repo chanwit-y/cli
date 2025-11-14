@@ -39,7 +39,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 	}
 
 	public draw(withQueryClient: boolean = false) {
-		const selectedRow = useStord((state) => state.selectedRow)
+		const selectedRow = useStord((state) => state.contextData)
 		// const defaultValues = selectedRow[this._connainers[0].name]
 		// const defaultValues = useMemo(() => selectedRow[this._connainers[0].name] ?? {}, [selectedRow, this._connainers]) 
 
