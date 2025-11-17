@@ -177,6 +177,7 @@ export const sourceAppDetail: Bin[] = [
           "SubmitFormToPostAPI",
           "ReloadDataTable",
           "StopLoading",
+          "CloseModal"
         ],
         False: [],
       },
@@ -218,6 +219,7 @@ export const sourceAppDetail: Bin[] = [
           "SubmitFormToPostAPI",
           "ReloadDataTable",
           "StopLoading",
+          "CloseModal"
         ],
         False: [],
       },

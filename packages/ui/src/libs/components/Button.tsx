@@ -73,6 +73,9 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 					console.log('4')
 					loaderId && stopLoading(loaderId);
 					break;
+				case 'CloseModal':
+
+					break;
 				default:
 					break;
 			}

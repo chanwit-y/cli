@@ -496,7 +496,8 @@ export type ButtonAction =
   | "SubmitFormToPatchAPI"
   | "SubmitFormToDeleteAPI"
   | "ReloadDataTable"
-  | "ConfirmBox";
+  | "ConfirmBox"
+  | "CloseModal";
 
 export type SnackbarElement = {
   type: SnackbarVariant;
