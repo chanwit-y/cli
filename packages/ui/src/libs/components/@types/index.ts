@@ -266,12 +266,17 @@ export type DataTableProps = {
   columns?: any[];
   title?: string;
   canSearchAllColumns?: boolean;
+  apiDeleteInfo?: APIDelete;
   api?: APIFunction;
+  apiDelete?: APIFunction;
   apiInfo?: API;
   modalContainer?: JSX.Element;
+  modalMaxWidth?: string;
+  modalMinWidth?: string;
   canEdit?: boolean;
   canDelete?: boolean;
   align?: Record<string, "start" | "center" | "end">;
+
   // apiEdit?: APIFunction;
 };
 
@@ -352,6 +357,14 @@ export type CheckboxElement = {
   errorMessage: string;
 } & CheckboxProps;
 
+export type APIDelete = {
+    name: string;
+    params?: Record<string, string>;
+    confirmBox?: ConfirmBoxElement;
+    snackbarSuccess?: SnackbarElement;
+    snackbarError?: SnackbarElement | "$exception";
+  }
+
 export type AutocompleteElement = {
   name: string;
   dataType: string;
@@ -389,7 +402,10 @@ export type DataTableElement = {
   title: string;
   columns: ColumnDef[];
   api: API & {};
+  apiDeleteInfo?: APIDelete;
   modalContainer?: Container;
+  modalMaxWidth?: string;
+  modalMinWidth?: string;
   canEdit?: boolean;
   canDelete?: boolean;
   // Editing: {}
@@ -451,6 +467,7 @@ export type Bin = {
   lg: BoxRange;
   xl: BoxRange;
   type: BinType;
+  condition?: CondExpression;
   element?: TElement;
   container?: Container;
   align?: "start" | "center" | "end";
@@ -466,9 +483,9 @@ export type Container = {
 export type ConfirmBoxElement = {
   title: string;
   description: string;
-  True: ButtonAction[],
-  False: ButtonAction[],
-}
+  True: ButtonAction[];
+  False: ButtonAction[];
+};
 
 export type ButtonAction =
   | "StratLoading"
@@ -477,14 +494,14 @@ export type ButtonAction =
   | "ClearCurrentFormSeleted"
   | "SubmitFormToPostAPI"
   | "SubmitFormToPatchAPI"
+  | "SubmitFormToDeleteAPI"
   | "ReloadDataTable"
-  | "ConfirmBox"
-
+  | "ConfirmBox";
 
 export type SnackbarElement = {
   type: SnackbarVariant;
   message: string;
-}
+};
 export type ButtonElement = {
   label: string;
   icon?: keyof typeof IconData;
@@ -529,3 +546,33 @@ export interface IElement {
   // setForm(form: any): void;
   create(): JSX.Element;
 }
+
+//Expression
+export type Primitive = string | number | boolean;
+
+export type Ref = {
+  key?: string;
+  path?: string;
+};
+
+export type Val = {
+  val?: any;
+};
+
+export type CondValue = Ref | Val;
+
+export type ExpressionOperator =
+  | "eq"
+  | "neq"
+  | "gt"
+  | "gte"
+  | "lt"
+  | "lte"
+  | "and"
+  | "or";
+
+export type CondExpression = {
+  right: CondValue | CondExpression;
+  left: CondValue | CondExpression;
+  operator: ExpressionOperator;
+};

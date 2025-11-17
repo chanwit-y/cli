@@ -152,10 +152,21 @@ export const sourceAppDetail: Bin[] = [
   },
   {
     sm: "12",
-    md: "6",
-    lg: "6",
-    xl: "6",
+    md: "12",
+    lg: "12",
+    xl: "12",
     type: "button",
+    align: "end",
+    condition: {
+      right: {
+        key: "Source Apps",
+        path: "id"
+      },
+      operator: "eq",
+      left: {
+        val: undefined
+      }
+    },
     element: {
       label: "Create",
       confirmBox: {
@@ -182,24 +193,41 @@ export const sourceAppDetail: Bin[] = [
   },
   {
     sm: "12",
-    md: "6",
-    lg: "6",
-    xl: "6",
+    md: "12",
+    lg: "12",
+    xl: "12",
     type: "button",
+    align: "end",
+    condition: {
+      right: {
+        key: "Source Apps",
+        path: "id"
+      },
+      operator: "neq",
+      left: {
+        val: undefined 
+      }
+    },
     element: {
       label: "Update",
-      actions: [
-        "StratLoading",
-        "SubmitFormToPatchAPI",
-        "ReloadDataTable",
-        "StopLoading",
-      ],
+      confirmBox: {
+        title: "Create Source Application",
+        description: "Are you sure you want to create this source application?",
+        True: [
+          "StratLoading",
+          "SubmitFormToPostAPI",
+          "ReloadDataTable",
+          "StopLoading",
+        ],
+        False: [],
+      },
+      actions: ["ConfirmBox"],
       api: {
         name: "sourceAppsPatch",
       },
       snackbarSuccess: {
         type: "success",
-        message: "Source application updated successfully",
+        message: "Source application created successfully",
       },
       snackbarError: "$exception",
     },
@@ -257,6 +285,8 @@ export const sourceAppList: Bin[] = [
       name: "sourceApps",
       title: "Source Apps",
       modalContainer: containerSourceAppDetail,
+      modalMaxWidth: "800px",
+      modalMinWidth: "700px",
       canEdit: true,
       canDelete: true,
       columns: [
@@ -283,6 +313,28 @@ export const sourceAppList: Bin[] = [
         },
         //mappingName
       ],
+      apiDeleteInfo: {
+        name: "sourceAppsDelete",
+        params: {
+          id: "id",
+        },
+        confirmBox: {
+          title: "Delete Source Application",
+          description: "Are you sure you want to delete this source application?",
+          True: [
+            "StratLoading",
+            "SubmitFormToDeleteAPI",
+            "ReloadDataTable",
+            "StopLoading",
+          ],
+          False: [],
+        },
+        snackbarSuccess: {
+          type: "success",
+          message: "Source application deleted successfully",
+        },
+        snackbarError: "$exception",
+      },
       api: {
         // Get API
         name: "sourceApps",

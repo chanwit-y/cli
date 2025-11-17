@@ -68,11 +68,15 @@ export class DataTable<
     return createElement(DataTable2, {
       columns: this.toColoumDefinition(props.columns),
       align: this.align(props.columns ?? []),
+      apiDeleteInfo: props.apiDeleteInfo,
       api: this._context.api,
+      apiDelete: this._context.apiDelete,
       apiInfo: props.api,
       canSearchAllColumns: true,
       title: props.title,
       modalContainer: modalContainer,
+      modalMaxWidth: props.modalMaxWidth,
+      modalMinWidth: props.modalMinWidth,
       canEdit: props.canEdit,
       canDelete: props.canDelete,
     });

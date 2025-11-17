@@ -50,18 +50,12 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 				case 'SubmitFormToPostAPI':
 					console.log('2')
 					await handleSubmit(async (data) => {
-
-						console.log(data)
-						console.log(api)
-
 						// TODO: check api info
 						if (data.id) {
 							api && await api({ id: data.id }, { ...data })
 						} else {
 							api && await api({ ...data })
 						}
-						// api && await api({  ...data })
-
 					})()
 					break;
 				case 'ReloadDataTable':

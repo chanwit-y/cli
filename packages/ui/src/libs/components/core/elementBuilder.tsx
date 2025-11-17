@@ -39,6 +39,12 @@ export class ElementContext<M extends TModelMaster, A extends TApiMaster<M>> {
 		return api
 	}
 
+	public get apiDelete() {
+		const apiDelete = this._element && 'apiDeleteInfo' in this._element && this._element.apiDeleteInfo ? this._apis?.api?.[this._element.apiDeleteInfo.name] as APIFunction : undefined;
+		if (!apiDelete) return undefined;
+		return apiDelete
+	}
+
 	public get apis() {
 		return this._apis
 	}

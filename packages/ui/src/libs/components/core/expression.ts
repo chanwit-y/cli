@@ -1,29 +1,11 @@
 import { get } from "lodash";
+import type { CondValue, Primitive, Ref, CondExpression, Val } from "../@types";
 
-type Primitive = string | number | boolean;
 
-export type Ref = {
-  key?: string;
-  path?: string;
-};
-
-export type Val = {
-  val?: any;
-};
-
-export type ConditionValue = Ref | Val;
-
-type Operator = "eq" | "neq" | "gt" | "gte" | "lt" | "lte" | "and" | "or";
-
-type TExpression = {
-  right: ConditionValue | TExpression;
-  left: ConditionValue | TExpression;
-  operator: Operator;
-};
 export class ConditionExpression {
   constructor(private _contextData: Record<string, any>) {}
 
-  private _isExpression(term: ConditionValue | TExpression): term is TExpression {
+  private _isExpression(term: CondValue | CondExpression): term is CondExpression {
     return (
       typeof term === "object" &&
       term !== null &&
@@ -33,11 +15,11 @@ export class ConditionExpression {
     );
   }
 
-  private _isKey(term: ConditionValue) {
+  private _isKey(term: CondValue) {
     return typeof term === "object" && term !== null && "key" in term;
   }
 
-  private _evaluate(expression: TExpression): boolean {
+  private _evaluate(expression: CondExpression): boolean {
     switch (expression.operator) {
       case "eq":
         return this._term(expression.left) === this._term(expression.right);
@@ -67,7 +49,7 @@ export class ConditionExpression {
     }
   }
 
-  private _term(term: ConditionValue | TExpression): Primitive {
+  private _term(term: CondValue | CondExpression): Primitive {
     return this._isExpression(term)
       ? this._evaluate(term)
       : this._isKey(term)
@@ -75,35 +57,35 @@ export class ConditionExpression {
         : (term as Val).val;
   }
 
-  public expression(expression: TExpression) {
+  public expression(expression: CondExpression) {
     return this._evaluate(expression);
   }
 }
 
-const expression = new ConditionExpression({
-  selectedRow: {
-    name: "xxxx"
-  }
-});
-const input: TExpression = {
-  right: {
-    right: { val: 1 },
-    operator: "neq",
-    left: { val: 2 },
-  },
-  left: {
-    right: { val: 1 },
-    operator: "eq",
-    left: { val: 2 },
-  },
-  operator: "and",
-};
-console.log(expression.expression(input));
+// const expression = new ConditionExpression({
+//   selectedRow: {
+//     name: "xxxx"
+//   }
+// });
+// const input: TExpression = {
+//   right: {
+//     right: { val: 1 },
+//     operator: "neq",
+//     left: { val: 2 },
+//   },
+//   left: {
+//     right: { val: 1 },
+//     operator: "eq",
+//     left: { val: 2 },
+//   },
+//   operator: "and",
+// };
+// console.log(expression.expression(input));
 
-const input2: TExpression = {
-  right: { key: "selectedRow", path: "name" },
-  operator: "neq",
-  left: { val: "" },
-}
+// const input2: TExpression = {
+//   right: { key: "selectedRow", path: "name" },
+//   operator: "neq",
+//   left: { val: "" },
+// }
 
-console.log(expression.expression(input2));
+// console.log(expression.expression(input2));

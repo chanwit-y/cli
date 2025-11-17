@@ -7,6 +7,7 @@ import { Provider } from "./context";
 import { ElementContext } from "./elementBuilder";
 import { useStord } from "./stord";
 import { useMemo } from "react";
+import { ConditionExpression } from "./expression";
 export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	constructor(private _connainers: Container[], private _apis: ApiMaster<M, A>) { }
@@ -39,12 +40,12 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 	}
 
 	public draw(withQueryClient: boolean = false) {
-		const selectedRow = useStord((state) => state.contextData)
+		const ctx = useStord((state) => state.contextData)
 		// const defaultValues = selectedRow[this._connainers[0].name]
 		// const defaultValues = useMemo(() => selectedRow[this._connainers[0].name] ?? {}, [selectedRow, this._connainers]) 
 
 		//TODO: Fix code
-		const defaultValues = useMemo(() => selectedRow["Source Apps"] ?? {}, [selectedRow]) 
+		const defaultValues = useMemo(() => ctx["Source Apps"] ?? {}, [ctx])
 
 		const F = new Form(this.getSchema(), defaultValues).setup().create();
 
@@ -54,6 +55,10 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 					<div className="grid grid-cols-12 gap-1 items-center">
 						{this._connainers.map((c) => {
 							return c.bins.map((b) => {
+
+								if (b.condition) 
+									if (!(new ConditionExpression(ctx).expression(b.condition))) return null;
+
 								const api = b.element && 'api' in b.element && b.element.api && 'name' in b.element.api ? this._apis.api[b.element.api.name] as APIFunction : undefined;
 								const colClasses = `sm-col-span-${b.sm} md-col-span-${b.md} lg-col-span-${b.lg} xl-col-span-${b.xl} `;
 
@@ -65,7 +70,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 							})
 						})}
 					</div>
-					{/* <pre>{JSON.stringify(selectedRow, null, 2)}</pre> */}
+					{/* <pre>{JSON.stringify(ctx, null, 2)}</pre> */}
 				</Provider>
 			)}
 		</F.Fn>

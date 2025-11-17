@@ -39,5 +39,13 @@ export const api = {
 		body: "sourceAppBody",
 		parameter: "sourceAppParam",
 		withOptions: false,
-	}
+	},
+	sourceAppsDelete: {
+		url: "source-app/:id",
+		description: "Delete data from source apps",
+		methods: "DELETE",
+		response: "sourceAppRes",
+		parameter: "sourceAppParam",
+		withOptions: false,
+	},
 }
