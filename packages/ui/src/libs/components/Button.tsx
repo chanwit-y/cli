@@ -76,9 +76,8 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 					break;
 				case 'CloseModal':
 					console.log('5')
-					console.log(fnCtxs["modalOpenChange"])
-					fnCtxs["modalOpenChange"]?.(false)
-					fnCtxs["modalOpenChangexxx"]?.(false)
+					fnCtxs["modal"]?.(false)
+					fnCtxs["modalDatable"]?.(false)
 					break;
 				default:
 					break;

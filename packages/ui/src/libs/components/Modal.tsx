@@ -122,7 +122,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 									<button
 										type="button"
 										aria-label="Close modal"
-										className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600 transition-colors hover:bg-blue-100 hover:text-blue-700  cursor-pointer"
+										className="modal__action"
+										// className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-blue-200 bg-blue-50 text-blue-600 transition-colors hover:bg-blue-100 hover:text-blue-700  cursor-pointer"
 									>
 										<X className="h-4 w-4" />
 									</button>

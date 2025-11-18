@@ -43,3 +43,22 @@
   animation: modalFadeOut 150ms ease-in forwards;
 }
 
+.modal__action {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.modal__action:hover,
+.modal__action:focus-visible {
+  background-color: rgba(255, 255, 255, 0.18);
+  transform: rotate(90deg);
+}

@@ -259,7 +259,7 @@ export const sourceAppList: Bin[] = [
     xl: "1",
     align: "end",
     element: {
-      id: "modalOpenChange",
+      id: "modal",
       title: "modal",
       description: "modal",
       container: containerSourceAppDetail,

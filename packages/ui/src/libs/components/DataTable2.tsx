@@ -652,7 +652,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 		</div>
 
 		<Modal
-			id="modalOpenChangexxx"
+			id="modalDatable"
 			open={openModal}
 			onOpenChange={(open) => {
 				console.log('datatable', open)
