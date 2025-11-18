@@ -128,8 +128,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 									</button>
 								</AlertDialog.Close>
 							</div>
-							{id}
-							{String(isOpen)}
+							{/* {id}
+							{String(isOpen)} */}
 							{children && <div className="mb-4">{children}</div>}
 						</ThemeProvider>
 					</AlertDialog.Content>
