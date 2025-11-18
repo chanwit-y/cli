@@ -91,7 +91,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 	const [openModal, setOpenModal] = useState(false)
 	const [openConfirmBox, setOpenConfirmBox] = useState(false)
 
-	const updateLoadDataTables = useStord((state) => state.updateLoadDataTables)
+	const updateLoadDataTables = useStord((state) => state.updateFnCtxs)
 	const updateSelectedRow = useStord((state) => state.updateContextData)
 
 	const [data, setData] = useState<T[]>([])
@@ -319,7 +319,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 
 	useEffect(() => {
-		updateLoadDataTables({ [title ?? '']: refetch })
+		updateLoadDataTables(title ?? '', refetch)
 		// updateLoadDataTables({ [title ?? '']: fechtData })
 	}, [title, refetch, updateLoadDataTables])
 

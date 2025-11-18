@@ -5,7 +5,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { LoadingProvider } from "../context";
 import { SnackbarProvider } from "../Snackbar";
-import { useStord } from "./stord";
 
 type CoreContextType = {
 	observeTable: Record<string, any>;

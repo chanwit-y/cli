@@ -7,8 +7,10 @@ import type { ButtonElement } from "./@types"
 import { ElementContext } from "./core/elementBuilder"
 import "./Modal.css"
 import { X } from "lucide-react"
+import { useStord } from "./core/stord"
 
 export interface ModalProps {
+	id: string
 	trigger?: ButtonElement
 	title?: string
 	// description?: string
@@ -23,6 +25,7 @@ export interface ModalProps {
 const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	(
 		{
+			id,
 			children,
 			trigger,
 			title,
@@ -35,6 +38,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		ref
 	) => {
 		const [isOpen, setIsOpen] = useState(open ?? false)
+		const updateFnCtxs = useStord((state) => state.updateFnCtxs)
+
 
 		useEffect(() => {
 			if (open === undefined) return
@@ -60,6 +65,13 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			},
 			[onOpenChange]
 		)
+
+		useEffect(() => {
+			console.log('test')
+			//TODO: Implement a better way to handle this
+			if (id !== "confirmBox")
+				updateFnCtxs(`modalOpenChange`, handleOpenChange)
+		}, [id])
 
 		return (
 			<AlertDialog.Root open={isOpen} onOpenChange={handleOpenChange}>

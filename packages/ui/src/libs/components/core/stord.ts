@@ -1,8 +1,10 @@
 import { create } from "zustand";
 
 type LoadDataTables = {
-  loadDataTables: Record<string, Function>,
-  updateLoadDataTables: (loadDataTables: Record<string, Function>) => void
+  fnCtxs: Record<string, Function>,
+  updateFnCtxs: (key: string, fn: Function) => void
+
+  
 
   contextData: Record<string, any>,
   updateContextData: (name: string, selectedRow: Record<string, any>) => void,
@@ -10,8 +12,8 @@ type LoadDataTables = {
 }
 
 export const useStord = create<LoadDataTables>((set) => ({
-  loadDataTables: {} as Record<string, Function>,
-  updateLoadDataTables: (loadDataTables: Record<string, Function>) => set((state: LoadDataTables) => ({ loadDataTables: { ...state.loadDataTables, ...loadDataTables } })),
+  fnCtxs: {} as Record<string, Function>,
+  updateFnCtxs: (key: string, fn: Function) => set((state: LoadDataTables) => ({ fnCtxs: {  [key]: fn, ...state.fnCtxs } })),
 
   contextData: {} as Record<string, any>,
   updateContextData: (name: string, selectedRow: Record<string, any>) => set((state) => ({ contextData: { ...state.contextData, [name]: selectedRow } })),

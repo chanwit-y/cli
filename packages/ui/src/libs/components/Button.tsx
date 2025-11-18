@@ -23,7 +23,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	...props }) => {
 
 	// const { loadDataTables } = useCore()
-	const loadDataTables = useStord((state) => state.loadDataTables)
+	const fnCtxs = useStord((state) => state.fnCtxs)
 	const { showSnackbar } = useSnackbar()
 	const clearCurrentFormSeleted = useStord((state) => state.clearCurrentFormSeleted)
 	const { handleSubmit } = useFormContext()
@@ -44,6 +44,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 		event?: React.MouseEvent<HTMLButtonElement>
 	) => {
 		let loaderId: string | undefined;
+		// const fnCtxs = useStord((state) => state.fnCtxs)
 
 		for (const action of actionsToExecute) {
 			switch (action) {
@@ -60,7 +61,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 					break;
 				case 'ReloadDataTable':
 					console.log('3')
-					await loadDataTables["Source Apps"]()
+					await fnCtxs["Source Apps"]()
 					break;
 				case 'ClearCurrentFormSeleted':
 					clearCurrentFormSeleted();
@@ -74,7 +75,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 					loaderId && stopLoading(loaderId);
 					break;
 				case 'CloseModal':
-
+					fnCtxs["modalOpenChange"](false)
 					break;
 				default:
 					break;
@@ -91,7 +92,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 				message: snackbarSuccess.message,
 			})
 		}
-	}, [api, clearCurrentFormSeleted, handleSubmit, loadDataTables, onClick, showSnackbar, snackbarSuccess, startLoading, stopLoading])
+	}, [api, clearCurrentFormSeleted, handleSubmit, fnCtxs, onClick, showSnackbar, snackbarSuccess, startLoading, stopLoading])
 
 	const handleClieck = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
 		try {
@@ -123,6 +124,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 			{label}
 		</RadixButton>
 		<ConfirmBox
+			id="confirmBox"
 			open={open}
 			onOpenChange={() => setOpen(prev => !prev)}
 			onConfirm={handleConfirm}

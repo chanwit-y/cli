@@ -1,17 +1,13 @@
 import { createElement, type JSX, type ReactNode } from "react";
 import { Modal as ModalComponent, type ModalProps } from "../Modal";
 import type {
-  ButtonElement,
   IElement,
   ModalElement,
-  TElement,
 } from "../@types";
 import { ElementContext } from "./elementBuilder";
 import { ContainerBuilder } from "./containerBuilder";
 import type { TModelMaster } from "../../model/master";
 import type { TApiMaster } from "../../api/APIMaster";
-import { Button } from "./button";
-import { createPortal } from "react-dom";
 
 export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
   implements IElement
@@ -36,6 +32,7 @@ export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
       ModalComponent,
       {
         // trigger: trigger.build("button")?.create(),
+        id: props.id,
         trigger: props.trigger,
         title: props.title,
         minWidth: props.minWidth,
