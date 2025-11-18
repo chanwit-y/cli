@@ -58,20 +58,25 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			return { maxWidth, minWidth }
 		}, [maxWidth, minWidth])
 
+		useEffect(() => {
+			console.log('isOpen', isOpen)
+		}, [isOpen])
+
 		const handleOpenChange = useCallback(
 			(nextOpen: boolean) => {
+				console.log('handleOpenChange', id, nextOpen)
 				setIsOpen(nextOpen)
+				console.log('onOpenChange', onOpenChange)
 				onOpenChange?.(nextOpen)
-			},
-			[onOpenChange]
-		)
+			}, [onOpenChange])
 
 		useEffect(() => {
 			console.log('test')
 			//TODO: Implement a better way to handle this
-			if (id !== "confirmBox")
-				updateFnCtxs(`modalOpenChange`, handleOpenChange)
-		}, [id])
+			console.log('id', id, onOpenChange)
+			updateFnCtxs(id, handleOpenChange)
+		}, [id, updateFnCtxs])
+
 
 		return (
 			<AlertDialog.Root open={isOpen} onOpenChange={handleOpenChange}>
@@ -123,7 +128,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 									</button>
 								</AlertDialog.Close>
 							</div>
-
+							{id}
+							{String(isOpen)}
 							{children && <div className="mb-4">{children}</div>}
 						</ThemeProvider>
 					</AlertDialog.Content>

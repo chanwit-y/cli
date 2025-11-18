@@ -75,7 +75,10 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 					loaderId && stopLoading(loaderId);
 					break;
 				case 'CloseModal':
-					fnCtxs["modalOpenChange"](false)
+					console.log('5')
+					console.log(fnCtxs["modalOpenChange"])
+					fnCtxs["modalOpenChange"]?.(false)
+					fnCtxs["modalOpenChangexxx"]?.(false)
 					break;
 				default:
 					break;

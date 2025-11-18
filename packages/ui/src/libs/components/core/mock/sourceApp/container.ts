@@ -212,7 +212,7 @@ export const sourceAppDetail: Bin[] = [
     element: {
       label: "Update",
       confirmBox: {
-        title: "Create Source Application",
+        title: "Update Source Application",
         description: "Are you sure you want to create this source application?",
         True: [
           "StratLoading",
@@ -259,7 +259,7 @@ export const sourceAppList: Bin[] = [
     xl: "1",
     align: "end",
     element: {
-      id: "a7f3c891-4b2e-4d9a-8f6c-3e5d7a9b1c4f",
+      id: "modalOpenChange",
       title: "modal",
       description: "modal",
       container: containerSourceAppDetail,

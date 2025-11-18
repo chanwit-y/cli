@@ -164,6 +164,9 @@ export const DataTable2 = <T extends Record<string, any>>({
 				case 'StopLoading':
 					loaderId && stopLoading(loaderId);
 					break;
+				case 'CloseModal':
+					setOpenModal(false);
+					break;
 				default:
 					break;
 			}
@@ -649,8 +652,12 @@ export const DataTable2 = <T extends Record<string, any>>({
 		</div>
 
 		<Modal
+			id="modalOpenChangexxx"
 			open={openModal}
-			onOpenChange={() => setOpenModal(!openModal)}
+			onOpenChange={(open) => {
+				console.log('datatable', open)
+				setOpenModal(open);
+			}}
 			hiddenTrigger={true}
 			maxWidth={modalMaxWidth}
 			minWidth={modalMinWidth}
@@ -658,6 +665,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 			{modalContainer}
 		</Modal>
 		<ConfirmBox
+			id="confirmBox"
 			open={openConfirmBox}
 			onOpenChange={() => setOpenConfirmBox(!openConfirmBox)}
 			onConfirm={handleConfirm}
