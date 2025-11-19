@@ -45,7 +45,9 @@
 
 .modal__action {
   appearance: none;
-  border: 0;
+  border: 1px solid;
+  border-color: var(--color-blue-100);
+  /* background: var(--color-blue-50); */
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -59,6 +61,7 @@
 
 .modal__action:hover,
 .modal__action:focus-visible {
-  background-color: rgba(255, 255, 255, 0.18);
+  /* background-color: rgba(255, 255, 255, 0.18); */
+  background-color: var(--color-blue-50);
   transform: rotate(90deg);
 }
