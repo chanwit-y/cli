@@ -52,8 +52,8 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 					console.log('2')
 					await handleSubmit(async (data) => {
 						// TODO: check api info
-						if (data.id) {
-							api && await api({ id: data.id }, { ...data })
+						if (data.id || data._id) {
+							api && await api({ id: data.id || data._id }, { ...data })
 						} else {
 							api && await api({ ...data })
 						}
@@ -61,7 +61,8 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 					break;
 				case 'ReloadDataTable':
 					console.log('3')
-					await fnCtxs["Source Apps"]()
+					// Change to table name
+					await fnCtxs["Companies"]()
 					break;
 				case 'ClearCurrentFormSeleted':
 					clearCurrentFormSeleted();

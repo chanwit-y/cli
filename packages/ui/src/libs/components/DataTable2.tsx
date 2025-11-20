@@ -143,7 +143,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 					console.log('apiDelete', apiDelete)
 					if (apiDeleteInfo && selectedRow && apiDeleteInfo.params?.id && selectedRow[apiDeleteInfo.params.id] && apiDelete) {
 						console.log('apiDelete', apiDelete)
-						await apiDelete({ id: selectedRow[apiDeleteInfo.params.id] })
+						await apiDelete({ id: selectedRow[apiDeleteInfo.params.id] || selectedRow[apiDeleteInfo.params._id] })
 					}
 					// if (selectedRow?.id) {
 					// 	api && await api({ id: data.id }, { ...data })
@@ -288,8 +288,13 @@ export const DataTable2 = <T extends Record<string, any>>({
 			return { ...acc, [key]: value.type === "value" ? value.value : undefined }
 		}, {})
 
+		const b = Object.entries(apiInfo?.body ?? {}).reduce((acc, [key, value]) => {
+			return { ...acc, [key]: value.type === "value" ? value.value : undefined }
+		}, {})
+
 		if (api) {
-			const result = await api({ ...q })
+			// TODO: improve 
+			const result = await api({ ...q, ...b })
 			let data = result
 			apiInfo?.paths?.forEach((path) => {
 				data = data[path]

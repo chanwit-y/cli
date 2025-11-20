@@ -61,6 +61,21 @@ export type ButtonProps = BaseComponentProps<
   }
 >;
 
+export type DataType = 
+    | 'date'
+    | 'datetime-local'
+    | 'email'
+    | 'hidden'
+    | 'month'
+    | 'number'
+    | 'password'
+    | 'search'
+    | 'tel'
+    | 'text'
+    | 'time'
+    | 'url'
+    | 'week';
+
 export type TextFieldProps = BaseComponentProps<
   typeof RadixTextField.Root,
   {
@@ -68,6 +83,7 @@ export type TextFieldProps = BaseComponentProps<
     placeholder?: string;
     helperText?: string;
     error?: boolean;
+    dataType: DataType;
     errorMessage?: string;
     variant?: "classic" | "surface" | "soft";
     size?: "1" | "2" | "3";

@@ -12,6 +12,7 @@ const TextFieldBase = forwardRef<
 	TextFieldProps
 >(({
 	className,
+	dataType,
 	label,
 	placeholder,
 	helperText,
@@ -48,7 +49,7 @@ const TextFieldBase = forwardRef<
 				size={size}
 				radius={radius}
 				placeholder={placeholder}
-
+				type={dataType}
 				// className={cn(
 				// 	 "border-red-500 focus-within:border-red-500",
 				// 	className

@@ -16,7 +16,8 @@ export class TextField<M extends TModelMaster, A extends TApiMaster<M>>
     return createElement(TextFieldComponent, {
       name: props.name,
       form: this._context.form,
-      label: props.label
+      label: props.label,
+      dataType: props.dataType,
     });
   }
 }
