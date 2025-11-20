@@ -395,6 +395,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 						width={200}
 						placeholder="Search all columns..."
 						value={globalFilter ?? ''}
+						dataType="text"
 						isFixedHeight={false}
 						onChange={(e) => setGlobalFilter(e.target.value)} />
 
