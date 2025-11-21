@@ -66,6 +66,7 @@ export class DataTable<
 
 
     return createElement(DataTable2, {
+      name: props.name,
       columns: this.toColoumDefinition(props.columns),
       align: this.align(props.columns ?? []),
       apiDeleteInfo: props.apiDeleteInfo,

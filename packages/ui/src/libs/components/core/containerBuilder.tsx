@@ -45,7 +45,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 		// const defaultValues = useMemo(() => selectedRow[this._connainers[0].name] ?? {}, [selectedRow, this._connainers]) 
 
 		//TODO: Fix code
-		const defaultValues = useMemo(() => ctx["Companies"] ?? {}, [ctx])
+		const defaultValues = useMemo(() => this._connainers.length > 0 ? ctx[this._connainers[0]?.contextData ?? ""] ?? {} : {}, [ctx, this._connainers])
 
 		const F = new Form(this.getSchema(), defaultValues).setup().create();
 
@@ -56,7 +56,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 						{this._connainers.map((c) => {
 							return c.bins.map((b) => {
 
-								if (b.condition) 
+								if (b.condition)
 									if (!(new ConditionExpression(ctx).expression(b.condition))) return null;
 
 								const api = b.element && 'api' in b.element && b.element.api && 'name' in b.element.api ? this._apis.api[b.element.api.name] as APIFunction : undefined;

@@ -63,6 +63,7 @@ const renderCellWithHighlight = (cell: any, globalFilter: string) => {
 
 
 export const DataTable2 = <T extends Record<string, any>>({
+	name,
 	title,
 	api,
 	apiDeleteInfo,
@@ -76,7 +77,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 	canEdit = false,
 	canDelete = false,
 	align = {},
-
+	
+	isReload = false,
 	// editModalContainer,
 }: DataTableProps) => {
 
@@ -151,10 +153,10 @@ export const DataTable2 = <T extends Record<string, any>>({
 					// 	api && await api({ ...data })
 					// }
 					break;
-				case 'ReloadDataTable':
-					await refetch();
-					// await loadDataTables["Source Apps"]()
-					break;
+				// case 'ReloadDataTable':
+				// 	await refetch();
+				// 	// await loadDataTables["Source Apps"]()
+				// 	break;
 				// case 'ClearCurrentFormSeleted':
 				// 	clearCurrentFormSeleted();
 				// 	break;
@@ -175,6 +177,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 		// if (event && onClick) {
 		// 	onClick(event);
 		// }
+
+		isReload && await refetch();
 
 		if (apiDeleteInfo?.snackbarSuccess) {
 			showSnackbar({
@@ -212,7 +216,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 							onClick={() => {
 								// eslint-disable-next-line no-console
 								console.log(row.original)
-								updateSelectedRow(title ?? '', row.original)
+								updateSelectedRow(name ?? '', row.original)
 								setOpenModal(true)
 							}}
 						>
@@ -321,7 +325,6 @@ export const DataTable2 = <T extends Record<string, any>>({
 	const visibleColumns = table.getVisibleLeafColumns()
 
 	useEffect(() => {
-		console.log('tableData', tableData)
 		setData(tableData ?? [])
 	}, [tableData])
 

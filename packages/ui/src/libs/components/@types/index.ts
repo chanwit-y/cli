@@ -58,23 +58,24 @@ export type ButtonProps = BaseComponentProps<
     snackbarSuccess?: SnackbarElement;
     snackbarError?: SnackbarElement | "$exception";
     confirmBox?: ConfirmBoxElement;
+    reloadDataTable?: string;
   }
 >;
 
-export type DataType = 
-    | 'date'
-    | 'datetime-local'
-    | 'email'
-    | 'hidden'
-    | 'month'
-    | 'number'
-    | 'password'
-    | 'search'
-    | 'tel'
-    | 'text'
-    | 'time'
-    | 'url'
-    | 'week';
+export type DataType =
+  | "date"
+  | "datetime-local"
+  | "email"
+  | "hidden"
+  | "month"
+  | "number"
+  | "password"
+  | "search"
+  | "tel"
+  | "text"
+  | "time"
+  | "url"
+  | "week";
 
 export type TextFieldProps = BaseComponentProps<
   typeof RadixTextField.Root,
@@ -279,6 +280,7 @@ export type MultiAutocompleteProps<T extends Record<string, any> = {}> =
   >;
 
 export type DataTableProps = {
+  name: string;
   columns?: any[];
   title?: string;
   canSearchAllColumns?: boolean;
@@ -292,7 +294,7 @@ export type DataTableProps = {
   canEdit?: boolean;
   canDelete?: boolean;
   align?: Record<string, "start" | "center" | "end">;
-
+  isReload?: boolean;
   // apiEdit?: APIFunction;
 };
 
@@ -374,12 +376,13 @@ export type CheckboxElement = {
 } & CheckboxProps;
 
 export type APIDelete = {
-    name: string;
-    params?: Record<string, string>;
-    confirmBox?: ConfirmBoxElement;
-    snackbarSuccess?: SnackbarElement;
-    snackbarError?: SnackbarElement | "$exception";
-  }
+  name: string;
+  params?: Record<string, string>;
+  confirmBox?: ConfirmBoxElement;
+  isReload?: boolean;
+  snackbarSuccess?: SnackbarElement;
+  snackbarError?: SnackbarElement | "$exception";
+};
 
 export type AutocompleteElement = {
   name: string;
@@ -492,6 +495,7 @@ export type Bin = {
 export type Container = {
   id: string;
   name: string;
+  contextData?: string;
   isAaary: boolean;
   bins: Bin[];
 };
@@ -511,7 +515,7 @@ export type ButtonAction =
   | "SubmitFormToPostAPI"
   | "SubmitFormToPatchAPI"
   | "SubmitFormToDeleteAPI"
-  | "ReloadDataTable"
+  // | "ReloadDataTable"
   | "ConfirmBox"
   | "CloseModal";
 
@@ -523,6 +527,7 @@ export type ButtonElement = {
   label: string;
   icon?: keyof typeof IconData;
   confirmBox?: ConfirmBoxElement;
+  reloadDataTable?: string;
   actions: ButtonAction[];
   api?: API & {};
   snackbarSuccess?: SnackbarElement;

@@ -20,6 +20,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	snackbarSuccess,
 	snackbarError,
 	confirmBox,
+	reloadDataTable,
 	...props }) => {
 
 	// const { loadDataTables } = useCore()
@@ -59,11 +60,11 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 						}
 					})()
 					break;
-				case 'ReloadDataTable':
-					console.log('3')
-					// Change to table name
-					await fnCtxs["Companies"]()
-					break;
+				// case 'ReloadDataTable':
+				// 	console.log('3')
+				// 	// Change to table name
+				// 	await fnCtxs["Companies"]()
+				// 	break;
 				case 'ClearCurrentFormSeleted':
 					clearCurrentFormSeleted();
 					break;
@@ -88,6 +89,8 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 		if (event && onClick) {
 			onClick(event);
 		}
+
+		reloadDataTable && await fnCtxs[reloadDataTable]()
 
 		if (snackbarSuccess) {
 			showSnackbar({

@@ -63,12 +63,12 @@ export const companyDetail: Bin[] = [
         True: [
           "StratLoading",
           "SubmitFormToPostAPI",
-          "ReloadDataTable",
           "StopLoading",
           "CloseModal",
         ],
         False: [],
       },
+      reloadDataTable: "dtCompany",
       actions: ["ConfirmBox"],
       api: {
         name: "updateCompany",
@@ -105,12 +105,12 @@ export const companyDetail: Bin[] = [
         True: [
           "StratLoading",
           "SubmitFormToPostAPI",
-          "ReloadDataTable",
           "StopLoading",
           "CloseModal",
         ],
         False: [],
       },
+      reloadDataTable: "dtCompany",
       actions: ["ConfirmBox"],
       api: {
         name: "createCompany",
@@ -127,6 +127,7 @@ export const companyDetail: Bin[] = [
 export const containerCompanyDetail: Container = {
   id: "550e8400-e29b-41d4-a716-446655440000",
   name: "GroupList",
+  contextData: "dtCompany",
   isAaary: false,
   bins: companyDetail,
 };
@@ -172,7 +173,7 @@ export const groupList: Bin[] = [
     xl: "12",
     type: "datatable",
     element: {
-      name: "Company",
+      name: "dtCompany",
       title: "Companies",
       modalContainer: containerCompanyDetail,
       modalMaxWidth: "800px",
@@ -197,14 +198,11 @@ export const groupList: Bin[] = [
         confirmBox: {
           title: "Delete Company",
           description: "Are you sure you want to delete this company?",
-          True: [
-            "StratLoading",
-            "SubmitFormToDeleteAPI",
-            "ReloadDataTable",
-            "StopLoading",
-          ],
+          True: ["StratLoading", "SubmitFormToDeleteAPI", "StopLoading"],
           False: [],
         },
+
+        isReload: true,
         snackbarSuccess: {
           type: "success",
           message: "Company deleted successfully",
