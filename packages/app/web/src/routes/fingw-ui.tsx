@@ -7,12 +7,12 @@ import {
 // import { ConfirmBoxDemo } from './components/ConfirmBoxDemo'
 
 // @ts-ignore
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/fingw-ui')({
 	component: Index,
 })
 
 function Index() {
-	// const f = useMemo(() => core.run(), [])
+	const f = useMemo(() => core.run(), [])
 
 	// const F = useMemo(() => (new Form(object({
 	// 	test: string("test is required").min(1),
@@ -25,22 +25,21 @@ function Index() {
 	// }), {
 	// })).setup().create(), [])
 
-	// return (
-      	// 	<LoadingProvider>
-	// 			<div>
-	// 				<div className='p-8'>
+	return (
+      		<LoadingProvider>
+				<div>
+					<div className='p-8'>
 						
-	// 					{f}
-	// 					{/* <ConfirmBoxDemo /> */}
-	// 				</div>
-	// 				{/* <LoadingDemo />
-	// 		<SnackbarProvider>
-	// 				<SnackbarDemo />
-	// 		</SnackbarProvider> */}
-	// 			</div>
-	// 	</LoadingProvider>
-	// )
-	return (<>index</>)
+						{f}
+						{/* <ConfirmBoxDemo /> */}
+					</div>
+					{/* <LoadingDemo />
+			<SnackbarProvider>
+					<SnackbarDemo />
+			</SnackbarProvider> */}
+				</div>
+		</LoadingProvider>
+	)
 }
 
 // function LoadingDemo() {

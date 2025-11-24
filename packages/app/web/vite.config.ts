@@ -13,6 +13,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    port: 3001,
+  },
   build: {
     outDir: "out", // Specifies the output directory.
   },

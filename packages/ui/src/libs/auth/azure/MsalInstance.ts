@@ -3,8 +3,8 @@ import {
   type Configuration,
   type SilentRequest,
 } from '@azure/msal-browser';
-import { isIEorEdge } from './VersionBrowser';
 import { Env } from './Env';
+import { isIEorEdge } from './VersionBrowser';
 
 
 export const LOGIN_MICROSOFTONLINE_URL = "https://login.microsoftonline.com/";
