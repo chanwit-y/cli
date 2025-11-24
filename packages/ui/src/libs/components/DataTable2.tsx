@@ -139,11 +139,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 		for (const action of actionsToExecute) {
 			switch (action) {
 				case 'SubmitFormToDeleteAPI':
-					console.log('selectedRow', selectedRow)
-					console.log('apiDeleteInfo', apiDeleteInfo)
-					console.log('apiDelete', apiDelete)
 					if (apiDeleteInfo && selectedRow && apiDeleteInfo.params?.id && selectedRow[apiDeleteInfo.params.id] && apiDelete) {
-						console.log('apiDelete', apiDelete)
 						await apiDelete({ id: selectedRow[apiDeleteInfo.params.id] || selectedRow[apiDeleteInfo.params._id] })
 						apiDeleteInfo?.isReload && await refetch();
 					}
@@ -214,7 +210,6 @@ export const DataTable2 = <T extends Record<string, any>>({
 							className="inline-flex items-center justify-center w-4 h-4"
 							onClick={() => {
 								// eslint-disable-next-line no-console
-								console.log(row.original)
 								updateSelectedRow(name ?? '', row.original)
 								setOpenModal(true)
 							}}
@@ -228,7 +223,6 @@ export const DataTable2 = <T extends Record<string, any>>({
 								className="inline-flex items-center justify-center w-4 h-4"
 								color="red"
 								onClick={() => {
-									console.log(row.original)
 									setSelectedRow(row.original)
 									setOpenConfirmBox(true)
 									// console.log(row.original)

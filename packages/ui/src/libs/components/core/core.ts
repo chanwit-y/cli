@@ -3,16 +3,18 @@ import { ApiFactory, HttpClientFactory } from "../../api";
 import { ApiMaster, type TApiMaster } from "../../api/APIMaster";
 import { ContainerBuilder } from "./containerBuilder";
 
-// import { model } from "./mock/sourceApp/model";
-// import { api } from "./mock/sourceApp/api";
-// import {  containerSourceAppList } from "./mock/sourceApp/container";
 
-import { model } from "./mock/company/model";
-import { api } from "./mock/company/api";
-import {  containerCompanyList } from "./mock/company/container";
 import type { IAuthContext } from "../../auth/@types";
 import { Env } from "../../auth/azure/Env";
 import { getAccessToken } from "../../auth/azure/MsalInstance";
+
+import { model } from "./mock/sourceApp/model";
+import { api } from "./mock/sourceApp/api";
+import {  containerSourceAppList } from "./mock/sourceApp/container";
+
+// import { model } from "./mock/company/model";
+// import { api } from "./mock/company/api";
+// import {  containerCompanyList } from "./mock/company/container";
 
 class Core {
 	// Move to config
@@ -38,7 +40,7 @@ class Core {
 	}
 
 	public run() {
-		return (new ContainerBuilder(containerCompanyList, this._apis)).draw(true, true)
+		return (new ContainerBuilder(containerSourceAppList, this._apis)).draw(true, true)
 	}
 }
 

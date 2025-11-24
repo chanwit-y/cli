@@ -1,3 +1,4 @@
+import { tr } from "zod/v4/locales";
 import type { Bin, Container } from "../../../@types";
 
 export const sourceAppDetail: Bin[] = [
@@ -175,7 +176,7 @@ export const sourceAppDetail: Bin[] = [
         True: [
           "StratLoading",
           "SubmitFormToPostAPI",
-          "ReloadDataTable",
+          // "ReloadDataTable",
           "StopLoading",
           "CloseModal"
         ],
@@ -185,6 +186,7 @@ export const sourceAppDetail: Bin[] = [
       api: {
         name: "sourceAppsPost",
       },
+      reloadDataTable: "sourceApps",
       snackbarSuccess: {
         type: "success",
         message: "Source application created successfully",
@@ -217,12 +219,13 @@ export const sourceAppDetail: Bin[] = [
         True: [
           "StratLoading",
           "SubmitFormToPostAPI",
-          "ReloadDataTable",
+          // "ReloadDataTable",
           "StopLoading",
           "CloseModal"
         ],
         False: [],
       },
+      reloadDataTable: "sourceApps",
       actions: ["ConfirmBox"],
       api: {
         name: "sourceAppsPatch",
@@ -326,11 +329,12 @@ export const sourceAppList: Bin[] = [
           True: [
             "StratLoading",
             "SubmitFormToDeleteAPI",
-            "ReloadDataTable",
+            // "ReloadDataTable",
             "StopLoading",
           ],
           False: [],
         },
+        isReload: true,
         snackbarSuccess: {
           type: "success",
           message: "Source application deleted successfully",
