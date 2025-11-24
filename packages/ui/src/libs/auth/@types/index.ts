@@ -1,3 +1,5 @@
+import type { Context } from "react";
+
 export interface IAuthContext<T extends any> {
   username?: string;
   userProfile?: T;
@@ -13,3 +15,5 @@ export interface IAuthContext<T extends any> {
   //   setUserProfile: (userProfile: T) => void;
   //   setUsername: (username: string) => void;
 }
+
+export type AzureAuthContext = <T>() => Context<IAuthContext<T>>;
