@@ -77,8 +77,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 	canEdit = false,
 	canDelete = false,
 	align = {},
-	
-	isReload = false,
+
 	// editModalContainer,
 }: DataTableProps) => {
 
@@ -146,6 +145,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 					if (apiDeleteInfo && selectedRow && apiDeleteInfo.params?.id && selectedRow[apiDeleteInfo.params.id] && apiDelete) {
 						console.log('apiDelete', apiDelete)
 						await apiDelete({ id: selectedRow[apiDeleteInfo.params.id] || selectedRow[apiDeleteInfo.params._id] })
+						apiDeleteInfo?.isReload && await refetch();
 					}
 					// if (selectedRow?.id) {
 					// 	api && await api({ id: data.id }, { ...data })
@@ -178,7 +178,6 @@ export const DataTable2 = <T extends Record<string, any>>({
 		// 	onClick(event);
 		// }
 
-		isReload && await refetch();
 
 		if (apiDeleteInfo?.snackbarSuccess) {
 			showSnackbar({
@@ -330,9 +329,9 @@ export const DataTable2 = <T extends Record<string, any>>({
 
 
 	useEffect(() => {
-		updateLoadDataTables(title ?? '', refetch)
+		updateLoadDataTables(name ?? '', refetch)
 		// updateLoadDataTables({ [title ?? '']: fechtData })
-	}, [title, refetch, updateLoadDataTables])
+	}, [name, refetch, updateLoadDataTables])
 
 
 	useEffect(() => {

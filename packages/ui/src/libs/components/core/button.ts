@@ -23,6 +23,7 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 			snackbarSuccess: props.snackbarSuccess,
 			snackbarError: props.snackbarError,
 			confirmBox: props.confirmBox,
+			reloadDataTable: props.reloadDataTable	
 		})
 	}
 }

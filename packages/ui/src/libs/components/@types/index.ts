@@ -294,7 +294,7 @@ export type DataTableProps = {
   canEdit?: boolean;
   canDelete?: boolean;
   align?: Record<string, "start" | "center" | "end">;
-  isReload?: boolean;
+  // isReload?: boolean;
   // apiEdit?: APIFunction;
 };
 

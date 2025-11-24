@@ -90,6 +90,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 			onClick(event);
 		}
 
+		// console.log('reloadDataTable', reloadDataTable)
 		reloadDataTable && await fnCtxs[reloadDataTable]()
 
 		if (snackbarSuccess) {
@@ -98,7 +99,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 				message: snackbarSuccess.message,
 			})
 		}
-	}, [api, clearCurrentFormSeleted, handleSubmit, fnCtxs, onClick, showSnackbar, snackbarSuccess, startLoading, stopLoading])
+	}, [api, clearCurrentFormSeleted, handleSubmit, fnCtxs, onClick, showSnackbar, snackbarSuccess, startLoading, stopLoading, reloadDataTable])
 
 	const handleClieck = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
 		try {
