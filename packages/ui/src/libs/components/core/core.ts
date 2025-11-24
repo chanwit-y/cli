@@ -11,12 +11,14 @@ import { model } from "./mock/company/model";
 import { api } from "./mock/company/api";
 import {  containerCompanyList } from "./mock/company/container";
 import type { IAuthContext } from "../../auth/@types";
+import { Env } from "../../auth/azure/Env";
+import { getAccessToken } from "../../auth/azure/MsalInstance";
 
 class Core {
 	// Move to config
 	private _http = new HttpClientFactory(
-		import.meta.env.VITE_OE_API_URL || "",
-		async () => import.meta.env.VITE_TOKEN || "",
+		Env.API_URL || "",
+		getAccessToken,
 		"1.0.0",
 		120000,
 	);
@@ -36,7 +38,7 @@ class Core {
 	}
 
 	public run() {
-		return (new ContainerBuilder(containerCompanyList, this._apis)).draw(true)
+		return (new ContainerBuilder(containerCompanyList, this._apis)).draw(true, true)
 	}
 }
 

@@ -39,7 +39,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 		return <span></span>;
 	}
 
-	public draw(withQueryClient: boolean = false) {
+	public draw(isRoot: boolean = false, withAuth: boolean = false) {
 		const ctx = useStord((state) => state.contextData)
 		// const defaultValues = selectedRow[this._connainers[0].name]
 		// const defaultValues = useMemo(() => selectedRow[this._connainers[0].name] ?? {}, [selectedRow, this._connainers]) 
@@ -51,7 +51,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 		return <F.Fn>
 			{(f) => (
-				<Provider isRoot={withQueryClient}>
+				<Provider isRoot={isRoot} withAuth={withAuth}>
 					<div className="grid grid-cols-12 gap-1 items-center">
 						{this._connainers.map((c) => {
 							return c.bins.map((b) => {

@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { LoadingProvider } from "../context";
 import { SnackbarProvider } from "../Snackbar";
+import { AzureAuthProvider, azureCtx } from "../../auth";
 
 type CoreContextType = {
 	observeTable: Record<string, any>;
@@ -17,11 +18,12 @@ const Context = createContext<CoreContextType>({} as CoreContextType);
 type CoreProviderProps = {
 	children: ReactNode;
 	isRoot?: boolean;
+	withAuth?: boolean;
 }
 
 const queryClient = new QueryClient()
 
-export const Provider = ({ children, isRoot = false }: CoreProviderProps) => {
+export const Provider = ({ children, isRoot = false, withAuth = false }: CoreProviderProps) => {
 
 	// const selectedRow = useStord((state) => state.contextData)
 	const [observeTable, setObserveTable] = useState<Record<string, Subject<unknown>>>({});
@@ -40,13 +42,15 @@ export const Provider = ({ children, isRoot = false }: CoreProviderProps) => {
 	}, [observeTable]);
 
 
-	return <Context.Provider value={{ observeTable, addObserveTable,  getObserveTable }}>
+	return <Context.Provider value={{ observeTable, addObserveTable, getObserveTable }}>
 		{
 			isRoot ? (
 				<LoadingProvider>
 					<SnackbarProvider>
 						<QueryClientProvider client={queryClient}>
-							{children}
+							{withAuth ? <AzureAuthProvider context={azureCtx}>
+								{children}
+							</AzureAuthProvider> : children}
 							<ReactQueryDevtools initialIsOpen={false} />
 						</QueryClientProvider>
 					</SnackbarProvider>
