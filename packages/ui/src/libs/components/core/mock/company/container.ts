@@ -47,7 +47,7 @@ export const companyDetail: Bin[] = [
     align: "end",
     condition: {
       right: {
-        key: "Companies",
+        key: "dtCompany",
         path: "_id",
       },
       operator: "neq",
@@ -62,7 +62,7 @@ export const companyDetail: Bin[] = [
         description: "Are you sure you want to create this company?",
         True: [
           "StratLoading",
-          "SubmitFormToPostAPI",
+          "SubmitFormToPatchAPI",
           "StopLoading",
           "CloseModal",
         ],
@@ -89,7 +89,7 @@ export const companyDetail: Bin[] = [
     align: "end",
     condition: {
       right: {
-        key: "Companies",
+        key: "dtCompany",
         path: "_id",
       },
       operator: "eq",

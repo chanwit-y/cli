@@ -50,10 +50,13 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 		for (const action of actionsToExecute) {
 			switch (action) {
 				case 'SubmitFormToPostAPI':
+				case 'SubmitFormToPatchAPI':
 					console.log('2')
 					await handleSubmit(async (data) => {
 						// TODO: check api info
+						console.log('data', data)
 						if (data.id || data._id) {
+							console.log('action')
 							api && await api({ id: data.id || data._id }, { ...data })
 						} else {
 							api && await api({ ...data })
