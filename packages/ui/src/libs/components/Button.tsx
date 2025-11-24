@@ -58,6 +58,9 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 						} else {
 							api && await api({ ...data })
 						}
+
+
+						reloadDataTable && await fnCtxs[reloadDataTable]()
 					})()
 					break;
 				// case 'ReloadDataTable':
@@ -91,7 +94,6 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 		}
 
 		// console.log('reloadDataTable', reloadDataTable)
-		reloadDataTable && await fnCtxs[reloadDataTable]()
 
 		if (snackbarSuccess) {
 			showSnackbar({
