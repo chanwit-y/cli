@@ -1,10 +1,17 @@
 import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import {
-	core,
+	Core,
 	LoadingProvider,
 } from 'vegaui'
 // import { ConfirmBoxDemo } from './components/ConfirmBoxDemo'
+
+import { model } from "../mock/sourceApp/model";
+import { api } from "../mock/sourceApp/api";
+import { containerSourceAppList } from "../mock/sourceApp/container";
+import { http } from '../config/http';
+
+const core = new Core(http, model, api, containerSourceAppList)
 
 // @ts-ignore
 export const Route = createFileRoute('/fingw-ui')({

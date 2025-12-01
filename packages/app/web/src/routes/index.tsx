@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import {
-	core,
 	LoadingProvider,
 } from 'vegaui'
 // import { ConfirmBoxDemo } from './components/ConfirmBoxDemo'

@@ -1,0 +1,35 @@
+export const api = {
+	companies: {
+		url: "collection/get-all",
+		description: "Get all company",
+		methods: "POST",
+		response: "companyRes",
+		body: "companyBody",
+		withOptions: false,
+	},
+	createCompany: {
+		url: "collection/create/691e9950992636eb1560eab8",
+		description: "Create company",
+		methods: "POST",
+		response: "companyRes",
+		body: "companyBody",
+		withOptions: false,
+	},
+	updateCompany: {
+		url: "collection/update/691e9950992636eb1560eab8/:id",
+		description: "Create company",
+		methods: "PATCH",
+		response: "companyRes",
+		body: "companyBody",
+		parameter: "companyParam",
+		withOptions: false,
+	},
+	deleteCompany: {
+		url: "collection/delete/691e9950992636eb1560eab8/:id",
+		description: "Delete company",
+		methods: "DELETE",
+		response: "companyRes",
+		parameter: "companyParam",
+		withOptions: false,
+	},
+}
