@@ -238,7 +238,8 @@ export type AutocompleteProps2<T extends Record<string, any> = {}> =
       // apiCanSearch?: boolean;
       api?: APIFunction;
       apiInfo?: API;
-      enabledWhen?: ConditionTerm;
+      // enabledWhen?: ConditionTerm;
+      enabledWhen?: CondExpression;
       isSingleLoad?: boolean;
       // defaultData?: Record<string, unknown>;
       // apiObserveParam?: string;
@@ -362,11 +363,11 @@ export type Operator =
   | "and"
   | "or";
 
-export type ConditionTerm = {
-  left: Term;
-  operator: Operator;
-  right: Term;
-};
+// export type ConditionTerm = {
+//   left: Term;
+//   operator: Operator;
+//   right: Term;
+// };
 
 export type CheckboxElement = {
   name: string;
@@ -390,7 +391,8 @@ export type AutocompleteElement = {
   label: string;
   canObserve: boolean;
   observeTo: string;
-  enabledWhen: ConditionTerm;
+  // enabledWhen: ConditionTerm;
+  enabledWhen: CondExpression;
   isRequired: boolean;
   isSingleLoad: boolean;
   errorMessage: string;
@@ -581,7 +583,11 @@ export type Val = {
   val?: any;
 };
 
-export type CondValue = Ref | Val;
+export type Obs = {
+  key: string;
+}
+
+export type CondValue = Ref | Val | Obs;
 
 export type ExpressionOperator =
   | "eq"

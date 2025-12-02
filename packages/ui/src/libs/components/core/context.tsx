@@ -36,11 +36,8 @@ export const Provider = ({ children, isRoot = false, withAuth = false }: CorePro
 		switch (dv.type) {
 			case "observe":
 				return observeTable[dv.key]
-			// case "selectedRow":
-			// 	return selectedRow[dv.key] 
 		}
 	}, [observeTable]);
-
 
 	return <Context.Provider value={{ observeTable, addObserveTable, getObserveTable }}>
 		{

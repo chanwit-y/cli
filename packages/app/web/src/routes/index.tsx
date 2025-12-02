@@ -1,9 +1,4 @@
-import { useMemo } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import {
-	LoadingProvider,
-} from 'vegaui'
-// import { ConfirmBoxDemo } from './components/ConfirmBoxDemo'
 
 // @ts-ignore
 export const Route = createFileRoute('/')({

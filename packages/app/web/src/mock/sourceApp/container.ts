@@ -110,13 +110,14 @@ export const sourceAppDetail: Bin[] = [
       observeTo: "", // for call api
       enabledWhen: {
         left: {
-          type: "observe",
-          name: "type",
+          // type: "observe",
+          // name: "type",
+          key: "type",
+          // path: "type"
         },
         operator: "eq",
         right: {
-          type: "value",
-          value: "source",
+          val: "source"
         },
       },
       isRequired: false,
