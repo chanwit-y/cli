@@ -607,7 +607,7 @@ export type CondExpression = {
 
 export type ThemeComponents = {
   button?: {
-    color: string;
+    color: ThemeProps['accentColor'];
   },
   dataTable?: {
     headerHoverColor: string;

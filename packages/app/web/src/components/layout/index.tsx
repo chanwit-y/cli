@@ -6,7 +6,14 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 			components={{
 				button: {
 					color: 'purple'
-				} 
+				},
+				dataTable: {
+					editButtonColor: 'purple',
+					deleteButtonColor: 'purple',
+					headerHoverColor: 'purple',
+					paginationButtonColor: 'purple',
+					paginationButtonHoverColor: 'purple',
+				}
 			}}
 			className="min-h-screen flex flex-col w-full">
 			{/* NavBar */}

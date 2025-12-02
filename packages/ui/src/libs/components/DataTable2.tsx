@@ -4,14 +4,14 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react"
 import Icon from "./Icon"
 import * as Popover from "@radix-ui/react-popover"
-import { Button, Text } from "@radix-ui/themes"
+import { Button, Text, type ThemeProps } from "@radix-ui/themes"
 import type { ButtonAction, DataTableProps } from "./@types"
 import { useStord } from "./core/stord"
 import { Modal } from "./Modal"
 import { useQuery } from "@tanstack/react-query"
 import { ConfirmBox } from "./ConfirmBox"
 import { useSnackbar } from "./Snackbar"
-import { useLoading } from "./context"
+import { useLoading, useTheme } from "./context"
 
 // Utility function to highlight matching text
 const highlightText = (text: string, searchTerm: string) => {
@@ -195,6 +195,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 	}, [apiDeleteInfo, selectedRow])
 
 	const filterRef = useRef<HTMLInputElement>(null);
+	const theme = useTheme()
 
 	// Prepend a default display column with an icon
 	const enhancedColumns = useMemo<ColumnDef<T, unknown>[]>(() => {
@@ -208,8 +209,8 @@ export const DataTable2 = <T extends Record<string, any>>({
 					{
 						canEdit && (<Button
 							className="inline-flex items-center justify-center w-4 h-4"
+							color={theme.components.dataTable?.editButtonColor as ThemeProps['accentColor'] || 'blue'}
 							onClick={() => {
-								// eslint-disable-next-line no-console
 								updateSelectedRow(name ?? '', row.original)
 								setOpenModal(true)
 							}}
@@ -221,6 +222,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 						canDelete && (
 							<Button
 								className="inline-flex items-center justify-center w-4 h-4"
+
 								color="red"
 								onClick={() => {
 									setSelectedRow(row.original)
@@ -623,7 +625,9 @@ export const DataTable2 = <T extends Record<string, any>>({
 											key={page}
 											onClick={() => table.setPageIndex(Number(page) - 1)}
 											className={`px-3 py-1 text-sm cursor-pointer border rounded transition-colors ${currentPage === page
-												? 'bg-blue-300 text-white ring-1 ring-blue-300'
+												? theme.components.dataTable?.paginationButtonColor as ThemeProps['accentColor']  === "purple" 
+													? 'bg-purple-300 text-white ring-1 ring-purple-300'
+													: 'bg-blue-300 text-white ring-1 ring-blue-300'
 												: 'border-gray-300 hover:bg-gray-50'
 												}`}
 										>
