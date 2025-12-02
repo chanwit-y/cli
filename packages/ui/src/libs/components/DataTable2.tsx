@@ -1,4 +1,4 @@
-import { TextField } from "./TextField"
+import { TextFieldBase as TextField } from "./TextField"
 import { useReactTable, getCoreRowModel, getFilteredRowModel, flexRender, type PaginationState, getPaginationRowModel, type SortingState, getSortedRowModel, type ColumnFiltersState, type ColumnDef } from "@tanstack/react-table"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ChevronFirst, ChevronLast, ChevronLeft, ChevronRight } from "lucide-react"

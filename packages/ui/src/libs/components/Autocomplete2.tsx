@@ -124,33 +124,20 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 					debounce(() => interval(500)),
 					distinct(),
 					switchMap(async (text) => {
-
-						// if (items.length === 0) refetch()
-
-						// if (isSingleLoad && !data) refetch()
 						console.log('isSingleLoad', isSingleLoad, data)
 
 						if (isSingleLoad && data) return
 						refetch()
-						// return Promise.resolve(fetchData(text))
 					}),
 
 				)
 			} else return undefined
 		}, [subject, apiInfo, observeApiData, refetch, items, isSingleLoad])
 
-		// const isEnabledWhen = useMemo(
-		// 	if (enabledWhen) {
-		// 		return enabledWhen.left.type === "observe" ? getDataValue({ key: enabledWhen.left.name, type: "observe" })?.pipe(map((data) => data === enabledWhen.right.value)) : enabledWhen.left.value === enabledWhen.right.value
-		// 	}
-		// 	return true
-		// }, [enabledWhen, getDataValue])
 
 		const ctx = useStord((state) => state.contextData)
 
 		useEffect(() => {
-			console.log('enabledWhen', enabledWhen)
-
 			if (enabledWhen) {
 				setIsObserveEnabled(false)
 				getDataValue({ key: (enabledWhen.left as Obs).key, type: "observe" })?.subscribe((data: unknown) => {
@@ -309,21 +296,6 @@ const createAutocomplete = <T extends Record<string, any>>() => {
 			console.log('data', data)
 			data && setItems(getItems(data))
 		}, [apiSearch, observeApiData, data])
-
-		// useEffect(() => {
-		// 	if (!apiInfo?.query) {
-		// 		const result = fetchData("");
-		// 		if (result) {
-		// 			result.then((res) => setItems(getItems(res)));
-		// 		}
-		// 	}
-		// 	else if (apiSearch) {
-		// 		apiSearch.subscribe((res) => {
-		// 			setItems(getItems(res))
-		// 		})
-		// 	}
-		// }, [apiSearch, observeApiData]);
-
 
 		return <Box className="w-full flex flex-col justify-start h-20" >
 			{

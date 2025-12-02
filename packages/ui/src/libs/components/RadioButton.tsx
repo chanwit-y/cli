@@ -4,7 +4,7 @@ import type { ElementRef } from "react"
 import { forwardRef, useMemo } from "react"
 import { RadioGroup, Text, Box, Flex } from '@radix-ui/themes'
 import { cn } from "../util/utils"
-import { withTheam } from "./context"
+// import { withTheam } from "./context"
 
 const RadioButtonBase = forwardRef<
 	ElementRef<typeof RadioGroup.Root>,
@@ -106,6 +106,6 @@ const RadioButtonBase = forwardRef<
 
 RadioButtonBase.displayName = "RadioButton"
 
-const RadioButton = withTheam(RadioButtonBase)
+// const RadioButton = withTheam(RadioButtonBase)
 
-export { RadioButtonBase, RadioButton }
+export { RadioButtonBase }

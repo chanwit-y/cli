@@ -120,7 +120,6 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	}, [api, clearCurrentFormSeleted, handleSubmit, fnCtxs, onClick, showSnackbar, snackbarSuccess, startLoading, stopLoading, reloadDataTable])
 
 	const handleClieck = useCallback(async (e: React.MouseEvent<HTMLButtonElement>) => {
-		// try {
 		let [a1] = actions || []
 
 		if (a1 === "ConfirmBox") {
@@ -129,14 +128,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 		}
 
 		await executeActions(actions, e)
-		// } catch (err) {
-		// 	if (snackbarError === "$exception") {
-		// 		showSnackbar({
-		// 			variant: "error",
-		// 			message: "An error occurred",
-		// 		})
-		// 	}
-		// }
+	
 
 	}, [actions, executeActions, onClick, showSnackbar, snackbarError, snackbarSuccess, confirmBox])
 

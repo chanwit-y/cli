@@ -4,7 +4,7 @@ import type { ElementRef } from "react"
 import { forwardRef, useMemo, useEffect, useRef } from "react"
 import { Text, Box } from '@radix-ui/themes'
 import { cn } from "../util/utils"
-import { withTheam } from "./context"
+// import { withTheam } from "./context"
 
 const TextareaBase = forwardRef<
 	ElementRef<"textarea">,
@@ -146,6 +146,6 @@ const TextareaBase = forwardRef<
 
 TextareaBase.displayName = "Textarea"
 
-const Textarea = withTheam(TextareaBase)
+// const Textarea = withTheam(TextareaBase)
 
-export { TextareaBase, Textarea }
+export { TextareaBase }

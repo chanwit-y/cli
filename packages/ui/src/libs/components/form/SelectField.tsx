@@ -1,4 +1,4 @@
-import { SelectField as SelectFieldWithTheme } from "../SelectField"
+import { SelectFieldBase } from "../SelectField"
 import { withForm } from "../hoc/withForm"
 
-export const SelectField = withForm(SelectFieldWithTheme)
+export const SelectField = withForm(SelectFieldBase)

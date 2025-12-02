@@ -1,13 +1,21 @@
 
-import { createContext, use, type ComponentType } from 'react'
-import type { BaseComponentProps, Components, ThemeContextType, ThemeProviderProps } from '../@types'
+import { createContext, use } from 'react'
+import type { ThemeContextType, ThemeProviderProps } from '../@types'
 import { Theme } from '@radix-ui/themes'
 
 
 const ThemeContext = createContext<ThemeContextType>({
   components: {
-    TextField: {},
-    Button: {},
+    button: {
+      color: 'blue',
+    },
+    dataTable: {
+      headerHoverColor: 'blue',
+      paginationButtonColor: 'blue',
+      paginationButtonHoverColor: 'blue',
+      editButtonColor: 'blue',
+      deleteButtonColor: 'blue',
+    }
   }
 })
 
@@ -39,14 +47,14 @@ export const useTheme = () => {
 }
 
 
-export const withTheam = <T extends any>(Component: ComponentType<BaseComponentProps & T>): ComponentType<BaseComponentProps & T> => {
+// export const withTheam = <T extends any>(Component: ComponentType<BaseComponentProps & T>): ComponentType<BaseComponentProps & T> => {
 
-  const WrappedComponent = (props: any) => {
-    const { components } = useTheme()
-    return <Component {...props} {...(components[Component.displayName as keyof Components] || {})} />
-  }
+//   const WrappedComponent = (props: any) => {
+//     const { components } = useTheme()
+//     return <Component {...props} {...(components[Component.displayName as keyof Components] || {})} />
+//   }
   
-  WrappedComponent.displayName = `withTheam(${Component.displayName || Component.name || 'Component'})`
+//   WrappedComponent.displayName = `withTheam(${Component.displayName || Component.name || 'Component'})`
   
-  return WrappedComponent
-}
+//   return WrappedComponent
+// }

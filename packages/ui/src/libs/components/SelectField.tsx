@@ -4,7 +4,7 @@ import type { ElementRef } from "react"
 import { forwardRef, useMemo } from "react"
 import { Select as RadixSelect, Text, Box } from '@radix-ui/themes'
 import { cn } from "../util/utils"
-import { withTheam } from "./context"
+// import { withTheam } from "./context"
 
 const SelectFieldBase = forwardRef<
 	ElementRef<typeof RadixSelect.Trigger>,
@@ -93,6 +93,6 @@ const SelectFieldBase = forwardRef<
 
 SelectFieldBase.displayName = "SelectField"
 
-const SelectField = withTheam(SelectFieldBase)
+// const SelectField = withTheam(SelectFieldBase)
 
-export { SelectFieldBase, SelectField }
+export { SelectFieldBase }

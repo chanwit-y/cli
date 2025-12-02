@@ -4,7 +4,7 @@ import type { ElementRef } from "react"
 import { forwardRef, useMemo } from "react"
 import { Checkbox as RadixCheckbox, Text, Box, Flex } from '@radix-ui/themes'
 import { cn } from "../util/utils"
-import { withTheam } from "./context"
+// import { withTheam } from "./context"
 
 const CheckboxBase = forwardRef<
 	ElementRef<typeof RadixCheckbox>,
@@ -83,6 +83,6 @@ const CheckboxBase = forwardRef<
 
 CheckboxBase.displayName = "Checkbox"
 
-const Checkbox = withTheam(CheckboxBase)
+// const Checkbox = withTheam(CheckboxBase)
 
-export { CheckboxBase, Checkbox }
+export { CheckboxBase }

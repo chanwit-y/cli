@@ -19,21 +19,21 @@ import type {
 import type { Button } from "../core/button";
 import type { SnackbarVariant } from "../Snackbar";
 
-export type Components = {
-  TextField?: TextFieldProps;
-  Hidden?: HiddenProps;
-  Button?: ButtonProps;
-  SelectField?: SelectFieldProps;
-  Autocomplete?: AutocompleteProps;
-  Textarea?: TextareaProps;
-  Checkbox?: CheckboxProps;
-  RadioButton?: RadioButtonProps;
-  Popover?: PopoverProps;
-  Icon?: IconProps;
-};
+// export type Components = {
+//   TextField?: TextFieldProps;
+//   Hidden?: HiddenProps;
+//   Button?: ButtonProps;
+//   SelectField?: SelectFieldProps;
+//   Autocomplete?: AutocompleteProps;
+//   Textarea?: TextareaProps;
+//   Checkbox?: CheckboxProps;
+//   RadioButton?: RadioButtonProps;
+//   Popover?: PopoverProps;
+//   Icon?: IconProps;
+// };
 
 export type ThemeContextType = {
-  components: Components;
+  components: ThemeComponents;
 };
 
 export type ThemeProviderProps = {
@@ -604,3 +604,16 @@ export type CondExpression = {
   left: CondValue | CondExpression;
   operator: ExpressionOperator;
 };
+
+export type ThemeComponents = {
+  button: {
+    color: string;
+  },
+  dataTable: {
+    headerHoverColor: string;
+    paginationButtonColor: string;
+    paginationButtonHoverColor: string;
+    editButtonColor: string;
+    deleteButtonColor: string;
+  }
+}

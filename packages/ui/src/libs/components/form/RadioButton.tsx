@@ -1,4 +1,4 @@
-import { RadioButton as RadioButtonWithTheme } from "../RadioButton"
+import { RadioButtonBase } from "../RadioButton"
 import { withForm } from "../hoc/withForm"
 
-export const RadioButton = withForm(RadioButtonWithTheme)
+export const RadioButton = withForm(RadioButtonBase)

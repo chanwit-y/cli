@@ -4,7 +4,7 @@ import type { ElementRef } from "react"
 import { forwardRef, useMemo } from "react"
 import { TextField as RadixTextField, Text, Box } from '@radix-ui/themes'
 import { cn } from "../util/utils"
-import { withTheam } from "./context"
+// import { withTheam } from "./context"
 import { AlertCircle } from "lucide-react"
 
 const TextFieldBase = forwardRef<
@@ -109,6 +109,6 @@ const TextFieldBase = forwardRef<
 
 TextFieldBase.displayName = "TextField"
 
-const TextField = withTheam(TextFieldBase)
+// const TextField = withTheam(TextFieldBase)
 
-export { TextFieldBase, TextField }
+export { TextFieldBase }
