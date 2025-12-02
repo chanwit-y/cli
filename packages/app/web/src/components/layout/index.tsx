@@ -4,9 +4,9 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<ThemeProvider
 			components={{
-				TextField: {
-					size: "2",
-				}
+				button: {
+					color: 'purple'
+				} 
 			}}
 			className="min-h-screen flex flex-col w-full">
 			{/* NavBar */}

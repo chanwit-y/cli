@@ -1,10 +1,10 @@
 import { forwardRef, useCallback, useState, type ElementRef } from "react";
-import { Button as RadixButton } from '@radix-ui/themes'
+import { Button as RadixButton, type ThemeProps } from '@radix-ui/themes'
 import type { ButtonAction, ButtonProps, ConfirmBoxElement } from "./@types"
 import { useFormContext } from "react-hook-form";
 import { useStord } from "./core/stord";
 import Icon from "./Icon";
-import { useLoading } from "./context";
+import { useLoading, useTheme } from "./context";
 import { useSnackbar } from "./Snackbar";
 import { ConfirmBox } from "./ConfirmBox";
 
@@ -128,14 +128,17 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 		}
 
 		await executeActions(actions, e)
-	
+
 
 	}, [actions, executeActions, onClick, showSnackbar, snackbarError, snackbarSuccess, confirmBox])
+
+	const theme = useTheme()
 
 	return <>
 
 		<RadixButton
 			className="cursor-pointer"
+			color={theme.components.button?.color as ThemeProps['accentColor'] || 'blue'}
 			onClick={handleClieck}
 		>{icon ? <Icon icon={icon} size={14} /> : ""}
 			{label}

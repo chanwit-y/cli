@@ -606,10 +606,10 @@ export type CondExpression = {
 };
 
 export type ThemeComponents = {
-  button: {
+  button?: {
     color: string;
   },
-  dataTable: {
+  dataTable?: {
     headerHoverColor: string;
     paginationButtonColor: string;
     paginationButtonHoverColor: string;
