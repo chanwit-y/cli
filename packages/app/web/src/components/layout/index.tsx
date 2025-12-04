@@ -3,7 +3,9 @@ import { ThemeProvider } from "vegaui"
 export const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<ThemeProvider
+		
 			components={{
+				
 				button: {
 					color: 'violet'
 				},

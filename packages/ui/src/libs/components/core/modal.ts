@@ -7,7 +7,7 @@ import type {
 import { ElementContext } from "./elementBuilder";
 import { ContainerBuilder } from "./containerBuilder";
 import type { TModelMaster } from "../../model/master";
-import type { TApiMaster } from "../../api/APIMaster";
+import type { ApiMaster, TApiMaster } from "../../api/APIMaster";
 
 export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
   implements IElement
@@ -19,7 +19,7 @@ export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
     if (!this._context.apis) throw new Error("API is required for modal");
     const container = new ContainerBuilder(
       [props.container],
-      this._context.apis
+      this._context.apis as ApiMaster<M, A>
     );
 
     // const trigger = new ElementContext(props.trigger as TElement);
@@ -27,6 +27,8 @@ export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
     // const trigger = new ElementContext(props.trigger).build("button");
     // const triggerCtx = new ElementContext(props.trigger)
     // const trigger = new Button().create();
+
+    console.log('modal theme', this._context.theme)
 
     return createElement<ModalProps>(
       ModalComponent,
@@ -39,7 +41,7 @@ export class Modal<M extends TModelMaster, A extends TApiMaster<M>>
         // description: props.description,
         maxWidth: props.maxWidth,
       },
-      container.draw()
+      container.draw(false, false,this._context.theme)
     );
   }
 }

@@ -1,4 +1,4 @@
-import type { APIFunction, BinType, IElement, TElement } from "../@types";
+import type { APIFunction, BinType, IElement, TElement, ThemeContextType } from "../@types";
 import type { TModelMaster } from "../../model/master";
 import type { ApiMaster, TApiMaster } from "../../api/APIMaster";
 import { ElementData } from "./const/elementData";
@@ -14,6 +14,7 @@ import { ElementData } from "./const/elementData";
 export class ElementContext<M extends TModelMaster, A extends TApiMaster<M>> {
 	private _apis: ApiMaster<M, A> | undefined;
 	private _form: any;
+	private _theme: ThemeContextType | undefined
 
 	constructor(private _element: TElement) { }
 
@@ -26,13 +27,20 @@ export class ElementContext<M extends TModelMaster, A extends TApiMaster<M>> {
 		return this;
 	}
 
-	public withAPIs(apis: ApiMaster<M, A> | undefined): ElementContext<M, A> {
+	public APIs(apis: ApiMaster<M, A> | undefined): ElementContext<M, A> {
 		return this.setIfPresent(() => { this._apis = apis; }, apis);
 	}
 
-	public withForm(form: any | undefined): ElementContext<M, A> {
+	public Form(form: any | undefined): ElementContext<M, A> {
 		return this.setIfPresent(() => { this._form = form; }, form);
 	}
+
+	public Theme(theme: ThemeContextType | undefined): ElementContext<M, A> {
+		return this.setIfPresent(() => { this._theme = theme; }, theme);
+	}
+
+	
+
 	public get api() {
 		const api = this._element && 'api' in this._element && this._element.api ? this._apis?.api?.[this._element.api.name] as APIFunction : undefined;
 		if (!api) return undefined;
@@ -43,6 +51,10 @@ export class ElementContext<M extends TModelMaster, A extends TApiMaster<M>> {
 		const apiDelete = this._element && 'apiDeleteInfo' in this._element && this._element.apiDeleteInfo ? this._apis?.api?.[this._element.apiDeleteInfo.name] as APIFunction : undefined;
 		if (!apiDelete) return undefined;
 		return apiDelete
+	}
+
+	public get theme() {
+		return this._theme;
 	}
 
 	public get apis() {
@@ -59,9 +71,9 @@ export class ElementContext<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	public build(type: BinType): IElement | null {
 		try {
-			console.log("type",type)
+			console.log("type", type)
 			return !["empty", "container"].includes(type) ? new (ElementData as any)[type](this) : null;
-			
+
 		} catch (err) {
 			throw new Error(err instanceof Error ? err.message : String(err));
 		}

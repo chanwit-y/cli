@@ -5,6 +5,7 @@ import type { TApiMaster } from "../../api/APIMaster";
 import type { ElementContext } from "./elementBuilder";
 import type { TModelMaster } from "../../model/master";
 import { IconData } from "./const/iconData";
+import type { ThemeProps } from "@radix-ui/themes";
 
 export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements IElement {
 
@@ -13,6 +14,9 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 	create(): JSX.Element {
 		const props = this._context.props as unknown as ButtonElement;
 		const icon = props.icon ? IconData[props.icon] : null;
+
+
+		console.log('button theme', this._context.theme)
 
 		// return createElement(ElementButton, {}, icon ? createElement(icon, {}) : null, props.label)
 		return createElement(ElementButton, {
@@ -23,7 +27,8 @@ export class Button<M extends TModelMaster, A extends TApiMaster<M>> implements 
 			snackbarSuccess: props.snackbarSuccess,
 			snackbarError: props.snackbarError,
 			confirmBox: props.confirmBox,
-			reloadDataTable: props.reloadDataTable	
+			reloadDataTable: props.reloadDataTable,
+			color: this._context.theme?.components.button?.color as ThemeProps['accentColor'] || 'blue'
 		})
 	}
 }

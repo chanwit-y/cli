@@ -8,7 +8,7 @@ import type {
 import { createElement, type JSX } from "react";
 import { DataTable2 } from "../DataTable2";
 
-import type { TApiMaster } from "../../api/APIMaster";
+import type { ApiMaster, TApiMaster } from "../../api/APIMaster";
 import type { TModelMaster } from "../../model/master";
 import type { ElementContext } from "./elementBuilder";
 import { ContainerBuilder } from "./containerBuilder";
@@ -60,7 +60,7 @@ export class DataTable<
       props.modalContainer && this._context.apis
         ? new ContainerBuilder(
             [props.modalContainer],
-            this._context.apis
+            this._context.apis as ApiMaster<M, A>
           ).draw()
         : undefined;
 

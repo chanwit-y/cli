@@ -25,7 +25,7 @@ export function ThemeProvider({
   children,
   theme = {
     appearance: 'light',
-    accentColor: 'blue',
+    accentColor: 'violet',
     radius: 'small',
   },
   className,
@@ -40,12 +40,12 @@ export function ThemeProvider({
   )
 }
 
-export const useTheme = () => {
+export const useTheme = (t: ThemeContextType | undefined = undefined) => {
   const context = use(ThemeContext)
-  if (!context) {
+  if (!context && !t) {
     throw new Error('useTheme must be used within a ThemeProvider')
   }
-  return context
+  return context || t
 }
 
 

@@ -104,7 +104,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(
 
 						<ThemeProvider
 							components={{
-								TextField: {
+								textField: {
 									size: "2",
 								}
 							}}

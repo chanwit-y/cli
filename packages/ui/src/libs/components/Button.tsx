@@ -1,4 +1,4 @@
-import { forwardRef, useCallback, useState, type ElementRef } from "react";
+import { forwardRef, useCallback, useEffect, useState, type ElementRef } from "react";
 import { Button as RadixButton, type ThemeProps } from '@radix-ui/themes'
 import type { ButtonAction, ButtonProps, ConfirmBoxElement } from "./@types"
 import { useFormContext } from "react-hook-form";
@@ -21,6 +21,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	snackbarError,
 	confirmBox,
 	reloadDataTable,
+	color,
 	...props }) => {
 
 	// const { loadDataTables } = useCore()
@@ -134,11 +135,15 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 
 	const theme = useTheme()
 
+	useEffect(() => {
+		console.log('theme', theme)
+	}, [theme])
+
 	return <>
 
 		<RadixButton
 			className="cursor-pointer "
-			color={theme.components.button?.color as ThemeProps['accentColor'] || 'blue'}
+			color={theme.components.button?.color as ThemeProps['accentColor'] || color || 'blue'}
 			onClick={handleClieck}
 		>{icon ? <Icon icon={icon} size={14} /> : ""}
 			{label}

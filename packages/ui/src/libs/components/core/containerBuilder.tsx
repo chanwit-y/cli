@@ -1,13 +1,14 @@
 import type { ApiMaster, TApiMaster } from "../../api/APIMaster";
 import type { TModelMaster } from "../../model/master";
-import type { Container, APIFunction, Bin, TElement } from "../@types";
+import type { Container, APIFunction, Bin, TElement, ThemeContextType } from "../@types";
 import { Form } from "../form";
 import { Schema } from "./schema";
 import { Provider } from "./context";
 import { ElementContext } from "./elementBuilder";
 import { useStord } from "./stord";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { ConditionExpression } from "./expression";
+import { useTheme } from "../context";
 export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 	constructor(private _connainers: Container[], private _apis: ApiMaster<M, A>) { }
@@ -21,14 +22,19 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 		return this._schema();
 	}
 
-	private _renderElement(b: Bin, f: any | undefined, api: APIFunction | undefined) {
+	private _renderElement(b: Bin, f: any | undefined, api: APIFunction | undefined, t: ThemeContextType | undefined) {
 		//TODO: sholde be 1 object
-		const el = (new ElementContext(b.element as TElement))
-			.withForm(f)
-			.withAPIs(this._apis as unknown as ApiMaster<TModelMaster, TApiMaster<TModelMaster>>)
-			.build(b.type);
+		let el = (new ElementContext(b.element as TElement))
+			.Form(f)
+			.APIs(this._apis as unknown as ApiMaster<TModelMaster, TApiMaster<TModelMaster>>);
 
-		if (el !== null) return el.create();
+		if (t) {
+			el = el.Theme(t);
+		}
+
+		const builtElement = el.build(b.type);
+
+		if (builtElement !== null) return builtElement.create();
 
 		// Nested container
 		if (b.container && b.container.bins) {
@@ -39,7 +45,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 		return <span></span>;
 	}
 
-	public draw(isRoot: boolean = false, withAuth: boolean = false) {
+	public draw(isRoot: boolean = false, withAuth: boolean = false, t: ThemeContextType | undefined = undefined) {
 		const ctx = useStord((state) => state.contextData)
 		// const defaultValues = selectedRow[this._connainers[0].name]
 		// const defaultValues = useMemo(() => selectedRow[this._connainers[0].name] ?? {}, [selectedRow, this._connainers]) 
@@ -49,10 +55,12 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 		const F = new Form(this.getSchema(), defaultValues).setup().create();
 
+		const theme = useTheme()
+
 		return <F.Fn>
 			{(f) => (
 				<Provider isRoot={isRoot} withAuth={withAuth}>
-					<div className="grid grid-cols-12 gap-1 items-center">
+					<div className="grid grid-cols-12 gap-2 items-center">
 						{this._connainers.map((c) => {
 							return c.bins.map((b) => {
 
@@ -64,7 +72,7 @@ export class ContainerBuilder<M extends TModelMaster, A extends TApiMaster<M>> {
 
 								return (
 									<div className={`${colClasses} ${b.align ? `text-${b.align}` : ''}`}>
-										{this._renderElement(b, f, api)}
+										{this._renderElement(b, f, api, theme)}
 									</div>
 								);
 							})

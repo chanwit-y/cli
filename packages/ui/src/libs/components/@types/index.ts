@@ -53,6 +53,7 @@ export type ButtonProps = BaseComponentProps<
     variant?: "solid" | "outline" | "ghost" | "link";
     label: string;
     icon?: keyof typeof IconData;
+    color?: ThemeProps['accentColor'];
     actions: ButtonAction[];
     api?: APIFunction;
     snackbarSuccess?: SnackbarElement;
@@ -617,5 +618,8 @@ export type ThemeComponents = {
     rowHoverColor: string;
     editButtonColor: string;
     deleteButtonColor: string;
+  };
+  textField?: {
+    
   };
 };
