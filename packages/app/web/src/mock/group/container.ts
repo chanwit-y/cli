@@ -22,8 +22,8 @@ export const groupDetail: Bin[] = [
       name: "code",
       label: "Code",
       dataType: "number",
-//       isRequired: true,
-//       errorMessage: "code is request",
+      //       isRequired: true,
+      //       errorMessage: "code is request",
     },
   },
   {
@@ -39,54 +39,97 @@ export const groupDetail: Bin[] = [
       isRequired: true,
       errorMessage: "name is request",
     },
+  },{
+    sm: "12",
+    md: "12",
+    lg: "12",
+    xl: "12",
+    type: "button",
+    align: "end",
+    condition: {
+      right: {
+        key: "groups",
+        path: "_id",
+      },
+      operator: "neq",
+      left: {
+        val: undefined,
+      },
+    },
+    element: {
+      label: "Update",
+      confirmBox: {
+        title: "Update Group",
+        description: "Are you sure you want to update this group?",
+        True: [
+          "StratLoading",
+          "SubmitFormToPatchAPI",
+          "StopLoading",
+          "CloseModal",
+        ],
+        False: [],
+      },
+      reloadDataTable: "groups",
+      actions: ["ConfirmBox"],
+      api: {
+        name: "groupPost",
+      },
+      snackbarSuccess: {
+        type: "success",
+        message: "Group updated successfully",
+      },
+      snackbarError: "$exception",
+    },
   },
   {
-	sm: "12",
-	md: "12",
-	lg: "12",
-	xl: "12",
-	type: "button",
-	align: "end",
-	condition: {
-	  right: {
-	    key: "Group",
-	    path: "id"
-	  },
-	  operator: "eq",
-	  left: {
-	    val: undefined
-	  }
-	},
-	element: {
-	  label: "Create",
-	  confirmBox: {
-	    title: "Create Group",
-	    description: "Are you sure you want to create this group?",
-	    True: [
-	      "StratLoading",
-	      "SubmitFormToPostAPI",
-	      // "ReloadDataTable",
-	      "StopLoading",
-	      "CloseModal"
-	    ],
-	    False: [],
-	  },
-	  actions: ["ConfirmBox"],
-	  api: {
-	    name: "groupPost",
-	  },
-	  snackbarSuccess: {
-	    type: "success",
-	    message: "Group created successfully",
-	  },
-	  snackbarError: "$exception",
-	},
+    sm: "12",
+    md: "12",
+    lg: "12",
+    xl: "12",
+    type: "button",
+    align: "end",
+    condition: {
+      right: {
+        key: "groups",
+        path: "_id",
       },
+      operator: "eq",
+      left: {
+        val: undefined,
+      },
+    },
+    element: {
+      label: "Create",
+      confirmBox: {
+        title: "Create Group",
+        description: "Are you sure you want to create this group?",
+        True: [
+          "StratLoading",
+          "SubmitFormToPostAPI",
+          // "ReloadDataTable",
+          "StopLoading",
+          "CloseModal",
+        ],
+        False: [],
+      },
+      actions: ["ConfirmBox"],
+      api: {
+        name: "groupPost",
+      },
+      reloadDataTable: "groups",
+      snackbarSuccess: {
+        type: "success",
+        message: "Group created successfully",
+      },
+      snackbarError: "$exception",
+    },
+  },
 ];
 
 export const containerGroupDetail: Container = {
   id: "550e8400-e29b-41d4-a716-446655440000",
   name: "GroupList",
+  contextData: "groups",
   isAaary: false,
   bins: groupDetail,
 };
