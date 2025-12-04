@@ -10,9 +10,11 @@ const ThemeContext = createContext<ThemeContextType>({
       color: 'blue',
     },
     dataTable: {
+      headerColor: 'blue',
       headerHoverColor: 'blue',
       paginationButtonColor: 'blue',
       paginationButtonHoverColor: 'blue',
+      rowHoverColor: 'blue',
       editButtonColor: 'blue',
       deleteButtonColor: 'blue',
     }

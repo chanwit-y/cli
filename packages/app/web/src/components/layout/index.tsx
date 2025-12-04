@@ -8,10 +8,12 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 					color: 'purple'
 				},
 				dataTable: {
+					headerColor: 'purple',
 					editButtonColor: 'purple',
 					deleteButtonColor: 'purple',
 					headerHoverColor: 'purple',
 					paginationButtonColor: 'purple',
+					rowHoverColor: 'purple',
 					paginationButtonHoverColor: 'purple',
 				}
 			}}

@@ -414,7 +414,9 @@ export const DataTable2 = <T extends Record<string, any>>({
 								<SendToBack className="w-4 h-4" />
 							</th> */}
 							{headerGroup.headers.map(header => (
-								header.column.columnDef.header && <th key={header.id} className={`datatable-header-cell ${theme.components.dataTable?.headerHoverColor as ThemeProps['accentColor'] === "purple" ? 'hover:bg-purple-300' : 'hover:bg-blue-300'} cursor-pointer`} style={{ width: header.getSize() }}>
+								header.column.columnDef.header && <th key={header.id} className={`datatable-header-cell 
+									${theme.components.dataTable?.headerColor as ThemeProps['accentColor'] === "purple" ? 'bg-purple-400 text-white' : 'bg-blue-400'}
+									${theme.components.dataTable?.headerHoverColor as ThemeProps['accentColor'] === "purple" ? 'hover:bg-purple-300 text-gray-500' : 'hover:bg-blue-300'} cursor-pointer`} style={{ width: header.getSize() }}>
 									<div className="datatable-header-content" >
 										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 										{header.column.getCanSort() && (
@@ -535,7 +537,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 							</tr>
 						))
 						: table.getPaginationRowModel().rows.map(row => (
-							<tr key={row.id} className="datatable-body-row hover:bg-blue-50">
+							<tr key={row.id} className={`datatable-body-row ${theme.components.dataTable?.rowHoverColor === "purple" ? "hover:bg-purple-50" : "hover:bg-blue-50"}`}>
 								{row.getVisibleCells().map(cell => (
 									<td key={cell.id} className="datatable-body-cell px-4" style={{ width: cell.column.getSize(), textAlign: align[cell.column.id] }}>
 										{renderCellWithHighlight(cell, globalFilter)}
@@ -625,7 +627,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 											key={page}
 											onClick={() => table.setPageIndex(Number(page) - 1)}
 											className={`px-3 py-1 text-sm cursor-pointer border rounded transition-colors ${currentPage === page
-												? theme.components.dataTable?.paginationButtonColor as ThemeProps['accentColor']  === "purple" 
+												? theme.components.dataTable?.paginationButtonColor as ThemeProps['accentColor'] === "purple"
 													? 'bg-purple-300 text-white ring-1 ring-purple-300'
 													: 'bg-blue-300 text-white ring-1 ring-blue-300'
 												: 'border-gray-300 hover:bg-gray-50'

@@ -585,7 +585,7 @@ export type Val = {
 
 export type Obs = {
   key: string;
-}
+};
 
 export type CondValue = Ref | Val | Obs;
 
@@ -607,13 +607,15 @@ export type CondExpression = {
 
 export type ThemeComponents = {
   button?: {
-    color: ThemeProps['accentColor'];
-  },
+    color: ThemeProps["accentColor"];
+  };
   dataTable?: {
+    headerColor: string;
     headerHoverColor: string;
     paginationButtonColor: string;
     paginationButtonHoverColor: string;
+    rowHoverColor: string;
     editButtonColor: string;
     deleteButtonColor: string;
-  }
-}
+  };
+};
