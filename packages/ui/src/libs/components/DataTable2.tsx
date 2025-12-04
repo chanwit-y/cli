@@ -414,7 +414,7 @@ export const DataTable2 = <T extends Record<string, any>>({
 								<SendToBack className="w-4 h-4" />
 							</th> */}
 							{headerGroup.headers.map(header => (
-								header.column.columnDef.header && <th key={header.id} className="datatable-header-cell hover:bg-blue-300 cursor-pointer" style={{ width: header.getSize() }}>
+								header.column.columnDef.header && <th key={header.id} className={`datatable-header-cell ${theme.components.dataTable?.headerHoverColor as ThemeProps['accentColor'] === "purple" ? 'hover:bg-purple-300' : 'hover:bg-blue-300'} cursor-pointer`} style={{ width: header.getSize() }}>
 									<div className="datatable-header-content" >
 										{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
 										{header.column.getCanSort() && (
