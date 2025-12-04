@@ -112,7 +112,7 @@ export const invoiceDetail: Bin[] = [
           "StopLoading",
           "CloseModal",
         ],
-        False: [],
+        False: ["CloseModal"],
       },
       reloadDataTable: "dtInvoice",
       actions: ["ConfirmBox"],
