@@ -1,0 +1,35 @@
+export const api = {
+	invoices: {
+		url: "collection/get-all",
+		description: "Get all company",
+		methods: "POST",
+		response: "invoiceRes",
+		body: "invoiceBody",
+		withOptions: false,
+	},
+	createInvoices: {
+		url: "collection/create/693150b370aaff236ea8148e",
+		description: "Create invoice",
+		methods: "POST",
+		response: "invoiceRes",
+		body: "invoiceBody",
+		withOptions: false,
+	},
+	updateInvoices: {
+		url: "collection/update/693150b370aaff236ea8148e/:id",
+		description: "Create invoice",
+		methods: "PATCH",
+		response: "invoiceRes",
+		body: "invoiceBody",
+		parameter: "invoiceParam",
+		withOptions: false,
+	},
+	deleteInvoices: {
+		url: "collection/delete/693150b370aaff236ea8148e/:id",
+		description: "Delete invoice",
+		methods: "DELETE",
+		response: "invoiceRes",
+		parameter: "invoiceParam",
+		withOptions: false,
+	},
+}
