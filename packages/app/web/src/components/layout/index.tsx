@@ -5,16 +5,16 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 		<ThemeProvider
 			components={{
 				button: {
-					color: 'purple'
+					color: 'violet'
 				},
 				dataTable: {
-					headerColor: 'purple',
-					editButtonColor: 'purple',
-					deleteButtonColor: 'purple',
-					headerHoverColor: 'purple',
-					paginationButtonColor: 'purple',
-					rowHoverColor: 'purple',
-					paginationButtonHoverColor: 'purple',
+					headerColor: 'violet',
+					editButtonColor: 'violet',
+					deleteButtonColor: 'violet',
+					headerHoverColor: 'violet',
+					paginationButtonColor: 'violet',
+					rowHoverColor: 'violet',
+					paginationButtonHoverColor: 'violet',
 				}
 			}}
 			className="min-h-screen flex flex-col w-full">

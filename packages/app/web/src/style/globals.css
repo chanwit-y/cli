@@ -35,6 +35,38 @@
   }
 }
 
+.bg-violet-200 {
+  @apply bg-violet-200;
+}
+
+.bg-violet-300 {
+  @apply bg-violet-300;
+}
+
+.ring-violet-300 {
+  @apply ring-violet-300;
+}
+
+.ring-1 {
+  @apply ring-1;
+}
+
+.hover-bg-violet-300 {
+  @apply hover:bg-violet-300;
+}
+
+.hover-bg-violet-50 {
+  @apply hover:bg-violet-50;
+}
+
+.text-gray-500 {
+  @apply text-gray-500;
+}
+
+.cursor-pointer {
+  @apply cursor-pointer;
+}
+
 .sm-col-span-1 {
   @apply sm:col-span-1;
 }

@@ -137,7 +137,7 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 	return <>
 
 		<RadixButton
-			className="cursor-pointer"
+			className="cursor-pointer "
 			color={theme.components.button?.color as ThemeProps['accentColor'] || 'blue'}
 			onClick={handleClieck}
 		>{icon ? <Icon icon={icon} size={14} /> : ""}
