@@ -153,8 +153,8 @@ const Button = forwardRef<ElementRef<typeof RadixButton>, ButtonProps>(({
 			open={open}
 			onOpenChange={() => setOpen(prev => !prev)}
 			onConfirm={handleConfirm}
-			title="Delete item"
-			description="This action cannot be undone. Are you sure you want to continue?"
+			title={confirmBox?.title || ""}
+			description={confirmBox?.description || ""}
 		/>
 	</>
 })

@@ -6,12 +6,18 @@ import {
 } from 'vegaui'
 // import { ConfirmBoxDemo } from './components/ConfirmBoxDemo'
 
-import { model } from "../mock/sourceApp/model";
-import { api } from "../mock/sourceApp/api";
-import { containerSourceAppList } from "../mock/sourceApp/container";
+// import { model } from "../mock/sourceApp/model";
+// import { api } from "../mock/sourceApp/api";
+// import { containerSourceAppList as container } from "../mock/sourceApp/container";
+
+
+import { model } from "../mock/company/model";
+import { api } from "../mock/company/api";
+import { containerCompanyList as container } from "../mock/company/container";
+
 import { http } from '../config/http';
 
-const core = new Core(http, model, api, containerSourceAppList)
+const core = new Core(http, model, api, container)
 
 // @ts-ignore
 export const Route = createFileRoute('/fingw-ui')({

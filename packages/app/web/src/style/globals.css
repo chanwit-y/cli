@@ -59,6 +59,14 @@
   @apply hover:bg-violet-50;
 }
 
+.bg-violet-600 {
+  @apply bg-violet-600;
+}
+
+.hover-bg-violet-700 {
+  @apply hover:bg-violet-700;
+}
+
 .text-gray-500 {
   @apply text-gray-500;
 }
